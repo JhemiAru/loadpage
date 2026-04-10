@@ -572,7 +572,7 @@
         </div>
     </nav>
 
-    <!-- Hero Sectione -->
+    <!-- Hero Sectiones -->
     <section id="inicio" class="hero">
         <div class="container">
             <div class="hero-content">
