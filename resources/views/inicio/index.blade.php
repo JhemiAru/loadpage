@@ -101,41 +101,6 @@
     </div>
 </section>
 
-<!-- STATS SECTION -->
-<section class="features-section" style="padding-top: 0;">
-    <div class="container">
-        <div class="row g-4 text-center">
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h5>{{ number_format($institucion->visitas + 70000) }}</h5>
-                    <p>Visitas totales</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h5>{{ $countEmpresas }}</h5>
-                    <p>Empresas afiliadas</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h5>{{ number_format($countUsers + 3200) }}</h5>
-                    <p>Personas afiliadas</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- PARTNERS SECTION -->
 <section class="partners-section">
     <div class="container">
@@ -155,22 +120,6 @@
     <div class="container position-relative">
         <div class="row align-items-center g-5">
             <div class="col-lg-5 text-center">
-                <div style="max-width:320px;margin:0 auto;background:linear-gradient(135deg,#1a3a6b 0%,#2e6bc4 40%,#f5a623 100%);border-radius:20px;padding:28px 26px 22px;box-shadow:0 20px 40px rgba(0,0,0,0.4);transition: transform 0.3s ease;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:30px;">
-                        <div style="background:#fff;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
-                            <span style="font-family:'Poppins',sans-serif;font-weight:900;color:#1a3a6b;font-size:.9rem;">F</span>
-                        </div>
-                        <div style="color:#fff;font-family:'Poppins',sans-serif;font-weight:800;">FaceBol</div>
-                    </div>
-                    <div style="color:rgba(255,255,255,.7);font-size:.7rem;letter-spacing:2px;margin-bottom:6px;">TARJETA MIEMBRO</div>
-                    <div style="color:#fff;font-family:'Poppins',sans-serif;font-size:1.15rem;letter-spacing:3px;margin-bottom:20px;">1234 5678 9012</div>
-                    <div style="display:flex;justify-content:space-between;">
-                        <div>
-                            <div style="color:rgba(255,255,255,.6);font-size:.65rem;">TITULAR</div>
-                            <div style="color:#fff;font-size:.85rem;font-weight:700;">{{ auth()->user()->nombre ?? 'Tu Nombre' }}</div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col-lg-7">
                 <div class="cta-box">
