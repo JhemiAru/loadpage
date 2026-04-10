@@ -24,11 +24,11 @@
                         </div>
                         <div class="col-lg-8">
                             <h1 class="hero-title">
-                                {{ $institucion->titulosomos ?? 'Empresa dedicada al marketing' }}<br>
+                                {!! $institucion->titulosomos ?? 'Empresa dedicada al marketing' !!}<br>
                                 publicidad y <span class="highlight2">emprendimiento</span>
                             </h1>
                             <p class="hero-sub">
-                                {{ $institucion->qSomos ?? 'Desarrolla tu pasantía/práctica profesional con nosotros.' }}<br>
+                                {!! $institucion->qSomos ?? 'Desarrolla tu pasantía/práctica profesional con nosotros.' !!}<br>
                                 <strong>Adquiere nuestra tarjeta para obtener descuentos y promociones</strong>
                             </p>
                             <div class="d-flex gap-3 flex-wrap mt-3">
