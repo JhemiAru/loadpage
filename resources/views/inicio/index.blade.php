@@ -140,41 +140,64 @@
 <!-- MISSION / VISION SECTION -->
 <section class="mission-section">
     <div class="container">
-        <div class="row g-5">
+        <div class="row g-5 align-items-center">
+            <!-- Columna izquierda: Misión y Visión (Sin cambios) -->
             <div class="col-lg-5">
-                <div class="text-center mb-3">
-                    <span class="badge-mission">Misión</span>
+                <div class="text-center mb-3"><span class="badge-mission">Misión</span></div>
+                <div class="mv-box">{{ $institucion->mision ?? '...' }}</div>
+                <div class="text-center mb-3"><span class="badge-vision">Visión</span></div>
+                <div class="mv-box vision-box">{{ $institucion->vision ?? '...' }}</div>
+            </div>
+
+            <!-- Columna derecha: Carrusel Estilo "Focus Center" -->
+            <div class="col-lg-7">
+                <h2 class="allies-title text-center mb-4">Instituciones Aliadas</h2>
+                
+                <div id="alliesCarousel" class="carousel slide allies-carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @php
+            $aliados = $empresas->where('aliadas', 1)->where('activo', 1)->values();
+            $total = $aliados->count();
+        @endphp
+
+        @foreach($aliados as $index => $empresa)
+        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+            <div class="carousel-custom-container">
+                @php 
+                    $prev = ($index - 1 + $total) % $total; 
+                    $next = ($index + 1) % $total;
+                @endphp
+                
+                <div class="side-peek left-peek">
+                    <img src="{{ asset('imagen/empresas/' . $aliados[$prev]->imagen) }}" alt="">
                 </div>
-                <div class="mv-box">
-                    {{ $institucion->mision ?? 'Formar emprendedores, apoyar el emprendimiento e impulsar la educación financiera en Bolivia' }}
+                
+                <div class="main-focus-card" onclick="window.location='{{ route('detalleEmpresa', $empresa->slug) }}'">
+                    <div class="inner-card">
+                        <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                    </div>
                 </div>
-                <div class="text-center mb-3">
-                    <span class="badge-vision">Visión</span>
-                </div>
-                <div class="mv-box vision-box">
-                    {{ $institucion->vision ?? 'Ser una empresa reconocida a nivel nacional e internacional en creación de oportunidades, en el ámbito del emprendimiento y marcar un aporte significativo en bien de la sociedad.' }}
+                
+                <div class="side-peek right-peek">
+                    <img src="{{ asset('imagen/empresas/' . $aliados[$next]->imagen) }}" alt="">
                 </div>
             </div>
-            <div class="col-lg-7">
-                <h3 class="allies-title text-center">Instituciones aliadas:</h3>
-                <div class="row g-3">
-                    @php $aliadas = $empresas->where('aliadas', 1)->take(4); @endphp
-                    @forelse($aliadas as $aliada)
-                    <div class="col-6">
-                        <div class="ally-card">
-                            <div class="ally-name">{{ Str::limit($aliada->nombre, 25) }}</div>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="col-12">
-                        <div class="ally-card">
-                            <div class="ally-name">Próximamente más aliados</div>
-                        </div>
-                    </div>
-                    @endforelse
-                </div>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Controles con mayor visibilidad -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#alliesCarousel" data-bs-slide="prev">
+        <span class="nav-btn"><i class="fas fa-chevron-left"></i></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#alliesCarousel" data-bs-slide="next">
+        <span class="nav-btn"><i class="fas fa-chevron-right"></i></span>
+    </button>
+</div>
+
             </div>
         </div>
     </div>
 </section>
+
 @endsection
