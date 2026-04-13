@@ -407,9 +407,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 /* CARD CTA */
 .card-cta-section {
     background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 55%, #1e4fa0 100%);
-    background-image: url('../imagen/institucion/fondo_tarjeta.png');
-    /* background-size: cover;      
-    background-repeat: no-repeat; */
+    background-image: url('../imagen/institucion/fondo_tarjeta.webp');
     padding: 80px 0;
     position: relative;
     overflow: hidden;
