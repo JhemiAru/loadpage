@@ -119,7 +119,8 @@
 <section class="card-cta-section">
     <div class="container position-relative">
         <div class="row align-items-center g-5">
-            <div class="col-lg-5 text-center">
+            <div class="col-lg-5 text-center">                                
+                <img src="{{ asset('imagen/institucion/tarjeta.png') }}" alt="" class="img-fluid img-thumbnail">                
             </div>
             <div class="col-lg-7">
                 <div class="cta-box">
