@@ -154,46 +154,46 @@
                 <h2 class="allies-title text-center mb-4">Instituciones Aliadas</h2>
                 
                 <div id="alliesCarousel" class="carousel slide allies-carousel" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        @php
-            $aliados = $empresas->where('aliadas', 1)->where('activo', 1)->values();
-            $total = $aliados->count();
-        @endphp
+                    <div class="carousel-inner">
+                        @php
+                            $aliados = $empresas->where('aliadas', 1)->where('activo', 1)->values();
+                            $total = $aliados->count();
+                        @endphp
 
-        @foreach($aliados as $index => $empresa)
-        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-            <div class="carousel-custom-container">
-                @php 
-                    $prev = ($index - 1 + $total) % $total; 
-                    $next = ($index + 1) % $total;
-                @endphp
-                
-                <div class="side-peek left-peek">
-                    <img src="{{ asset('imagen/empresas/' . $aliados[$prev]->imagen) }}" alt="">
-                </div>
-                
-                <div class="main-focus-card" onclick="window.location='{{ route('detalleEmpresa', $empresa->slug) }}'">
-                    <div class="inner-card">
-                        <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                        @foreach($aliados as $index => $empresa)
+                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                            <div class="carousel-custom-container">
+                                @php 
+                                    $prev = ($index - 1 + $total) % $total; 
+                                    $next = ($index + 1) % $total;
+                                @endphp
+                                
+                                <div class="side-peek left-peek">
+                                    <img src="{{ asset('imagen/empresas/' . $aliados[$prev]->imagen) }}" alt="">
+                                </div>
+                                
+                                <div class="main-focus-card" onclick="window.location='{{ route('detalleEmpresa', $empresa->slug) }}'">
+                                    <div class="inner-card">
+                                        <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="side-peek right-peek">
+                                    <img src="{{ asset('imagen/empresas/' . $aliados[$next]->imagen) }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
-                </div>
-                
-                <div class="side-peek right-peek">
-                    <img src="{{ asset('imagen/empresas/' . $aliados[$next]->imagen) }}" alt="">
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
 
-    <!-- Controles con mayor visibilidad -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#alliesCarousel" data-bs-slide="prev">
-        <span class="nav-btn"><i class="fas fa-chevron-left"></i></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#alliesCarousel" data-bs-slide="next">
-        <span class="nav-btn"><i class="fas fa-chevron-right"></i></span>
-    </button>
-</div>
+                    <!-- Controles con mayor visibilidad -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#alliesCarousel" data-bs-slide="prev">
+                        <span class="nav-btn"><i class="fas fa-chevron-left"></i></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#alliesCarousel" data-bs-slide="next">
+                        <span class="nav-btn"><i class="fas fa-chevron-right"></i></span>
+                    </button>
+                </div>
 
             </div>
         </div>
