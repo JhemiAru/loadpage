@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-4 d-flex justify-content-center">
-                    <img src="{{ asset('imagen/institucion/descuentos.png') }}" alt="" class="img-fluid img-thumbnail">
+                    <img src="{{ asset('imagen/institucion/descuentos.png') }}" alt="" class="carousel-img">
                 </div>
                 <div class="col-lg-8">
                     <h1 class="hero-title">
@@ -33,6 +33,9 @@
     <div class="hero-slide">
         <div class="container">
             <div class="row align-items-center g-4">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <img src="https://picsum.photos/400/400?random=2" class="carousel-img">
+                </div>
                 <div class="col-lg-8">
                     <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h1>
                     <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
@@ -51,6 +54,9 @@
     <div class="hero-slide">
         <div class="container">
             <div class="row align-items-center g-4">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <img src="https://picsum.photos/400/400?random=3" class="carousel-img">
+                </div>
                 <div class="col-lg-8">
                     <h1 class="hero-title">Más de <span class="highlight">{{ $countEmpresas }} empresas</span><br>con beneficios exclusivos</h1>
                     <p class="hero-sub">Obtén descuentos, promociones y accede a eventos privados con nuestra tarjeta FaceBol.</p>
@@ -105,7 +111,7 @@
 <section class="partners-section">
     <div class="container">
         <h2>Beneficios en las empresas:</h2>
-        <div class="row g-3">
+        <div class="row g-3 part">
             @foreach($empresas->take(12) as $empresa)
             <div class="col-6 col-sm-4 col-md-3 col-lg">
                 <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="" class="img-fluid img-thumbnail">

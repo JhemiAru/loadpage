@@ -28,24 +28,22 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .hero-section {
     position: relative;
     min-height: 100vh;
-    background-image: url('../imagen/institucion/fondo.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    position: relative;
-    z-index: 1;
+    overflow: hidden;
 }
 
 .hero-section::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0;
+    top: -20%;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(13,31,69,0.85) 0%, rgba(26,58,107,0.85) 50%, rgba(30,79,160,0.85) 100%);
-    opacity: 0.5; 
-    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-image: url('../imagen/institucion/fondo.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    transform: translateY(0);
+    transition: transform 0.1s linear;
 }
 
 /* NAVBAR - Inicialmente transparente */
@@ -163,7 +161,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .hero-slide {
-    padding: 100px 0 80px;
+    padding: 10px 0 80px;
 }
 
 .hero-promo-card {
@@ -287,6 +285,47 @@ h1, h2, h3, h4, h5, .navbar-brand {
     transform: scale(1.2);
 }
 
+.carousel-img {
+    width: 100%;
+    height: 200%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.custom-arrow {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.9);
+    color: #111;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.custom-arrow:hover {
+    transform: scale(1.1);
+    background: #fff;
+}
+
+/* Mejor posición en móvil */
+@media (max-width: 768px) {
+    .carousel-control-prev,
+    .carousel-control-next {
+        top: auto;
+        bottom: 10px;
+    }
+
+    .custom-arrow {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 /* Animaciones */
 @keyframes fadeInUp {
     from {
@@ -376,9 +415,17 @@ h1, h2, h3, h4, h5, .navbar-brand {
 /* PARTNERS */
 .partners-section {
     padding: 60px 0;
-    background: var(--section-bg);
 }
+.part{
+    width: 110%;
+    height: 90px;
+    border-radius: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
 
+}
 .partners-section h2 {
     color: var(--primary);
     font-weight: 800;
@@ -409,6 +456,9 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .card-cta-section {
     background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 55%, #1e4fa0 100%);
     background-image: url('../imagen/institucion/fondo_tarjeta.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 80px 0;
     position: relative;
     overflow: hidden;
@@ -691,4 +741,91 @@ footer a:hover { color: var(--accent); }
     .hero-section { min-height: 80vh; }
     .hero-slide { padding: 80px 0 60px; }
     .feature-card { padding: 25px 20px; }
+}
+
+
+@media (max-width: 768px) {
+
+    .hero-carousel-container {
+        min-height: auto;
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+
+    .hero-slide {
+        padding: 40px 15px;
+    }
+
+    .hero-slide .container {
+        padding: 0 10px;
+    }
+
+    .hero-slide .row {
+        margin: 0;
+    }
+
+    .hero-slide .col-lg-4,
+    .hero-slide .col-lg-8 {
+        padding: 0;
+        width: 100%;
+    }
+
+    .carousel-img {
+        max-width: 200px;
+        width: 100%;
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .hero-sub {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .hero-slide .d-flex {
+        justify-content: center;
+    }
+    body {
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 768px) {
+    .features-section {
+        padding: 50px 0;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+
+    .feature-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-cta-section {
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .cta-box {
+        padding: 20px;
+    }
+
+    .cta-box h3 {
+        font-size: 1.2rem;
+    }
+
+    .btn-solicitar {
+        width: 100%;
+    }
 }
