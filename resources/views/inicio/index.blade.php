@@ -109,14 +109,24 @@
 
 <!-- PARTNERS SECTION -->
 <section class="partners-section">
-    <div class="container">
-        <h2>Beneficios en las empresas:</h2>
-        <div class="row g-3 part">
-            @foreach($empresas->take(12) as $empresa)
-            <div class="col-6 col-sm-4 col-md-3 col-lg">
-                <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="" class="img-fluid img-thumbnail">
+    <div class="container-fluid"> <h2 class="text-center mb-5">Beneficios en las empresas:</h2>
+        
+        <div class="logos-slider">
+            <div class="logos-track">
+                {{-- Bloque Original --}}
+                @foreach($empresas as $empresa)
+                <div class="logo-item">
+                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                </div>
+                @endforeach
+
+                {{-- Bloque Duplicado (Espejo para el efecto infinito) --}}
+                @foreach($empresas as $empresa)
+                <div class="logo-item">
+                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
 </section>

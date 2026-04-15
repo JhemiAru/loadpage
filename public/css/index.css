@@ -829,3 +829,151 @@ footer a:hover { color: var(--accent); }
         width: 100%;
     }
 }
+/* Contenedor principal */
+.logos-slider {
+    overflow: hidden;
+    padding: 40px 0;
+    background: #fff; /* O el color de tu fondo */
+    position: relative;
+    width: 100%;
+}
+
+/* El riel que se mueve */
+.logos-track {
+    display: flex;
+    align-items: center;
+    /* VELOCIDAD: Sube a 60s o 80s para que vaya más lento */
+    animation: scroll 1000s linear infinite; 
+    gap: 50px; /* Espacio entre logos */
+    width: max-content;
+}
+
+/* UNIFORMIDAD: Estilo de cada item de logo */
+.logo-item {
+    /* Definimos un tamaño estándar para todos */
+    width: 180px; 
+    height: 120px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa; /* Fondo suave para que resalten */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste de la imagen dentro del recuadro */
+.logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    /* Esto evita que la imagen se estire feo */
+    object-fit: contain; 
+    filter: brightness(0.9);
+}
+
+.logo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+
+/* Animación */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Se mueve hasta la mitad (donde empieza el duplicado) */
+        transform: translateX(calc(-100% / 2));
+    }
+}
+
+/* Pausar al pasar el mouse para que puedan leer la publicidad */
+.logos-slider:hover .logos-track {
+    animation-play-state: paused;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .logo-item {
+        width: 130px;
+        height: 90px;
+    }
+    .logos-track {
+        animation-duration: 30s; /* En móviles el trayecto es corto, ajustamos */
+        gap: 25px;
+    }
+}
+/* --- SECCIÓN DE LOGOS EMPRESARIALES (TRANSPARENTE Y SIN BORDES) --- */
+
+.logos-slider {
+    overflow: hidden;
+    padding: 20px 0; /* Ajusta este valor si quieres que esté más o menos separado de los textos */
+    background: transparent; /* Eliminamos el fondo oscuro */
+    position: relative;
+    width: 100%; /* Ocupa todo el ancho */
+    margin: 0;
+}
+
+/* El riel que se mueve */
+.logos-track {
+    display: flex;
+    align-items: center;
+    /* 150s es muy lento, ajusta a 100s si lo quieres un poco más rápido */
+    animation: scrollLogos 1000s linear infinite; 
+    gap: 30px; /* Espacio entre logos */
+    width: max-content;
+}
+
+/* Estilo de las tarjetas de los logos */
+.logo-item {
+    width: 200px; 
+    height: 110px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; 
+    padding: 12px;
+    border-radius: 12px;
+    /* Sombra suave para que resalten sobre el fondo claro */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: transform 0.3s ease;
+}
+
+.logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Pausar al pasar el mouse */
+.logos-slider:hover .logos-track {
+    animation-play-state: paused;
+}
+
+/* Animación fluida */
+@keyframes scrollLogos {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50%)); }
+}
+
+/* --- AJUSTE PARA MÓVILES --- */
+@media (max-width: 768px) {
+    .logos-slider {
+        padding: 15px 0;
+    }
+    
+    .logo-item {
+        width: 150px;
+        height: 90px;
+    }
+
+    .logos-track {
+        /* Velocidad lenta en móvil */
+        animation: scrollLogos 1000s linear infinite;
+        gap: 15px;
+    }
+}
