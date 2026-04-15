@@ -50,29 +50,7 @@
         </nav>
         
         <!-- CAROUSEL -->
-        <div class="hero-carousel-container">
-            <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators" style="bottom: 30px;">
-                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-                </div>
-                <div class="carousel-inner">
-                    @yield('carousel-content')
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                    <span class="custom-arrow">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                </button>
-
-                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                    <span class="custom-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </span>
-                </button>
-            </div>
-        </div>
+        @yield('hero-carousel')
     </div>
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -120,9 +98,6 @@
             <p class="footer-copy">Copyright © {{ date('Y') }} FaceBol S.R.L. Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    <!-- MODAL LOGIN -->
-    {{-- @include('inicio.partes.modal') --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

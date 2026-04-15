@@ -1,72 +1,88 @@
 @extends('inicio.template')
 @section('title', 'Inicio - FaceBol')
-@section('carousel-content')
-<!-- Slide 1 -->
-<div class="carousel-item active">
-    <div class="hero-slide">
-        <div class="container">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <img src="{{ asset('imagen/institucion/descuentos.png') }}" alt="" class="carousel-img">
-                </div>
-                <div class="col-lg-8">
-                    <h1 class="hero-title">
-                        {!! $institucion->titulosomos ?? 'Empresa dedicada al marketing' !!}<br>
-                        publicidad y <span class="highlight2">emprendimiento</span>
-                    </h1>
-                    <p class="hero-sub">
-                        {!! $institucion->qSomos ?? 'Desarrolla tu pasantía/práctica profesional con nosotros.' !!}<br>
-                        <strong>Adquiere nuestra tarjeta para obtener descuentos y promociones</strong>
-                    </p>
-                    <div class="d-flex gap-3 flex-wrap mt-3">
-                        <a href="#" class="btn btn-conocenos">Conócenos</a>
-                        <a href="#" class="btn btn-beneficios">Ver beneficios</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Slide 2 -->
-<div class="carousel-item">
-    <div class="hero-slide">
-        <div class="container">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <img src="https://picsum.photos/400/400?random=2" class="carousel-img">
-                </div>
-                <div class="col-lg-8">
-                    <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h1>
-                    <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
-                    <div class="d-flex gap-3 flex-wrap mt-3">
-                        <a href="#" class="btn btn-conocenos">Conócenos</a>
-                        <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+@section('hero-carousel')
+<div class="hero-carousel-container">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                <img src="{{ asset('imagen/institucion/descuentos.png') }}" alt="" class="carousel-img">
+                            </div>
+                            <div class="col-lg-8">
+                                <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros </h1>
+                                <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">
+                                    <a href="#" class="btn btn-conocenos">Conócenos</a>
+                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- Slide 3 -->
-<div class="carousel-item">
-    <div class="hero-slide">
-        <div class="container">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <img src="https://picsum.photos/400/400?random=3" class="carousel-img">
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                <img src="https://picsum.photos/400/400?random=2" class="carousel-img">
+                            </div>
+                            <div class="col-lg-8">
+                                <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h1>
+                                <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">
+                                    <a href="#" class="btn btn-conocenos">Conócenos</a>
+                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-8">
-                    <h1 class="hero-title">Más de <span class="highlight">{{ $countEmpresas }} empresas</span><br>con beneficios exclusivos</h1>
-                    <p class="hero-sub">Obtén descuentos, promociones y accede a eventos privados con nuestra tarjeta FaceBol.</p>
-                    <div class="d-flex gap-3 flex-wrap mt-3">
-                        <a href="#" class="btn btn-conocenos">Solicitar tarjeta</a>
-                        <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                <img src="https://picsum.photos/400/400?random=3" class="carousel-img">
+                            </div>
+                            <div class="col-lg-8">
+                                <h1 class="hero-title">Taller de <span class="highlight">Hacking Ético</span><br>este 24 de abril</h1>
+                                <p class="hero-sub">Aprende sobre los fundamentos del hacking ético y cómo proteger tus sistemas.</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">
+                                    <a href="#" class="btn btn-conocenos">Solicitar tarjeta</a>
+                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="custom-arrow">
+                <i class="fas fa-chevron-left"></i>
+            </span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="custom-arrow">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+        </button>
     </div>
 </div>
 @endsection
