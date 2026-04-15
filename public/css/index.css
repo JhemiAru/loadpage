@@ -821,6 +821,29 @@ footer a:hover { color: var(--accent); }
     .carousel-control-next {
         display: none !important;
     }
+
+    .navbar {
+        background-color: transparent !important;
+        transition: background-color 0.2s ease;
+    }
+
+    .navbar:has(.navbar-toggler:not(.collapsed)) {
+        background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%) !important;        
+    }
+    
+    .navbar-collapse {
+        background: transparent;
+        margin-top: 10px;
+    }
+
+    .navbar-toggler {
+        border-color: #ffffff !important;
+        outline: none !important;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
+    }
 }
 
 /* Contenedor principal */
