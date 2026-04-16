@@ -16,40 +16,111 @@
     </head>
     <body>
 
-    <!-- HERO SECTION CON IMAGEN DE FONDO -->
     <div class="hero-section">
-        <!-- NAVBAR - Transparente inicialmente -->
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg" id="mainNavbar">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('inicio') }}">
-                    <img src="{{ asset('imagen/institucion/' . ($institucion->imagen ?? 'facebol.png')) }}" alt="FaceBol">
+                    <img src="{{ asset('imagen/institucion/' . ($institucion->imagen ?? 'facebol.png')) }}" alt="FaceBol" width=150px" height="80px">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
                     <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navMain">
                     <ul class="navbar-nav mx-auto gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link">Inicio</a>
+                        <!-- Inicio -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Inicio</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('inicio') }}">Página Principal</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link">Empresas</a>
+                        <!-- Empresas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Empresas</a>
+                            <ul class="dropdown-menu">
+                                <!-- Categorías -->
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Categorías</a>
+                                    <ul class="dropdown-menu">
+                                        @foreach($categorias as $categoria)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('categoria', $categoria->slug) }}">
+                                                {{ $categoria->nombre }}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <!-- Ciudades -->
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Ciudades</a>
+                                    <ul class="dropdown-menu">
+                                        @foreach($ciudades as $ciudad)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('ciudad', $ciudad->id) }}">
+                                                {{ $ciudad->nombre }}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('empresa') }}">Todas las empresas</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('comision') }}">Empresas por comisión</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link">Actividades</a>
+                        <!-- Actividades -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Actividades</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('actividad') }}">Todas las actividades</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Noticias -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Noticias</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('noticia') }}">Todas las noticias</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Equipo -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Nuestro Equipo</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('equipo') }}">Equipo de trabajo</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Contacto -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Contáctanos</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('contactanos') }}">Enviar mensaje</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
-
-                            <a href="#" class="btn btn-outline-register" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Registrarse</a>
-                            <a href="#" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</a>
-                        
+                            <button href="#" class="btn btn-outline-register" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Registrarse</button>
+                            <button href="#" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
                     </div>
                 </div>
             </div>
         </nav>
         
-        <!-- CAROUSEL -->
+        <!-- Carrusel -->
         @yield('hero-carousel')
     </div>
 
@@ -61,11 +132,11 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <div class="row g-4">
+            <div class="row g-4">                                
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('inicio') }}">
+                    <img src="{{ asset('imagen/institucion/' . ($institucion->imagen ?? 'facebol.png')) }}" alt="FaceBol" width=150px" height="80px">
+                </a>
                 <div class="col-lg-5">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <img src="{{ asset('imagen/institucion/' . ($institucion->imagen ?? 'facebol.png')) }}" alt="Logo FaceBol" style="height: 44px;">
-                    </div>
                     <div class="d-flex align-items-start gap-2 mb-2">
                         <i class="fas fa-map-marker-alt footer-icon mt-1"></i>
                         <span>{{ $institucion->direccion ?? 'El Alto, Zona Ballivian, Av. Chacaltaya #50' }}</span>
@@ -101,15 +172,39 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script para el cambio del navbar al hacer scroll -->
     <script>
-        window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        const collapse = document.querySelector('.navbar-collapse');
+
+        collapse.addEventListener('show.bs.collapse', () => {
+            navbar.classList.add('menu-open');
+        });
+
+        collapse.addEventListener('hide.bs.collapse', () => {
+            navbar.classList.remove('menu-open');
+        });
+
+        function updateNavbar() {
             const navbar = document.getElementById('mainNavbar');
+
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+        }
+
+        window.addEventListener('scroll', updateNavbar);
+        window.addEventListener('load', updateNavbar);
+
+        document.querySelectorAll('.dropdown-submenu > a').forEach(el => {
+            el.addEventListener('click', function (e) {
+                e.preventDefault();
+                let next = this.nextElementSibling;
+                if (next) {
+                    next.classList.toggle('show');
+                }
+            });
         });
     </script>
 

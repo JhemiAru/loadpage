@@ -21,8 +21,8 @@
                                 <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros </h1>
                                 <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <a href="#" class="btn btn-conocenos">Conócenos</a>
-                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                    <button href="#" class="btn btn-conocenos">Conócenos</button>
+                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
                                 </div>
                             </div>
                         </div>
@@ -42,8 +42,8 @@
                                 <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h1>
                                 <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <a href="#" class="btn btn-conocenos">Conócenos</a>
-                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                    <button href="#" class="btn btn-conocenos">Conócenos</button>
+                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
                                 </div>
                             </div>
                         </div>
@@ -63,8 +63,8 @@
                                 <h1 class="hero-title">Taller de <span class="highlight">Hacking Ético</span><br>este 24 de abril</h1>
                                 <p class="hero-sub">Aprende sobre los fundamentos del hacking ético y cómo proteger tus sistemas.</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <a href="#" class="btn btn-conocenos">Solicitar tarjeta</a>
-                                    <a href="#" class="btn btn-beneficios">Ver beneficios</a>
+                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
+                                    <button href="#" class="btn btn-conocenos">Solicitar tarjeta</button>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,35 @@
 @endsection
 
 @section('content')
-<!-- FEATURES SECTION -->
+<!-- Slider Empresas -->
+<section class="partners-section">
+    <div class="container-fluid"> <h2 class="text-center mb-5">Beneficios en las empresas:</h2>
+        
+        <div class="logos-slider">
+            <div class="logos-track">
+                {{-- Bloque Original --}}
+                @foreach($empresas as $empresa)
+                    @if($empresa->destacado==1)
+                        <div class="logo-item">
+                            <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                        </div>
+                    @endif
+                @endforeach
+
+                {{-- Bloque Duplicado (Espejo para el efecto infinito) --}}
+                @foreach($empresas as $empresa)
+                    @if($empresa->destacado==1)
+                        <div class="logo-item">
+                            <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tarjetas de presentacion -->
 <section class="features-section">
     <div class="container">
         <div class="row g-4">
@@ -123,31 +151,7 @@
     </div>
 </section>
 
-<!-- PARTNERS SECTION -->
-<section class="partners-section">
-    <div class="container-fluid"> <h2 class="text-center mb-5">Beneficios en las empresas:</h2>
-        
-        <div class="logos-slider">
-            <div class="logos-track">
-                {{-- Bloque Original --}}
-                @foreach($empresas as $empresa)
-                <div class="logo-item">
-                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
-                </div>
-                @endforeach
-
-                {{-- Bloque Duplicado (Espejo para el efecto infinito) --}}
-                @foreach($empresas as $empresa)
-                <div class="logo-item">
-                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CARD CTA SECTION -->
+<!-- Tarjeta FaceBol -->
 <section class="card-cta-section">
     <div class="container position-relative">
         <div class="row align-items-center g-5">
@@ -169,11 +173,10 @@
     </div>
 </section>
 
-<!-- MISSION / VISION SECTION -->
+<!-- Mision - Vision / Carrusel Instituciones -->
 <section class="mission-section">
     <div class="container">
         <div class="row g-5 align-items-center">
-            <!-- Columna izquierda: Misión y Visión (Sin cambios) -->
             <div class="col-lg-5">
                 <div class="text-center mb-3"><span class="badge-mission">Misión</span></div>
                 <div class="mv-box">{{ $institucion->mision ?? '...' }}</div>
@@ -181,12 +184,11 @@
                 <div class="mv-box vision-box">{{ $institucion->vision ?? '...' }}</div>
             </div>
 
-            <!-- Columna derecha: Carrusel Estilo "Focus Center" -->
             <div class="col-lg-7">
                 <h2 class="allies-title text-center mb-4">Instituciones Aliadas</h2>
                 
                 <div id="alliesCarousel" class="carousel slide allies-carousel" data-bs-ride="carousel">
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" style="padding-bottom: 40px">
                         @php
                             $aliados = $empresas->where('aliadas', 1)->where('activo', 1)->values();
                             $total = $aliados->count();
@@ -218,7 +220,6 @@
                         @endforeach
                     </div>
 
-                    <!-- Controles con mayor visibilidad -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#alliesCarousel" data-bs-slide="prev">
                         <span class="nav-btn"><i class="fas fa-chevron-left"></i></span>
                     </button>

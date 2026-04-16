@@ -27,7 +27,8 @@ h1, h2, h3, h4, h5, .navbar-brand {
 /* HERO SECTION CON IMAGEN DE FONDO */
 .hero-section {
     position: relative;
-    min-height: 100vh;
+    min-height: auto;
+    padding: 80px 0 10px 0; 
     overflow: hidden;
 }
 
@@ -37,7 +38,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     top: -20%;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 120%;
     background-image: url('../imagen/institucion/fondo.webp');
     background-size: cover;
     background-position: center;
@@ -68,12 +69,18 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .navbar-brand img {
-    height: 44px;
+    height: 80px;
+    width: 200px;
     transition: all 0.3s ease;
 }
 
+.navbar-nav{
+    padding: 8px;
+}
+
 .navbar.scrolled .navbar-brand img {
-    height: 40px;
+    height: 60px;
+    width: 160px;
 }
 
 .nav-link {
@@ -89,12 +96,13 @@ h1, h2, h3, h4, h5, .navbar-brand {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 16px;
-    width: calc(100% - 32px);
+    left: 0;
+    width: 100%;
     height: 2px;
-    background-color: var(--text-white);
-    transition: all 0.3s ease;
-    opacity: 0;
+    background-color: var(--yellow-light);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
 }
 
 .navbar.scrolled .nav-link::after {
@@ -103,8 +111,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 .nav-link:hover::after,
 .nav-link.active::after {
-    opacity: 1;
-    width: calc(100% - 32px);
+    transform: scaleX(1);
 }
 
 .nav-link:hover,
@@ -149,11 +156,27 @@ h1, h2, h3, h4, h5, .navbar-brand {
     transform: translateY(-2px);
 }
 
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: 0.1rem;
+    display: none;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+    display: block;
+}
+
 /* HERO CAROUSEL */
-.hero-carousel-container {
-    min-height: 80vh;
+.hero-carousel-container {    
     display: flex;
     align-items: center;
+    height: auto;
+    padding-top: 50px;
 }
 
 #heroCarousel {
@@ -316,7 +339,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .carousel-control-prev,
 .carousel-control-next {
     z-index: 10;
-    width: 5%; /* Evita que el área de click tape el contenido del centro */
+    width: 50px;
 }
 
 /* Animaciones */
@@ -355,7 +378,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 /* FEATURES */
 .features-section {
-    padding: 80px 0 60px;
+    padding: 0 0 30px;
     background: #fff;
 }
 
@@ -407,7 +430,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 /* PARTNERS */
 .partners-section {
-    padding: 60px 0;
+    padding: 40px 0 30px 0;
 }
 .part{
     width: 100%;
@@ -452,7 +475,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 80px 0;
+    padding: 30px 0;
     position: relative;
     overflow: hidden;
 }
@@ -511,7 +534,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 /* MISSION */
 .mission-section {
-    padding: 80px 0;
+    padding: 40px 0 0 0;
     background: #fff;
 }
 
@@ -640,13 +663,13 @@ footer a:hover { color: var(--accent); }
     align-items: center;
     justify-content: center;
     height: 450px;
-    overflow: hidden;
+    overflow: visible;
     
 }
 
 .main-focus-card {
     width: 70%;
-    z-index: 5;
+    z-index: 2;
     transition: all 0.7s ease-in-out;
     padding: 0 10px;
 }
@@ -656,9 +679,6 @@ footer a:hover { color: var(--accent); }
     z-index: 1;
 }
 
-.main-focus-card {
-    z-index: 2;
-}
 .inner-card {
     background: #fff;
     border-radius: 25px;
@@ -741,6 +761,7 @@ footer a:hover { color: var(--accent); }
     .container {
         padding-right: 15px;
         padding-left: 15px;
+        padding-bottom: 20px;
         overflow: hidden;
     }
 
@@ -761,8 +782,6 @@ footer a:hover { color: var(--accent); }
         flex: 1; 
         display: flex;
         align-items: center; 
-        padding-top: 60px !important;
-        padding-bottom: 40px !important;
         min-height: auto !important; 
     }
     
@@ -771,8 +790,6 @@ footer a:hover { color: var(--accent); }
         align-items: center !important; 
         justify-content: center !important; 
         text-align: center !important;
-        min-height: 450px !important;
-        padding: 0 15px !important;
     }
     
     .hero-slide .row {
@@ -808,7 +825,7 @@ footer a:hover { color: var(--accent); }
     }
 
     .carousel-indicators {
-        bottom: -40px !important; 
+        bottom: -10px !important; 
         margin-bottom: 0;
     }
 
@@ -817,23 +834,9 @@ footer a:hover { color: var(--accent); }
         height: 8px !important;
     }
 
-    .carousel-control-prev,
-    .carousel-control-next {
+    #heroCarousel .carousel-control-prev,
+    #heroCarousel .carousel-control-next {
         display: none !important;
-    }
-
-    .navbar {
-        background-color: transparent !important;
-        transition: background-color 0.2s ease;
-    }
-
-    .navbar:has(.navbar-toggler:not(.collapsed)) {
-        background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%) !important;        
-    }
-    
-    .navbar-collapse {
-        background: transparent;
-        margin-top: 10px;
     }
 
     .navbar-toggler {
@@ -844,6 +847,35 @@ footer a:hover { color: var(--accent); }
     .navbar-toggler:focus {
         box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
     }
+    .navbar.menu-open {
+        background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%);
+    }
+
+    .carousel-custom-container {
+        justify-content: center;
+        height: auto;
+    }
+
+    .side-peek {
+        width: 10%;
+        opacity: 0.3;
+    }
+
+    .main-focus-card {
+        width: 80%;
+    }
+
+    .inner-card {
+        padding: 10px;
+    }
+
+    .inner-card img {
+        width: 100%;
+        height: 230px;   
+        border-radius: 10%;     
+        object-fit: contain;
+    }
+    
 }
 
 /* Contenedor principal */
@@ -939,7 +971,7 @@ footer a:hover { color: var(--accent); }
     display: flex;
     align-items: center;
     /* 150s es muy lento, ajusta a 100s si lo quieres un poco más rápido */
-    animation: scrollLogos 1000s linear infinite; 
+    animation: scrollLogos 200s linear infinite; 
     gap: 30px; /* Espacio entre logos */
     width: max-content;
 }
