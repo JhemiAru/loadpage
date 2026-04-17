@@ -50,7 +50,7 @@ class controllerInicio extends Controller
         $ciudades=Ciudad::all();
         $countEmpresas=Empresa::count('id');
         $countUsers=User::count('id');
-        return view('inicio.index',compact('planes','planesDetalle','categorias','institucion','plan','planDetalle','ciudades','countEmpresas','countUsers','empresas'));
+        return view('index',compact('planes','planesDetalle','categorias','institucion','plan','planDetalle','ciudades','countEmpresas','countUsers','empresas'));
     }
     public function detalleEmpresa($slug)
     {

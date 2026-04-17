@@ -1,0 +1,107 @@
+
+<div class="hero-carousel-container">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                @if($institucion->banner1)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner1) }}" 
+                                         alt="Banner 1" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
+                            </div>
+                            <div class="col-lg-8 descripcion text-end">
+                                <h2 class="hero-title">Consiga nuestra <span class="highlight">tarjeta</span><br> para recibir <span class="highlight">descuentos</span> y  <span class="highlight">promociones</span></h2>
+                                <p class="hero-sub">{{$institucion->frase1}}</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">
+                                    <button href="#" class="btn btn-1">Más información</button>
+                                    <button href="#" class="btn btn-2">Ver beneficios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                @if($institucion->banner2)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner2) }}" 
+                                         alt="Banner 2" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
+                            </div>
+                            <div class="col-lg-8 descripcion text-end align-items-right">                            
+                                <h2 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h2>
+                                <p class="hero-sub">{{$institucion->frase2}}</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">
+                                    <button href="#" class="btn btn-1">Conócenos</button>
+                                    <button href="#" class="btn btn-2">Contactarse</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 d-flex justify-content-center">
+                                @if($institucion->banner3)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner3) }}" 
+                                         alt="Banner 3" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
+                            </div>
+                            <div class="col-lg-8 descripcion text-end">
+                                <h1 class="hero-title">Taller con <span class="highlight">certificado</span><br> que tiene valor curricular</h1>
+                                <p class="hero-sub">{{$institucion->frase3}}</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">                                    
+                                    <button href="#" class="btn btn-1">Más información</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="custom-arrow">
+                <i class="fas fa-chevron-left"></i>
+            </span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="custom-arrow">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+        </button>
+    </div>
+</div>

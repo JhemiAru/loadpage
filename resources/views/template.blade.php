@@ -8,7 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">    
+    <script src="{{ asset('js/index.js') }}"></script>
     @stack('styles')
 </head>
 <body>
@@ -96,7 +97,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('equipo*') ? 'active' : '' }}" 
                            href="{{ route('equipo') }}">
-                           Nuestro Equipo
+                           Nosotros
                         </a>
                     </li>
                     
@@ -108,16 +109,15 @@
                         </a>
                     </li>
                 </ul>
-                <div class="d-flex gap-2">
-                    <button href="#" class="btn btn-outline-register" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Registrarse</button>
+                <div class="d-flex gap-2">                    
                     <button href="#" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
                 </div>
             </div>
         </div>
     </nav>
-    
-    <!-- Carrusel -->
-    @yield('hero-carousel')
+    @if(request()->routeIs('inicio'))
+        @include('hero-carousel', ['institucion' => $institucion])
+    @endif
 </div>
 
 <!-- CONTENIDO PRINCIPAL -->
@@ -171,70 +171,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    const navbar = document.querySelector('.navbar');
-    const collapse = document.querySelector('.navbar-collapse');
-
-    collapse.addEventListener('show.bs.collapse', () => {
-        navbar.classList.add('menu-open');
-    });
-
-    collapse.addEventListener('hidden.bs.collapse', () => {
-        navbar.classList.remove('menu-open');
-    });
-
-    function updateNavbar() {
-        const navbar = document.getElementById('mainNavbar');
-
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-
-    window.addEventListener('scroll', updateNavbar);
-    window.addEventListener('load', updateNavbar);
-
-    document.querySelectorAll('.dropdown-submenu > a').forEach(el => {
-        el.addEventListener('click', function (e) {
-            if (window.innerWidth >= 992) return;
-            e.preventDefault();
-            e.stopPropagation();
-
-            const next = this.nextElementSibling;
-            if (!next) return;
-
-            const isOpen = next.classList.contains('show');
-
-            document.querySelectorAll('.dropdown-submenu .dropdown-menu').forEach(menu => {
-                menu.classList.remove('show');
-            });
-
-            if (!isOpen) {
-                next.classList.add('show');
-            }
-        });
-    });
-
-    document.querySelectorAll('.dropdown').forEach(dropdown => {
-        dropdown.addEventListener('hide.bs.dropdown', function () {
-            this.querySelectorAll('.dropdown-submenu .dropdown-menu').forEach(menu => {
-                menu.classList.remove('show');
-            });
-        });
-    });
-
-    document.addEventListener('click', function (e) {
-        if (window.innerWidth >= 992) return;
-        if (!e.target.closest('.dropdown-submenu')) {
-            document.querySelectorAll('.dropdown-submenu .dropdown-menu').forEach(menu => {
-                menu.classList.remove('show');
-            });
-        }
-    });
-</script>
 
 @stack('scripts')
 
