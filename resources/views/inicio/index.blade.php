@@ -1,6 +1,4 @@
 @extends('inicio.template')
-@section('title', 'Inicio - FaceBol')
-
 @section('hero-carousel')
 <div class="hero-carousel-container">
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -15,14 +13,22 @@
                     <div class="container">
                         <div class="row align-items-center g-4">
                             <div class="col-lg-4 d-flex justify-content-center">
-                                <img src="{{ asset('imagen/institucion/descuentos.png') }}" alt="" class="carousel-img">
+                                @if($institucion->banner1)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner1) }}" 
+                                         alt="Banner 1" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
                             </div>
-                            <div class="col-lg-8">
-                                <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros </h1>
-                                <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
+                            <div class="col-lg-8 descripcion text-end">
+                                <h2 class="hero-title">Consiga nuestra <span class="highlight">tarjeta</span><br> para recibir <span class="highlight">descuentos</span> y  <span class="highlight">promociones</span></h2>
+                                <p class="hero-sub">{{$institucion->frase1}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <button href="#" class="btn btn-conocenos">Conócenos</button>
-                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
+                                    <button href="#" class="btn btn-1">Más información</button>
+                                    <button href="#" class="btn btn-2">Ver beneficios</button>
                                 </div>
                             </div>
                         </div>
@@ -34,16 +40,24 @@
             <div class="carousel-item">
                 <div class="hero-slide">
                     <div class="container">
-                        <div class="row align-items-center g-4">
+                        <div class="row g-4">
                             <div class="col-lg-4 d-flex justify-content-center">
-                                <img src="https://picsum.photos/400/400?random=2" class="carousel-img">
+                                @if($institucion->banner2)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner2) }}" 
+                                         alt="Banner 2" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
                             </div>
-                            <div class="col-lg-8">
-                                <h1 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h1>
-                                <p class="hero-sub">Somos la institución número 1 en emprendimiento y la empresa más grande de publicidad en Bolivia.</p>
+                            <div class="col-lg-8 descripcion text-end align-items-right">                            
+                                <h2 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con nosotros</h2>
+                                <p class="hero-sub">{{$institucion->frase2}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <button href="#" class="btn btn-conocenos">Conócenos</button>
-                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
+                                    <button href="#" class="btn btn-1">Conócenos</button>
+                                    <button href="#" class="btn btn-2">Contactarse</button>
                                 </div>
                             </div>
                         </div>
@@ -57,14 +71,21 @@
                     <div class="container">
                         <div class="row align-items-center g-4">
                             <div class="col-lg-4 d-flex justify-content-center">
-                                <img src="https://picsum.photos/400/400?random=3" class="carousel-img">
+                                @if($institucion->banner3)
+                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner3) }}" 
+                                         alt="Banner 3" 
+                                         class="carousel-img">
+                                @else
+                                    <img src="{{ asset('imagen/institucion/mock-imac-material2.png') }}" 
+                                         alt="Default" 
+                                         class="carousel-img">
+                                @endif
                             </div>
-                            <div class="col-lg-8">
-                                <h1 class="hero-title">Taller de <span class="highlight">Hacking Ético</span><br>este 24 de abril</h1>
-                                <p class="hero-sub">Aprende sobre los fundamentos del hacking ético y cómo proteger tus sistemas.</p>
-                                <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <button href="#" class="btn btn-beneficios">Ver beneficios</button>
-                                    <button href="#" class="btn btn-conocenos">Solicitar tarjeta</button>
+                            <div class="col-lg-8 descripcion text-end">
+                                <h1 class="hero-title">Taller con <span class="highlight">certificado</span><br> que tiene valor curricular</h1>
+                                <p class="hero-sub">{{$institucion->frase3}}</p>
+                                <div class="d-flex gap-3 flex-wrap mt-3">                                    
+                                    <button href="#" class="btn btn-1">Más información</button>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +111,7 @@
 @section('content')
 <!-- Slider Empresas -->
 <section class="partners-section">
-    <div class="container-fluid"> <h2 class="text-center mb-5">Beneficios en las empresas:</h2>
+    <div class="container-fluid"> <h2>Beneficios en las empresas:</h2>
         
         <div class="logos-slider">
             <div class="logos-track">
@@ -126,7 +147,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <h5>Pasantías y Prácticas Profesionales</h5>
-                    <p>Aceptamos pasantes en áreas de: contabilidad, marketing, sistemas, comercio, administración, etc.</p>
+                    <p>Aceptamos pasantes en áreas de: contabilidad, marketing, sistemas, comercio, entre otros.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -164,8 +185,8 @@
                 </div>
                 <div class="mt-2">
                     <div class="cta-check"><i class="fas fa-check-circle"></i> Descuentos en más de <strong>{{ $countEmpresas }} empresas</strong></div>
-                    <div class="cta-check"><i class="fas fa-check-circle"></i> Promociones exclusivas</div>
-                    <div class="cta-check"><i class="fas fa-check-circle"></i> Ofertas y eventos privados.</div>
+                    <div class="cta-check"><i class="fas fa-check-circle"></i> Promociones exclusivas.</div>
+                    <div class="cta-check"><i class="fas fa-check-circle"></i> Ofertas y descuentos tipo 2x1, -10%, -20% y más.</div>
                 </div>
                 <a href="#" class="btn btn-solicitar mt-3">Solicitar tarjeta</a>
             </div>

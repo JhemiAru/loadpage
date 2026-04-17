@@ -24,11 +24,16 @@ h1, h2, h3, h4, h5, .navbar-brand {
     font-family: 'Poppins', sans-serif;
 }
 
+.mini-hero {
+    height: 130px !important;
+    background: var(--primary);
+}
+
 /* HERO SECTION CON IMAGEN DE FONDO */
 .hero-section {
     position: relative;
     min-height: auto;
-    padding: 80px 0 10px 0; 
+    padding: 130px 0 10px 0; 
     overflow: hidden;
 }
 
@@ -47,8 +52,27 @@ h1, h2, h3, h4, h5, .navbar-brand {
     transition: transform 0.1s linear;
 }
 
-/* NAVBAR - Inicialmente transparente */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5),
+        rgba(0,0,0,0)
+    );
+    z-index: 1;
+}
+
+/* NAVBAR */
+.container {
+    margin: 5px auto;
+}
 .navbar {
+    
     position: fixed;
     top: 0;
     left: 0;
@@ -61,7 +85,6 @@ h1, h2, h3, h4, h5, .navbar-brand {
     box-shadow: none;
 }
 
-/* Navbar cuando hace scroll - se vuelve sólido */
 .navbar.scrolled {
     background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%);
     padding: 12px 0;
@@ -75,7 +98,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .navbar-nav{
-    padding: 8px;
+    padding: 8px 10px;
 }
 
 .navbar.scrolled .navbar-brand img {
@@ -87,6 +110,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     color: var(--text-white) !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
     padding: 6px 16px !important;
     transition: color .2s;
     position: relative;
@@ -97,8 +121,9 @@ h1, h2, h3, h4, h5, .navbar-brand {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    height: 2px;
+    width: 90%;
+    height: 4px;
+    margin: 0 5%;
     background-color: var(--yellow-light);
     transform: scaleX(0);
     transform-origin: left;
@@ -106,7 +131,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .navbar.scrolled .nav-link::after {
-    background-color: var(--yellow-light);
+    height: 4px;
 }
 
 .nav-link:hover::after,
@@ -117,15 +142,14 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .nav-link:hover,
 .nav-link.active { color: var(--yellow-light) !important; }
 
-/* Botones del navbar */
 .btn-outline-register {
     background: transparent;
     color: #fff;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     border-radius: 25px;
-    padding: 10px 28px;
-    border: 2px solid rgba(255,255,255,.6);
+    padding: 5px 22px;
+    border: 4px solid rgba(255, 255, 255, 0.6);
     transition: all .2s;
 }
 
@@ -136,18 +160,14 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .btn-login {
-    background: rgba(46,107,196,0.9);
-    color: #fff;
+    background: white;
+    color: var(--primary);
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     border-radius: 25px;
-    padding: 10px 28px;
+    padding: 5px 22px;
     border: none;
     transition: all .2s;
-}
-
-.navbar.scrolled .btn-login {
-    background: var(--blue-light);
 }
 
 .btn-login:hover {
@@ -167,71 +187,69 @@ h1, h2, h3, h4, h5, .navbar-brand {
     display: none;
 }
 
-.dropdown-submenu:hover .dropdown-menu {
+.dropdown-submenu .dropdown-menu.show {
     display: block;
 }
+
+.navbar-toggler {
+    border-color: #ffffff !important;
+    outline: none !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
+}
+.navbar.menu-open {
+    background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%);
+}
+
 
 /* HERO CAROUSEL */
 .hero-carousel-container {    
     display: flex;
     align-items: center;
-    height: auto;
-    padding-top: 50px;
+    height: auto;    
 }
 
 #heroCarousel {
     width: 100%;
 }
 
-.hero-slide {
-    padding: 10px 0 80px;
-}
-
-.hero-promo-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,.25);
-    max-width: 240px;
+.descripcion {    
     position: relative;
-    animation: fadeInUp 0.8s ease;
+    z-index: 1;
 }
 
-.hero-promo-card .badge-30 {
+.descripcion::before {
+    content: "";
     position: absolute;
-    top: -14px; left: 14px;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.1rem;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif;
+    inset: 0;
+    background: linear-gradient(
+        to left,
+        rgba(0,0,0,0.30) 0%,
+        rgba(0,0,0,0.20) 40%,
+        rgba(0,0,0,0.1) 70%,
+        rgba(0,0,0,0) 100%
+    );
+    border-radius: 25px;
+    z-index: -1;
 }
 
-.hero-promo-card .badge-20 {
-    position: absolute;
-    top: -14px; right: 14px;
-    background: #e53935;
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.1rem;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif;
+.descripcion.text-end {
+    text-align: right;
 }
 
-.promo-label {
-    background: linear-gradient(90deg, #e53935, #ff7043);
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 800;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-    padding: 8px 0;
-    border-radius: 8px;
-    margin-top: 12px;
+.descripcion.text-end .hero-title,
+.descripcion.text-end .hero-sub {
+    text-align: right;
+}
+
+.descripcion.text-end .d-flex {
+    justify-content: flex-end;
+}
+
+.hero-slide {
+    padding: 10px 0 50px;
 }
 
 .hero-title {
@@ -240,8 +258,10 @@ h1, h2, h3, h4, h5, .navbar-brand {
     font-weight: 800;
     color: #fff;
     line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    padding: 10px 10px 0 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     animation: fadeInLeft 0.8s ease;
+    backdrop-filter: blur(4px);
 }
 
 .hero-title .highlight { color: var(--accent); }
@@ -251,47 +271,51 @@ h1, h2, h3, h4, h5, .navbar-brand {
     color: #f0f0f0;
     font-size: 1.1rem;
     margin: 14px 0 10px;
+    padding: 5px 10px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     animation: fadeInRight 0.8s ease;
+    backdrop-filter: blur(4px);
 }
 
 .hero-sub strong { color: var(--accent); }
 
 
-.btn-conocenos {
-    background: var(--blue-light);
-    color: #fff;
+.btn-1 {
+    background: var(--primary);
+    color: white;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     border-radius: 25px;
     padding: 12px 32px;
+    margin-bottom: 10px;
     border: none;
     transition: all .3s;
     animation: fadeInUp 0.8s ease;
 }
 
-.btn-conocenos:hover { 
-    background: #1456b0; 
-    color:#fff;
+.btn-1:hover { 
+    background: white;
+    color: var(--primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.btn-beneficios {
-    background: transparent;
-    color: #fff;
+.btn-2 {
+    background: white;
+    color: var(--primary);
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     border-radius: 25px;
     padding: 12px 32px;
+    margin-bottom: 10px;
     border: 2px solid rgba(255,255,255,.8);
     transition: all .3s;
     animation: fadeInUp 0.8s ease 0.1s;
 }
 
-.btn-beneficios:hover { 
-    background: rgba(255,255,255,.2); 
-    color:#fff;
+.btn-2:hover { 
+    background: var(--primary);
+    color: white;
     transform: translateY(-2px);
 }
 
@@ -313,6 +337,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     width: 100%;
     height: 200%;
     max-width: 300px;
+    max-height: 300px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 16px;
@@ -320,8 +345,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 .custom-arrow {
     width: 50px;
-    height: 50px;
-    background: rgba(255,255,255,0.9);
+    height: 50px;    
     color: #111;
     border-radius: 50%;
     display: flex;
@@ -339,10 +363,10 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .carousel-control-prev,
 .carousel-control-next {
     z-index: 10;
-    width: 50px;
+    width: 70px;
+    padding: 0 10px;
 }
 
-/* Animaciones */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -376,9 +400,9 @@ h1, h2, h3, h4, h5, .navbar-brand {
     }
 }
 
-/* FEATURES */
+/* Tarjetas */
 .features-section {
-    padding: 0 0 30px;
+    padding: 0 0 50px;
     background: #fff;
 }
 
@@ -387,7 +411,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     border-radius: 16px;
     padding: 35px 24px;
     text-align: center;
-    box-shadow: 0 4px 24px rgba(30,70,150,.09);
+    box-shadow: 10px 15px 20px rgba(30,70,150,.09);
     height: 100%;
     transition: all 0.3s ease;
 }
@@ -428,47 +452,99 @@ h1, h2, h3, h4, h5, .navbar-brand {
     margin: 0;
 }
 
-/* PARTNERS */
+/* Slider empresas */
 .partners-section {
-    padding: 40px 0 30px 0;
+    padding: 40px 0 40px 0;
 }
-.part{
-    width: 100%;
-    height: 90px;
-    border-radius: 12px;
-    padding-left: 15px;
-    padding-right: 15px;
-    background: #ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,.07);
 
-}
 .partners-section h2 {
     color: var(--primary);
-    font-weight: 800;
+    font-weight: 700;
     font-size: 2rem;
-    text-align: center;
-    margin-bottom: 40px;
+    text-align: center;    
+    margin-bottom: 10px;
 }
 
-.partner-logo {
-    background: #fff;
-    border-radius: 12px;
-    padding: 15px;
+.logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0.9);
+}
+
+.logo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.logos-slider {
+    overflow: hidden;
+    padding: 20px 0;
+    background: transparent;
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+.logos-track {
+    display: flex;
+    align-items: center;
+    animation: scrollLogos 200s linear infinite;
+    gap: 30px;
+    width: max-content;
+}
+
+.logo-item {
+    width: 200px;
+    height: 110px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.07);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
 }
 
-.partner-logo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0,0,0,.13);
+.logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
-/* CARD CTA */
+.logos-slider:hover .logos-track {
+    animation-play-state: paused;
+}
+
+@keyframes scrollLogos {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50%));
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-100% / 2));
+    }
+}
+
+.logos-slider:hover .logos-track {
+    animation-play-state: paused;
+}
+
+
+/* Tarjeta FaceBol */
 .card-cta-section {
     background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 55%, #1e4fa0 100%);
     background-image: url('../imagen/institucion/fondo_tarjeta.webp');
@@ -490,8 +566,8 @@ h1, h2, h3, h4, h5, .navbar-brand {
 }
 
 .cta-box h3 {
-    font-size: 1.8rem;
-    font-weight: 800;
+    font-size: 1.3rem;
+    font-weight: 700;
     color: #fff;
     margin: 0;
 }
@@ -532,7 +608,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* MISSION */
+/* Mision - Vision */
 .mission-section {
     padding: 40px 0 0 0;
     background: #fff;
@@ -626,9 +702,9 @@ footer .brand-text {
 }
 
 footer .tagline { font-size: .65rem; color: #8aabdf; }
-footer a { color: #8aabdf; text-decoration: none; transition: color 0.3s; }
+footer a { color: #9dc2ff; text-decoration: none; transition: color 0.3s; }
 footer a:hover { color: var(--accent); }
-.footer-icon { color: var(--accent); margin-right: 10px; }
+.footer-icon { color: white; margin-right: 10px; }
 
 .social-link {
     display: flex;
@@ -765,8 +841,17 @@ footer a:hover { color: var(--accent); }
         overflow: hidden;
     }
 
-    .hero-section {
-        height: 100vh; 
+    .hero-section.mini-hero {
+        height: auto !important;
+        min-height: 80px !important;
+        display: block;
+    }
+
+    .hero-section.mini-hero:before {
+        display: none;
+    }
+
+    .hero-section {        
         min-height: 550px; 
         display: flex;
         flex-direction: column;
@@ -819,13 +904,13 @@ footer a:hover { color: var(--accent); }
         width: 100%;
     }
 
-    .btn-conocenos, .btn-beneficios {
+    .btn-1, .btn-2 {
         padding: 8px 20px !important;
         font-size: 0.8rem !important;
     }
 
     .carousel-indicators {
-        bottom: -10px !important; 
+        bottom: 20px !important; 
         margin-bottom: 0;
     }
 
@@ -837,18 +922,6 @@ footer a:hover { color: var(--accent); }
     #heroCarousel .carousel-control-prev,
     #heroCarousel .carousel-control-next {
         display: none !important;
-    }
-
-    .navbar-toggler {
-        border-color: #ffffff !important;
-        outline: none !important;
-    }
-    
-    .navbar-toggler:focus {
-        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5) !important;
-    }
-    .navbar.menu-open {
-        background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 50%, #1e4fa0 100%);
     }
 
     .carousel-custom-container {
@@ -876,153 +949,74 @@ footer a:hover { color: var(--accent); }
         object-fit: contain;
     }
     
-}
-
-/* Contenedor principal */
-.logos-slider {
-    overflow: hidden;
-    padding: 40px 0;
-    background: #fff; /* O el color de tu fondo */
-    position: relative;
-    width: 100%;
-}
-
-/* El riel que se mueve */
-.logos-track {
-    display: flex;
-    align-items: center;
-    /* VELOCIDAD: Sube a 60s o 80s para que vaya más lento */
-    animation: scroll 1000s linear infinite; 
-    gap: 50px; /* Espacio entre logos */
-    width: max-content;
-}
-
-/* UNIFORMIDAD: Estilo de cada item de logo */
-.logo-item {
-    /* Definimos un tamaño estándar para todos */
-    width: 180px; 
-    height: 120px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa; /* Fondo suave para que resalten */
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    transition: all 0.3s ease;
-}
-
-/* Ajuste de la imagen dentro del recuadro */
-.logo-item img {
-    max-width: 100%;
-    max-height: 100%;
-    /* Esto evita que la imagen se estire feo */
-    object-fit: contain; 
-    filter: brightness(0.9);
-}
-
-.logo-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    background-color: #fff;
-}
-
-/* Animación */
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        /* Se mueve hasta la mitad (donde empieza el duplicado) */
-        transform: translateX(calc(-100% / 2));
-    }
-}
-
-/* Pausar al pasar el mouse para que puedan leer la publicidad */
-.logos-slider:hover .logos-track {
-    animation-play-state: paused;
-}
-
-/* Responsivo para móviles */
-@media (max-width: 768px) {
-    .logo-item {
-        width: 130px;
-        height: 90px;
-    }
-    .logos-track {
-        animation-duration: 30s; /* En móviles el trayecto es corto, ajustamos */
-        gap: 25px;
-    }
-}
-/* --- SECCIÓN DE LOGOS EMPRESARIALES (TRANSPARENTE Y SIN BORDES) --- */
-
-.logos-slider {
-    overflow: hidden;
-    padding: 20px 0; /* Ajusta este valor si quieres que esté más o menos separado de los textos */
-    background: transparent; /* Eliminamos el fondo oscuro */
-    position: relative;
-    width: 100%; /* Ocupa todo el ancho */
-    margin: 0;
-}
-
-/* El riel que se mueve */
-.logos-track {
-    display: flex;
-    align-items: center;
-    /* 150s es muy lento, ajusta a 100s si lo quieres un poco más rápido */
-    animation: scrollLogos 200s linear infinite; 
-    gap: 30px; /* Espacio entre logos */
-    width: max-content;
-}
-
-/* Estilo de las tarjetas de los logos */
-.logo-item {
-    width: 200px; 
-    height: 110px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; 
-    padding: 12px;
-    border-radius: 12px;
-    /* Sombra suave para que resalten sobre el fondo claro */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-    transition: transform 0.3s ease;
-}
-
-.logo-item img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-/* Pausar al pasar el mouse */
-.logos-slider:hover .logos-track {
-    animation-play-state: paused;
-}
-
-/* Animación fluida */
-@keyframes scrollLogos {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50%)); }
-}
-
-/* --- AJUSTE PARA MÓVILES --- */
-@media (max-width: 768px) {
     .logos-slider {
         padding: 15px 0;
     }
-    
+
     .logo-item {
         width: 150px;
         height: 90px;
     }
 
     .logos-track {
-        /* Velocidad lenta en móvil */
-        animation: scrollLogos 1000s linear infinite;
+        animation: scrollLogos 200s linear infinite;
         gap: 15px;
+    }
+
+    .nav-link::after {
+        width: 100%;
+        left: 0;
+        margin: 0 0;
+    }
+    
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    
+    .dropdown-submenu:hover .dropdown-menu {
+        display: block;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 6px 8px !important;
+    }
+
+    .btn-outline-register,
+    .btn-login {
+        font-size: 0.78rem;
+        padding: 7px 14px;
+    }
+
+    .navbar-brand img {
+        height: 60px;
+        width: 140px;
+    }
+
+    .navbar.scrolled .navbar-brand img {
+        height: 48px;
+        width: 120px;
+    }
+
+    .navbar-nav {
+        gap: 0 !important;
+        padding: 4px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1350px) {
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 6px 10px !important;
+    }
+
+    .btn-outline-register,
+    .btn-login {
+        font-size: 0.82rem;
+        padding: 8px 18px;
+    }
+
+    .navbar-nav {
+        gap: 0 !important;
     }
 }
