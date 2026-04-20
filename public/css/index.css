@@ -398,36 +398,40 @@ h1, h2, h3, h4, h5, .navbar-brand {
 
 /* Tarjetas */
 .features-section {
-    padding: 0 0 50px;
+    padding: 0 0 40px;
     background: #fff;
 }
 
 .feature-card {
     background: #fff;
     border-radius: 16px;
-    padding: 35px 24px;
-    text-align: center;
-    box-shadow: 10px 15px 20px rgba(30,70,150,.09);
+    padding: 20px;
+    box-shadow: 10px 15px 20px rgba(30,70,150,.3);
     height: 100%;
     transition: all 0.3s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 36px rgba(30,70,150,.16);
+    box-shadow: 0 12px 36px rgba(30,70,150,.4);
+}
+
+.feature-header {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    margin-bottom: 15px;
 }
 
 .feature-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg, #e8f0fe, #c5d8ff);
-    border-radius: 20px;
+    width: 60px; 
+    height: 60px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    color: var(--blue-light);
+    align-items: center;     
+    font-size: 2.5rem;
+    color: var(--blue-light);     
+    flex-shrink: 0; 
     transition: all 0.3s ease;
 }
 
@@ -438,15 +442,18 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .feature-card h5 {
     color: var(--blue-light);
     font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 12px;
+    font-size: 1.1rem;
+    margin: 0; 
 }
 
 .feature-card p {
-    color: var(--text-muted);
+    color: black;
     font-size: .95rem;
     margin: 0;
+    text-align: center; 
+    line-height: 1.5;
 }
+
 
 /* Slider empresas */
 .partners-section {
@@ -543,7 +550,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 /* Tarjeta FaceBol */
 .card-cta-section {
     background: linear-gradient(135deg, #0d1f45 0%, #1a3a6b 55%, #1e4fa0 100%);
-    background-image: url('../imagen/institucion/fondo_tarjeta.webp');
+    background-image: url('../imagen/institucion/fondo_a.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -830,7 +837,8 @@ footer a:hover { color: var(--accent); }
 
     .container {
         padding-right: 15px;
-        padding-left: 15px;        
+        padding-left: 15px;   
+        padding-bottom: 20px;         
         overflow: hidden;
     }
 
@@ -1025,5 +1033,110 @@ footer a:hover { color: var(--accent); }
 
     .navbar-nav {
         gap: 0 !important;
+    }
+}
+
+/* Sección de Categorías */
+.categorias-section {
+    padding: 60px 0;
+    background: #f8fafc;
+}
+
+.categorias-section h2 {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.categorias-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+.categoria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.categoria-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 25px 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.categoria-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(26,58,107,0.12);
+    border-color: var(--accent);
+}
+
+.categoria-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    background: linear-gradient(135deg, #e8f0fe, #d4e2fc);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--blue-light);
+    transition: all 0.3s ease;
+}
+
+.categoria-card:hover .categoria-icon {
+    background: linear-gradient(135deg, var(--primary), var(--blue-light));
+    color: white;
+    transform: scale(1.05);
+}
+
+.categoria-nombre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.categoria-card:hover .categoria-nombre {
+    color: var(--blue-light);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .categoria-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 15px;
+    }
+    
+    .categoria-card {
+        padding: 18px 10px;
+    }
+    
+    .categoria-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+    
+    .categoria-nombre {
+        font-size: 0.75rem;
+    }
+    
+    .categorias-section {
+        padding: 40px 0;
     }
 }
