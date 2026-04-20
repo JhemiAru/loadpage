@@ -62,4 +62,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    document.querySelectorAll('.dropdown-submenu').forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function () {
+            if (window.innerWidth < 992) return;
+            this.classList.add('show');
+            this.querySelector('.dropdown-menu').classList.add('show');
+        });
+
+        dropdown.addEventListener('mouseleave', function () {
+            if (window.innerWidth < 992) return;
+            this.classList.remove('show');
+            this.querySelector('.dropdown-menu').classList.remove('show');
+        });
+    });
 });

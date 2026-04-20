@@ -117,6 +117,7 @@
     </nav>
     @if(request()->routeIs('inicio'))
         @include('hero-carousel', ['institucion' => $institucion])
+        <script src="{{ asset('js/carrusel.js') }}"></script>
     @endif
 </div>
 
@@ -138,28 +139,53 @@
             <div class="col-lg-5">
                 <div class="d-flex align-items-start gap-2 mb-2">
                     <i class="fas fa-map-marker-alt footer-icon mt-1"></i>
-                    <span>{{ $institucion->direccion ?? 'El Alto, Zona Ballivian, Av. Chacaltaya #50' }}</span>
+                    <a href="https://maps.app.goo.gl/npVGBP5QBrFWfk6MA" target="_blank">
+                        {{ $institucion->direccion ?? 'El Alto, Zona Ballivian, Av. Chacaltaya #50' }}
+                    </a>
                 </div>
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <i class="fas fa-envelope footer-icon"></i>
-                    <a href="mailto:{{ $institucion->email ?? 'facebolsrl@gmail.com' }}">{{ $institucion->email ?? 'facebolsrl@gmail.com' }}</a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $institucion->email }}&su=Consulta%20FaceBol&body=Hola!%20Quiero%20más%20información%20de%20FaceBol." target="_blank">
+                        {{ $institucion->email }}
+                    </a>
                 </div>
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 mb-2">
                     <i class="fab fa-whatsapp footer-icon"></i>
-                    <a href="https://wa.me/591{{ $institucion->celular ?? '76266570' }}" >{{ $institucion->celular ?? '76266570' }}</a>
-                </div>
+                    <a href="https://api.whatsapp.com/send?phone=591{{$institucion->celular}}&text=Hola!%20Quiero%20más%20información%20de%20FaceBol." class="btn-circle btn-whatsapp" target="_blank">{{ $institucion->celular ?? '76266570' }}</a>
+                </div>                
             </div>
 
             <div class="col-lg-3">
-                <div class="d-flex flex-column align-items-lg-end">
-                    <div class="social-link">
-                        <i class="fab fa-tiktok footer-icon"></i>                        
-                    </div>
-                    <div class="social-link">
-                        <i class="fab fa-facebook footer-icon"></i>                            
-                    </div>
-                    <div class="social-link">
-                        <i class="fab fa-instagram footer-icon"></i>                            
+                <div class="text-center text-lg-end">                
+                    <h5 class="mb-3">Redes Sociales</h5>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-lg-end gap-3">
+                        @if($institucion->facebook)
+                        <a href="{{ $institucion->facebook }}" class="btn-circle btn-facebook" target="_blank">
+                            <i class="fab fa-facebook-f social-link"></i>
+                        </a>
+                        @endif
+                        @if($institucion->youtube)
+                        <a href="{{ $institucion->youtube }}" class="btn-circle btn-youtube" target="_blank">
+                            <i class="fab fa-youtube social-link"></i>
+                        </a>
+                        @endif
+                        @if($institucion->instagram)
+                        <a href="{{ $institucion->instagram }}" class="btn-circle btn-instagram" target="_blank">
+                            <i class="fab fa-instagram social-link"></i>
+                        </a>
+                        @endif
+                        @if($institucion->twitter)
+                        <a href="{{ $institucion->tiktok }}" class="btn-circle btn-tiktok" target="_blank">
+                            <i class="fab fa-tiktok social-link"></i>
+                        </a>
+                        @endif
+                        @if($institucion->celular)
+                            <a href="https://api.whatsapp.com/send?phone=591{{ $institucion->celular }}&text=Hola!%20Quiero%20mas%20informacion%20de%20FaceBol." 
+                            class="btn-circle btn-whatsapp" target="_blank">
+                                <i class="fab fa-whatsapp social-link"></i>
+                            </a>
+                        @endif
+
                     </div>
                 </div>
             </div>

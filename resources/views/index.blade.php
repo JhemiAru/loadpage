@@ -68,7 +68,7 @@
     <div class="container position-relative">
         <div class="row align-items-center g-5">
             <div class="col-lg-5 text-center">                                
-                <img src="{{ asset('imagen/institucion/tarjeta.webp') }}" alt="" class="img-fluid">                
+                <img src="{{ asset('imagen/institucion/tarjeta.webp') }}" alt="" class="img-fluid" style="border-radius: 17px">                
             </div>
             <div class="col-lg-7">
                 <div class="cta-box">
@@ -79,7 +79,7 @@
                     <div class="cta-check"><i class="fas fa-check-circle"></i> Promociones exclusivas.</div>
                     <div class="cta-check"><i class="fas fa-check-circle"></i> Ofertas y descuentos tipo 2x1, -10%, -20% y más.</div>
                 </div>
-                <a href="#" class="btn btn-solicitar mt-3">Solicitar tarjeta</a>
+                <a href="#" class="btn btn-2 mt-3">Solicitar tarjeta</a>
             </div>
         </div>
     </div>
