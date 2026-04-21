@@ -2,11 +2,13 @@
 @section('content')
 <!-- Slider Empresas -->
 <section class="partners-section">
-    <div class="container-fluid"> <h2>Beneficios en las empresas:</h2>
-        
+    <div class="container-fluid">
+        <h2>Una red de beneficios en constante crecimiento</h2>
+        <p class="subtitle">
+            Únete a la comunidad que ya disfruta de descuentos y promociones en más de {{$countEmpresas}} establecimientos aliados.
+        </p>
         <div class="logos-slider">
-            <div class="logos-track">
-                {{-- Bloque Original --}}
+            <div class="logos-track">                
                 @foreach($empresas as $empresa)
                     @if($empresa->destacado==1)
                         <div class="logo-item">
@@ -14,8 +16,6 @@
                         </div>
                     @endif
                 @endforeach
-
-                {{-- Bloque Duplicado (Espejo para el efecto infinito) --}}
                 @foreach($empresas as $empresa)
                     @if($empresa->destacado==1)
                         <div class="logo-item">
@@ -28,98 +28,28 @@
     </div>
 </section>
 
-<!-- Sección de Categorías - Estático -->
-<section class="categorias-section">
+<!-- Sección de Categorías -->
+<section class="categorias-section"> 
     <div class="container">
         <h2>Explora por Categorías</h2>
-        <p class="categorias-subtitle">Encuentra los mejores descuentos y beneficios en tus rubros favoritos</p>
-        
-        <div class="categoria-grid">
-            <!-- Fila 1 -->
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-utensils"></i>
+        <p class="subtitle">
+            Encuentra los mejores descuentos y beneficios en tus rubros favoritos
+        </p>
+        <div class="categoria-grid" id="categoriaGrid">
+            @foreach($categorias as $categoria)
+                <a href="{{ route('categoria', $categoria->slug) }}" class="categoria-card cat-item">
+                    <div class="categoria-icon">
+                        <i class="{{ $categoria->icono ?? 'fas fa-tag' }}"></i>
+                    </div>
+                    <h4 class="categoria-nombre">{{ $categoria->nombre }}</h4>
+                </a>
+            @endforeach            
+            <button class="categoria-card cat-toggle" id="btnToggleCategorias" style="display:none;">
+                <div class="categoria-icon cat-toggle-icon">
+                    <i class="fas fa-plus" id="toggleIcon"></i>
                 </div>
-                <h4 class="categoria-nombre">Restaurantes y Snacks</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-futbol"></i>
-                </div>
-                <h4 class="categoria-nombre">Entretenimiento y Deporte</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <h4 class="categoria-nombre">Educación y Formación</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-heartbeat"></i>
-                </div>
-                <h4 class="categoria-nombre">Salud y Centros Médicos</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-car"></i>
-                </div>
-                <h4 class="categoria-nombre">Transporte y Construcción</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-briefcase"></i>
-                </div>
-                <h4 class="categoria-nombre">Servicios Profesionales</h4>
-            </a>
-
-            <!-- Fila 2 -->
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-tshirt"></i>
-                </div>
-                <h4 class="categoria-nombre">Ropa y Accesorios</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <h4 class="categoria-nombre">Productos</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-hotel"></i>
-                </div>
-                <h4 class="categoria-nombre">Hospedaje y Turismo</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-microphone-alt"></i>
-                </div>
-                <h4 class="categoria-nombre">Artistas y Medios</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-handshake"></i>
-                </div>
-                <h4 class="categoria-nombre">Instituciones Aliadas</h4>
-            </a>
-
-            <a href="#" class="categoria-card">
-                <div class="categoria-icon">
-                    <i class="fas fa-paw"></i>
-                </div>
-                <h4 class="categoria-nombre">Mascotas y Veterinaria</h4>
-            </a>
+                <h4 class="categoria-nombre" id="toggleText">Ver más</h4>
+            </button>
         </div>
     </div>
 </section>
@@ -165,13 +95,12 @@
     </div>
 </section>
 
-
 <!-- Tarjeta FaceBol -->
 <section class="card-cta-section">
     <div class="container position-relative">
         <div class="row align-items-center g-5">
             <div class="col-lg-5 text-center">                                
-                <img src="{{ asset('imagen/institucion/acuerdo.png') }}" alt="" class="img-fluid" style="border-radius: 17px">                
+                <img src="{{ asset('imagen/institucion/tarjeta.webp') }}" alt="" class="img-fluid" style="border-radius: 17px">                
             </div>
             <div class="col-lg-7">
                 <div class="cta-box">
@@ -247,5 +176,9 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script src="{{ asset('js/categoria.js') }}"></script>
+@endpush
 
 @endsection
