@@ -276,7 +276,7 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .hero-title .highlight2 { color: var(--accent); }
 
 .hero-sub {
-    color: #f0f0f0;
+    color: white;
     font-size: 1.1rem;
     margin: 14px 0 10px;
     padding: 5px 10px;
@@ -928,14 +928,13 @@ footer a:hover { color: var(--accent); }
 
     .container {
         padding-right: 15px;
-        padding-left: 15px;   
-        padding-bottom: 20px;         
+        padding-left: 15px;           
         overflow: hidden;
     }
 
     .hero-section.mini-hero {
         height: auto !important;
-        min-height: 80px !important;
+        min-height: 100px !important;
         display: block;
     }
 

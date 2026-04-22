@@ -15,6 +15,7 @@ Route::get('empresa', [\App\Http\Controllers\controllerInicio::class, 'empresa']
 Route::get('ciudad/{id}', [\App\Http\Controllers\controllerInicio::class, 'ciudad'])->name('ciudad');
 Route::get('categoria/{slug}', [\App\Http\Controllers\controllerInicio::class, 'categoria'])->name('categoria');
 Route::get('actividad', [\App\Http\Controllers\controllerInicio::class, 'actividad'])->name('actividad');
+Route::get('taller', [\App\Http\Controllers\controllerInicio::class, 'talleres'])->name('taller');
 Route::get('contacto', [\App\Http\Controllers\controllerInicio::class, 'contactanos'])->name('contactanos');
 Route::get('/', [\App\Http\Controllers\controllerInicio::class, 'inicio'])->name('inicio');
 

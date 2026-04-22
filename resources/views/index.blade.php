@@ -111,7 +111,8 @@
                     <div class="cta-check"><i class="fas fa-check-circle"></i> Promociones exclusivas.</div>
                     <div class="cta-check"><i class="fas fa-check-circle"></i> Ofertas y descuentos tipo 2x1, -10%, -20% y más.</div>
                 </div>
-                <a href="#" class="btn btn-2 mt-3">Solicitar tarjeta</a>
+                <a href="https://api.whatsapp.com/send?phone=591{{ $institucion2->celular }}&text=Hola!%20Quiero%20más%20información%20sobre%20la%20tarjeta%20FaceBol." 
+                    class="btn btn-2" target="_blank">Solicitar tarjeta</a>
             </div>
         </div>
     </div>

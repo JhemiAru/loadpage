@@ -20,6 +20,7 @@ use App\Models\PlanesDetalle;
 use App\Models\Actividad;
 use App\Models\Ciudad;
 use App\Models\CiudadesEmpresa;
+use App\Models\Taller;
 use Exception;
 
 use App\Http\Requests\RequestUsuarioCreate;
@@ -35,22 +36,45 @@ class controllerInicio extends Controller
     }
     public function Inicio()
     {   
-    	$empresas=Empresa::all();
-        $visitas=Institucion::find(1);
-        $n=$visitas->visitas+1;
+        // $empresas = Empresa::where('activo', 1)->get();
+        $empresas = Empresa::all();
+        $visitas = Institucion::find(1);
+        $n = $visitas->visitas + 1;
         $visitas->fill([
-            'visitas'=>$n,
+            'visitas' => $n,
         ])->save();
-        $plan=Planes::first();
-        $planDetalle=PlanesDetalle::all();
-        $institucion=Institucion::first();
-        $planes= Planes::all();
-        $planesDetalle = PlanesDetalle::all();
-        $categorias=Categoria::all();
-        $ciudades=Ciudad::all();
-        $countEmpresas=Empresa::count('id');
-        $countUsers=User::count('id');
-        return view('index',compact('planes','planesDetalle','categorias','institucion','plan','planDetalle','ciudades','countEmpresas','countUsers','empresas'));
+
+        $plan = Planes::first();
+        $planDetalle = PlanesDetalle::all();
+        $institucion = Institucion::find(1);
+        $institucion2 = Institucion::find(2);
+        $planes = Planes::all();
+        $planesDetalle = PlanesDetalle::all();        
+        $categorias = Categoria::whereHas('empresas', function ($query) {
+            $query->where('activo', 1);
+        })->get();
+
+        $ciudades = Ciudad::whereHas('m_empresas', function ($query) {
+            $query->where('activo', 1);
+        })->get();
+
+        $countEmpresas = Empresa::count();
+
+        $countUsers = User::count('id');
+
+        return view('index', compact(
+            'planes',
+            'planesDetalle',
+            'categorias',
+            'institucion',
+            'institucion2',
+            'plan',
+            'planDetalle',
+            'ciudades',
+            'countEmpresas',
+            'countUsers',
+            'empresas'
+        ));
     }
     public function detalleEmpresa($slug)
     {
@@ -194,6 +218,11 @@ class controllerInicio extends Controller
 
         return view('inicio.contacto',compact('institucion','categorias','categorias','ciudades'));
     }
+    public function talleres()
+    {        
+        $talleres=Taller::all();        
+        return view('taller',compact('talleres'));
+    }    
     public function empresa()
     {
         $institucion=Institucion::first();

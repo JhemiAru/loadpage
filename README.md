@@ -43,3 +43,176 @@ WHERE slug = 'mascotas-y-servicios-veterinarios';
 
 UPDATE categorias SET icono = 'fas fa-spa' 
 WHERE slug = 'servicios-de-belleza-e-imagen-personal';
+
+Editar tabla empresas para quitar duplicidad de ciudad La Paz:
+
+UPDATE empresas
+SET ciudad_id = 1
+WHERE ciudad_id = 15;
+
+DELETE FROM ciudades
+WHERE id = 15;
+
+Insertar por el momento solo número de celular del area comercial:
+
+INSERT INTO institucions (
+    qSomos,
+    frase1,
+    frase2,
+    frase3,
+    trabaja,
+    desEmpresa,
+    direccion,
+    celular,
+    telefono,
+    email,
+    facebook,
+    twitter,
+    youtube,
+    instagram,
+    google,
+    imagen,
+    vision,
+    mision,
+    banner1,
+    banner2,
+    banner3,
+    titulonoticias,
+    desnoticias,
+    tituloactividades,
+    desactividades,
+    imgtrabaja,
+    titulosomos,
+    titulosuscribir,
+    dessuscribir,
+    titulotrabaja,
+    tituloplan,
+    desplan,
+    nombreplan,
+    bsprecio,
+    susprecio,
+    plan,
+    benplan1,
+    benplan2,
+    benplan3,
+    benplan4,
+    benplan5,
+    tituloequipo,
+    desequipo,
+    tituloempresa,
+    visitas,
+    created_at,
+    updated_at
+) VALUES (
+    'Informacion para tarjeta',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '77793217',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    '_',
+    0,
+    NOW(),
+    NOW()
+);
+
+-- Crear la tabla tallers
+CREATE TABLE `tallers` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `titulo` VARCHAR(255) NOT NULL,
+    `descripcion` TEXT NOT NULL,
+    `fecha` DATE NOT NULL,
+    `horario` VARCHAR(255) NOT NULL,
+    `lugar` VARCHAR(500) NOT NULL,
+    `imagen` VARCHAR(255) DEFAULT NULL,
+    `costo` DECIMAL(10,2) NOT NULL,
+    `detalles` TEXT,
+    `created_at` TIMESTAMP NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `tallers` (
+    `titulo`, 
+    `descripcion`, 
+    `fecha`, 
+    `horario`, 
+    `lugar`, 
+    `imagen`, 
+    `costo`, 
+    `detalles`, 
+    `created_at`, 
+    `updated_at`
+) VALUES (
+    'Taller de Hacking Ético y Ciberseguridad',
+    'Aprende las técnicas más avanzadas de hacking ético para proteger sistemas informáticos. Curso práctico con ejemplos reales.',
+    '2026-04-24',
+    'de 9:00 a 13:00 y 14:00 a 18:00',
+    'El Alto, Zona Ballivian, Av. Chacaltaya #50, Zona Alto Lima 1ra. Sección.',
+    'taller_hacking.jpg',
+    50.00,
+    '{"requisitos": "Conocimientos básicos de redes", "incluye": "Certificado de participación, material digital, coffee break", "cupo": "30 personas", "instructor": "Ing. Carlos Mamani", "nivel": "Intermedio-Avanzado"}',
+    NOW(),
+    NOW()
+);
+
+INSERT INTO `tallers` (
+    `titulo`, 
+    `descripcion`, 
+    `fecha`, 
+    `horario`, 
+    `lugar`, 
+    `imagen`, 
+    `costo`, 
+    `detalles`, 
+    `created_at`, 
+    `updated_at`
+) VALUES (
+    'Taller de Mantenimiento Preventivo y Correctivo de Computadoras',
+    'Aprende a diagnosticar, reparar y mantener equipos computacionales. Curso totalmente práctico con equipos reales.',
+    '2026-03-27',
+    'de 9:00 a 13:00 y 14:00 a 18:00',
+    'El Alto, Zona Ballivian, Av. Chacaltaya #50, Zona Alto Lima 1ra. Sección.',
+    'taller_mantenimiento.jpg',
+    50.00,
+    '{"requisitos": "No se requiere experiencia previa", "incluye": "Kit de herramientas básicas, manual digital, certificado", "cupo": "25 personas", "instructor": "Tec. Juan Pérez", "nivel": "Básico-Intermedio", "materiales": "Se proporcionan equipos para práctica"}',
+    NOW(),
+    NOW()
+);

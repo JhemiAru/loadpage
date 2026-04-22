@@ -15,56 +15,6 @@
       position: relative;
     }
 
-    /* MARCA DE AGUA FORMAL Y SUTIL (Facebol) */
-    body::before {
-      content: "F A C E B O L";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      font-size: 8vw;
-      font-weight: 800;
-      font-family: 'Playfair Display', serif;
-      color: rgba(226, 228, 231, 0.848);
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      z-index: 0;
-      white-space: pre-wrap;
-      text-align: center;
-      transform: rotate(-10deg) scale(1.2);
-      text-shadow: 2px 2px 12px rgba(240, 229, 229, 0.879);
-      backdrop-filter: blur(1px);
-    }
-
-    /* segunda marca decorativa */
-    body::after {
-      content: "◈  CORPORATE  ◈";
-      position: fixed;
-      bottom: 3%;
-      right: 3%;
-      font-size: 2rem;
-      font-weight: 400;
-      color: rgba(45, 85, 125, 0.06);
-      pointer-events: none;
-      z-index: 0;
-      font-family: 'Playfair Display', serif;
-      opacity: 0.7;
-      transform: rotate(-2deg);
-      letter-spacing: 3px;
-    }
-
-    /* contenedor principal sobre marca */
-    .ms-site-container {
-      position: relative;
-      z-index: 2;
-      background: transparent;
-    }
-
     /* Preloader */
     .ms-preload {
       position: fixed;
@@ -288,12 +238,7 @@
       overflow: hidden;
       border: 1px solid rgba(45,85,125,0.2);
     }
-    footer {
-      background: rgba(30, 58, 95, 0.75);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255,255,240,0.2);
-      color: #eef2fa;
-    }
+
     .text-gold {
       color: #2d557d !important;
       font-weight: 600;
@@ -522,20 +467,6 @@
     </div>
   </div>
 
-  <!-- Footer glassmorphism -->
-  <footer class="pt-5 pb-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6 text-center text-md-start">
-          <a class="navbar-brand fs-4 fw-semibold" href="#" style="color:#f0f4fa;">Facebol<span class="text-light">·Corporate</span></a>
-          <p class="small mt-2 mb-0">© 2025 — Excelencia y distinción en cada detalle.</p>
-        </div>
-        <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-          <i class="fas fa-certificate me-2"></i> Marca premium | Negocios con prestigio
-        </div>
-      </div>
-    </div>
-  </footer>
 </div>
 
 <!-- Scripts -->
@@ -563,5 +494,4 @@
     });
   });
 </script>
-@include('sweetalert::alert')
 @endsection

@@ -26,8 +26,8 @@
                                 <h2 class="hero-title">Tarjeta de <span class="highlight">descuentos</span><br>y <span class="highlight">promociones</span></h2>
                                 <p class="hero-sub">{{$institucion->frase1}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <button href="#" class="btn btn-1">Más información</button>
-                                    <button href="#" class="btn btn-2">Ver beneficios</button>
+                                    <a href="https://api.whatsapp.com/send?phone=591{{ $institucion2->celular }}&text=Hola!%20Quiero%20más%20información%20sobre%20la%20tarjeta%20FaceBol."                      
+                                        class="btn btn-1" target="_blank">Detalles</a>
                                 </div>
                             </div>
                         </div>
@@ -55,8 +55,8 @@
                                 <h2 class="hero-title">Impulsa tu <span class="highlight">negocio</span><br>con <span class="highlight">nosotros</span></h2>
                                 <p class="hero-sub">{{$institucion->frase2}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <button href="#" class="btn btn-1">Conócenos</button>
-                                    <button href="#" class="btn btn-2">Contactarse</button>
+                                    <a href="https://api.whatsapp.com/send?phone=591{{ $institucion2->celular }}&text=Hola!%20Quiero%20más%20información%20de%20FaceBol."                      
+                                        class="btn btn-2" target="_blank">Contactarse</a>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <h2 class="hero-title">Taller con <span class="highlight">certificado</span><br> y valor <span class="highlight">curricular</span></h2>
                                 <p class="hero-sub">{{$institucion->frase3}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">                                    
-                                    <button href="#" class="btn btn-1">Más información</button>
+                                    <a href="{{ route('taller') }}" class="btn btn-1">Más información</a>
                                 </div>
                             </div>
                         </div>

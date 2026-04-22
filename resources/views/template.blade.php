@@ -180,7 +180,7 @@
                         </a>
                         @endif
                         @if($institucion->celular)
-                            <a href="https://api.whatsapp.com/send?phone=591{{ $institucion->celular }}&text=Hola!%20Quiero%20mas%20informacion%20de%20FaceBol." 
+                            <a href="https://api.whatsapp.com/send?phone=591{{ $institucion->celular }}&text=Hola!%20Quiero%20más%20información%20de%20FaceBol." 
                             class="btn-circle btn-whatsapp" target="_blank">
                                 <i class="fab fa-whatsapp social-link"></i>
                             </a>
