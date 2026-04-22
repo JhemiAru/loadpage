@@ -65,7 +65,7 @@ class controllerInicio extends Controller
             'nvisitas'=>$n,
         ])->save();
 
-        return view('inicio.empresa-detalle',compact('empresa','categorias','institucion','ciudades'));
+        return view('empresa-detalle',compact('empresa','categorias','institucion','ciudades'));
     }
     public function suscribir(Request $datos)
     {
@@ -201,7 +201,7 @@ class controllerInicio extends Controller
         $empresas = Empresa::orderBy('prioridad','asc')->get();
         $ciudades=Ciudad::all();
 
-        return view('inicio.empresas',compact('institucion','empresas','categorias','ciudades'));
+        return view('empresas',compact('institucion','empresas','categorias','ciudades'));
     }
       public function comision()
     {

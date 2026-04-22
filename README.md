@@ -1,8 +1,10 @@
 Alterar la tabla de categotias para poner iconos con el siguiente SLQ:
+
 ALTER TABLE categorias 
 ADD COLUMN icono VARCHAR(100) NULL AFTER imagen;
 
 Luego agregar lso iconos con: 
+
 UPDATE categorias SET icono = 'fas fa-futbol' 
 WHERE slug = 'entretenimiento-y-deporte';
 
