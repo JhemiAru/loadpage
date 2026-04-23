@@ -1,4 +1,7 @@
 @extends('template')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+@endpush
 @section('content')
 <!-- Slider Empresas -->
 <section class="partners-section">
@@ -19,7 +22,7 @@
                 @foreach($empresas as $empresa)
                     @if($empresa->destacado==1)
                         <div class="logo-item">
-                            <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+                            <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}" loading="lazy">
                         </div>
                     @endif
                 @endforeach
