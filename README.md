@@ -1,9 +1,9 @@
-Alterar la tabla de categotias para poner iconos con el siguiente SLQ:
+-- Alterar la tabla de categotias para poner iconos con el siguiente SLQ:
 
 ALTER TABLE categorias 
 ADD COLUMN icono VARCHAR(100) NULL AFTER imagen;
 
-Luego agregar lso iconos con: 
+-- Luego agregar lso iconos con: 
 
 UPDATE categorias SET icono = 'fas fa-futbol' 
 WHERE slug = 'entretenimiento-y-deporte';
@@ -44,16 +44,16 @@ WHERE slug = 'mascotas-y-servicios-veterinarios';
 UPDATE categorias SET icono = 'fas fa-spa' 
 WHERE slug = 'servicios-de-belleza-e-imagen-personal';
 
-Editar tabla empresas para quitar duplicidad de ciudad La Paz:
+-- Editar tabla empresas para quitar duplicidad de ciudad La Paz:
 
 UPDATE empresas
 SET ciudad_id = 1
 WHERE ciudad_id = 15;
 
-DELETE FROM ciudades
+DELETE FROM ciudads
 WHERE id = 15;
 
-Insertar por el momento solo número de celular del area comercial:
+-- Insertar por el momento solo número de celular del area comercial:
 
 INSERT INTO institucions (
     qSomos,
@@ -188,7 +188,7 @@ INSERT INTO `tallers` (
     'El Alto, Zona Ballivian, Av. Chacaltaya #50, Zona Alto Lima 1ra. Sección.',
     'taller_hacking.jpg',
     50.00,
-    '{"requisitos": "Conocimientos básicos de redes", "incluye": "Certificado de participación, material digital, coffee break", "cupo": "30 personas", "instructor": "Ing. Carlos Mamani", "nivel": "Intermedio-Avanzado"}',
+    '{"requisitos": "Conocimientos básicos de redes", "incluye": "Certificado de participación, material digital, refrigerio", "cupo": "150 personas", "instructor": "Ing. Carlos Mamani", "nivel": "Intermedio"}',
     NOW(),
     NOW()
 );

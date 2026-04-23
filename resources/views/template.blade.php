@@ -71,9 +71,9 @@
                             <li>
                                 <a class="dropdown-item" href="{{ route('empresa') }}">Todas las empresas</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a class="dropdown-item" href="{{ route('comision') }}">Empresas por comisión</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                     

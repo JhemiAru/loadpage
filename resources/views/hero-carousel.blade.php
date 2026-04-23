@@ -71,7 +71,7 @@
                         <div class="row align-items-center g-4">
                             <div class="col-lg-4 d-flex justify-content-center">
                                 @if($institucion->banner3)
-                                    <img src="{{ asset('imagen/institucion/' . $institucion->banner3) }}" 
+                                    <img src="{{ asset('imagen/talleres/' . $institucion->banner3) }}" 
                                          alt="Banner 3" 
                                          class="carousel-img">
                                 @else

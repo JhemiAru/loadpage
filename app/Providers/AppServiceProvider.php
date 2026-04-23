@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Models\Categoria;
+use App\Models\Ciudad;
+use App\Models\Institucion;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::share('categorias', Categoria::whereHas('empresas', function ($query) {
+            $query->where('activo', 1);
+        })->get());
+        View::share('ciudades', Ciudad::whereHas('m_empresas', function ($query) {
+            $query->where('activo', 1);
+        })->get());
+        View::share('institucion', Institucion::find(1));
+        View::share('institucion2', Institucion::find(2));
     }
 }
