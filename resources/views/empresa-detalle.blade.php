@@ -1,497 +1,643 @@
 @extends('template')
-@section('content')
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+
+@push('styles')
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<style>
+    /* ── Fondo general de la página ─────────────────────── */
+    .detalle-page {
+        background: var(--section-bg);
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #eef2f9 0%, #e0e6f0 100%);
-      color: #1a2634;
-      scroll-behavior: smooth;
-      position: relative;
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero-detalle {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--blue-light) 100%);
+        padding: 72px 0 60px;
+        color: white;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* Preloader */
-    .ms-preload {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #eef2f9;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s ease;
-    }
-    .spinner-ring {
-      width: 56px;
-      height: 56px;
-      border: 2px solid rgba(214, 219, 224, 0.989);
-      border-top: 2px solid #2d557d;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
+    .hero-detalle::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: rgba(245, 166, 35, 0.07);
+        filter: blur(90px);
+        border-radius: 50%;
+        top: -20%;
+        right: -10%;
+        pointer-events: none;
     }
 
-    /* Navbar con Glassmorphism elegante */
-    .navbar-glass {
-      background: rgba(255, 255, 255, 0.58);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(45, 85, 125, 0.2);
-      box-shadow: 0 4px 20px rgba(75, 142, 235, 0.852);
-      padding: 0.9rem 0;
-    }
-    .navbar-glass .navbar-brand {
-      font-family: 'Playfair Display', serif;
-      font-weight: 800;
-      font-size: 1.8rem;
-      background: linear-gradient(135deg, #1e3a5f, #2d557d);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: -0.3px;
-    }
-    .navbar-glass .nav-link {
-      color: #1e3a5f !important;
-      font-weight: 600;
-      margin: 0 0.7rem;
-      font-size: 0.9rem;
-      transition: 0.2s;
-      position: relative;
-    }
-    .navbar-glass .nav-link:hover {
-      background: linear-gradient(135deg, #1e3a5f, #2d557d);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .navbar-glass .nav-link:after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: linear-gradient(90deg, #1e3a5f, #5f8bb3);
-      transition: 0.25s;
-    }
-    .navbar-glass .nav-link:hover:after {
-      width: 100%;
+    .hero-detalle::after {
+        content: "";
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        background: rgba(255, 255, 255, 0.04);
+        filter: blur(60px);
+        border-radius: 50%;
+        bottom: -15%;
+        left: -5%;
+        pointer-events: none;
     }
 
-    /* Hero Glassmorphism principal */
-    
-  .hero-modern {
-    background: radial-gradient(circle at 70% 30%, #5d44cc 0%, #2d1b6b 100%);
-    min-height: 85vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    padding: 80px 0;
-    color: white;
-  }
+    .hero-badge {
+        display: inline-block;
+        background: rgba(245, 166, 35, 0.2);
+        border: 1px solid rgba(245, 166, 35, 0.4);
+        color: var(--accent);
+        padding: 5px 16px;
+        border-radius: 100px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
 
-  /* Brillo decorativo de fondo */
-  .hero-modern::before {
-    content: "";
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: rgba(167, 139, 250, 0.15);
-    filter: blur(100px);
-    border-radius: 50%;
-    top: -10%;
-    left: -10%;
-  }
+    .business-name {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        color: white;
+        margin-bottom: 16px;
+    }
 
-  .business-name {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #ffffff, #e0d7ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+    .business-name span {
+        color: var(--accent);
+    }
 
-  /* Imagen del producto (flotante) */
-  .product-showcase {
-    position: relative;
-    z-index: 5;
-    transition: transform 0.5s ease;
-  }
+    .hero-detalle .lead {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
 
-  .product-showcase img {
-    max-height: 450px;
-    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.4));
-    transform: perspective(1000px) rotateY(-10deg);
-  }
+    .btn-hero-primary {
+        background: var(--accent);
+        color: white;
+        font-weight: 700;
+        padding: 13px 30px;
+        border-radius: 12px;
+        border: none;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.25s;
+        display: inline-block;
+    }
 
-  /* Logo en la esquina inferior derecha */
-  .floating-logo-corner {
-    position: absolute;
-    bottom: 30px;
-    right: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 15px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 10;
-  }
+    .btn-hero-primary:hover {
+        background: var(--accent2);
+        color: white;
+        transform: translateY(-2px);
+    }
 
-  .floating-logo-corner img {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    object-fit: cover;
-  }
+    .btn-hero-outline {
+        background: transparent;
+        color: white;
+        font-weight: 600;
+        padding: 13px 26px;
+        border-radius: 12px;
+        border: 1.5px solid rgba(255, 255, 255, 0.4);
+        text-decoration: none;
+        transition: border-color 0.25s, background 0.25s;
+        display: inline-block;
+    }
 
-  .hero-badge {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #d1c4ff;
-    display: inline-block;
-  }
+    .btn-hero-outline:hover {
+        border-color: white;
+        background: rgba(255,255,255,0.08);
+        color: white;
+    }
 
-  .btn-modern {
-    background: #ffffff;
-    color: #2d1b6b;
-    font-weight: 700;
-    padding: 14px 32px;
-    border-radius: 14px;
-    border: none;
-    transition: 0.3s;
-  }
+    /* Imagen hero */
+    .hero-img-wrapper img {
+        max-height: 380px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+    }
 
-  .btn-modern:hover {
-    background: #e0d7ff;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
+    /* Logo flotante */
+    .floating-logo-corner {
+        position: absolute;
+        bottom: 28px;
+        right: 36px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        padding: 12px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 10;
+    }
 
+    .floating-logo-corner img {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
 
-    /* Tarjetas Glassmorphism */
+    .floating-logo-corner p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    /* ── SECCIONES ──────────────────────────────────────── */
+    .detalle-section {
+        padding: 56px 0;
+    }
+
+    .detalle-section + .detalle-section {
+        padding-top: 0;
+    }
+
+    /* ── CARDS GLASS ────────────────────────────────────── */
     .card-glass {
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(14px);
-      border-radius: 32px;
-      border: 1px solid rgba(45, 85, 125, 0.2);
-      transition: all 0.3s ease;
-      height: 100%;
-      box-shadow: 0 12px 28px -8px rgba(13, 13, 13, 0.047);
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        border-radius: 24px;
+        border: 1px solid rgba(26, 58, 107, 0.12);
+        box-shadow: 0 8px 28px rgba(26, 58, 107, 0.07);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
     }
+
     .card-glass:hover {
-      background: rgba(255, 255, 255, 0.7);
-      border-color: rgba(45, 85, 125, 0.4);
-      transform: translateY(-5px);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(26, 58, 107, 0.12);
     }
+
+    /* Divisor de acento */
+    .accent-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        border-radius: 4px;
+        margin: 12px 0 20px;
+    }
+
+    .section-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--accent);
+    }
+
+    /* Info chips */
     .info-chip {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(4px);
-      border-radius: 2rem;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #1e3a5f;
-      border: 0.5px solid rgba(45,85,125,0.2);
+        background: rgba(26, 58, 107, 0.07);
+        border-radius: 50px;
+        padding: 7px 16px;
+        font-size: 0.83rem;
+        font-weight: 500;
+        color: var(--primary);
+        border: 1px solid rgba(26, 58, 107, 0.1);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
+
+    .info-chip i {
+        color: var(--blue-light);
+    }
+
+    /* Stat number */
     .stat-number {
-      font-size: 2rem;
-      font-weight: 800;
-      font-family: 'Playfair Display', serif;
-      background: linear-gradient(135deg, #1e3a5f, #3f7baf);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .gold-divider {
-      width: 70px;
-      height: 3px;
-      background: linear-gradient(90deg, #2d557d, #7fa1c3);
-      margin: 1rem 0 1.5rem 0;
-      border-radius: 4px;
-    }
-    .media-frame-glass {
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(45,85,125,0.2);
+        font-size: 1.9rem;
+        font-weight: 800;
+        color: var(--primary);
+        font-family: 'Poppins', sans-serif;
     }
 
-    .text-gold {
-      color: #2d557d !important;
-      font-weight: 600;
+    /* Botón Facebook/Redes */
+    .btn-outline-primary-custom {
+        border: 1.5px solid var(--primary);
+        color: var(--primary);
+        border-radius: 10px;
+        padding: 9px 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.25s, color 0.25s;
     }
-    hr {
-      background-color: #7fa1c3;
-      opacity: 0.3;
+
+    .btn-outline-primary-custom:hover {
+        background: var(--primary);
+        color: white;
     }
+
+    /* ── MULTIMEDIA ─────────────────────────────────────── */
+    .media-frame {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+        border: 1px solid rgba(26, 58, 107, 0.12);
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .media-frame .inner {
+        padding: 20px;
+    }
+
+    /* ── MAPA ───────────────────────────────────────────── */
+    .mapa-card {
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 32px rgba(26, 58, 107, 0.1);
+    }
+
+    .mapa-info {
+        background: white;
+        padding: 32px;
+    }
+
+    .mapa-info i {
+        color: var(--blue-light);
+    }
+
+    /* ── REDES SOCIALES ─────────────────────────────────── */
+    .social-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1rem;
+        border: 1.5px solid;
+        transition: background 0.25s, color 0.25s;
+    }
+
+    .social-btn.fb  { border-color: #1877f2; color: #1877f2; }
+    .social-btn.fb:hover  { background: #1877f2; color: white; }
+    .social-btn.wa  { border-color: #25d366; color: #25d366; }
+    .social-btn.wa:hover  { background: #25d366; color: white; }
+    .social-btn.ig  { border-color: #e1306c; color: #e1306c; }
+    .social-btn.ig:hover  { background: #e1306c; color: white; }
+
     @media (max-width: 768px) {
-      .business-name {
-        font-size: 2.3rem;
-      }
-      .glass-card-hero {
-        padding: 1.5rem;
-      }
+        .business-name { font-size: 2rem; }
+        .floating-logo-corner { display: none !important; }
+        .hero-img-wrapper { margin-top: 32px; }
     }
-  </style>
+</style>
+@endpush
 
+@section('content')
+<div class="detalle-page">
 
-<!-- Preloader -->
-<div id="ms-preload" class="ms-preload">
-  <div class="spinner-ring"></div>
-</div>
+    {{-- ── HERO ──────────────────────────────────────────── --}}
+    <header class="hero-detalle">
+        <div class="container">
+            <div class="row align-items-center g-4">
 
-<div class="ms-site-container">
-
-  <!-- Hero con Glassmorphism y degradado -->
-  <header class="hero-modern">
-  <div class="container">
-    <div class="row align-items-center">
-      
-      <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
-        <div class="hero-badge mb-3">
-          <i class="fas fa-bolt me-1"></i> Amazing Deals
-        </div>
-        <h1 class="business-name">
-          {{strtoupper($empresa->nombre ?? 'FACEBOL STUDIO')}}
-        </h1>
-        <p class="lead mb-5" style="color: #cdc1ff; font-weight: 400; font-size: 1.25rem;">
-          {{$empresa->promocion ?? 'Descubre la excelencia en tecnología y diseño con nuestras ofertas exclusivas.'}}
-        </p>
-        
-        <div class="d-flex flex-wrap gap-3">
-          <a href="#productos" class="btn btn-modern shadow-lg">
-            Ver Productos
-          </a>
-          @if(isset($empresa->facebook))
-            <a href="{{$empresa->facebook}}" class="btn btn-link text-white text-decoration-none fw-bold">
-              <i class="fab fa-facebook-f me-2"></i> Seguir en redes
-            </a>
-          @endif
-        </div>
-      </div>
-
-      <div class="col-lg-6 text-center" data-aos="zoom-in" data-aos-delay="200">
-        <div class="product-showcase">
-          <img src="{{asset('imagen/empresasproductos/'.$empresa->imagen1 ?? 'default-product.png')}}" 
-               class="img-fluid" alt="Producto principal">
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="floating-logo-corner d-none d-md-flex" data-aos="fade-up" data-aos-offset="0">
-    <img src="{{asset('imagen/empresas/'.$empresa->imagen ?? 'logo.jpg')}}" alt="Brand Logo">
-    <div>
-      <p class="m-0 fw-bold small text-white">{{$empresa->nombre}}</p>
-      <p class="m-0 x-small text-white-50" style="font-size: 0.7rem;">Sello de Calidad</p>
-    </div>
-  </div>
-</header>
-  <!-- About + información ejecutiva con glass -->
-  <div class="container my-5 pt-4" id="about">
-    <div class="row g-5">
-      <div class="col-lg-7" data-aos="fade-right">
-        <div class="card-glass p-4 p-xl-5">
-          <span class="text-gold small fw-semibold"><i class="fas fa-feather-alt"></i> Filosofía corporativa</span>
-          <h2 class="serif-heading fw-bold mt-2" style="font-family: 'Playfair Display';">Detalles que definen excelencia</h2>
-          <div class="gold-divider"></div>
-          <p class="lh-lg" style="color:#2c3f55;">{!! $empresa->descripcion ?? 'Un espacio donde la tradición y la innovación se fusionan para brindar experiencias inolvidables. Nuestro compromiso es ofrecer calidad superior y atención personalizada a cada cliente, creando relaciones de confianza en un entorno exclusivo.' !!}</p>
-          <div class="row mt-4">
-            <div class="col-sm-6">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <i class="fas fa-medal fa-2x" style="color: #2d557d;"></i>
-                <div><strong class="fs-5">Garantía premium</strong><br><small class="text-secondary">Calidad asegurada</small></div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <i class="fas fa-clock fa-2x" style="color: #2d557d;"></i>
-                <div><strong class="fs-5">Horario exclusivo</strong><br><small class="text-secondary">{{$empresa->horario ?? 'Lun a Vie 10am - 8pm'}}</small></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-5" data-aos="fade-left">
-        <div class="card-glass p-4 h-100 d-flex flex-column">
-          <h4 class="serif-heading fw-semibold"><i class="fas fa-chart-line me-2" style="color:#2d557d;"></i> Data ejecutiva</h4>
-          <div class="mt-3">
-            <div class="detail-grid d-flex flex-wrap gap-2">
-              <div class="info-chip"><i class="fas fa-tag"></i> {{$empresa->descuento ?? 'Beneficio especial'}}</div>
-              <div class="info-chip"><i class="fas fa-phone-alt"></i> {{$empresa->telefono ?? '+591 76000000'}}</div>
-              <div class="info-chip"><i class="fas fa-map-pin"></i> {{$empresa->ciudad->nombre ?? 'La Paz · Santa Cruz'}}</div>
-            </div>
-            <hr class="my-4">
-            <div><i class="fas fa-eye me-2" style="color:#2d557d;"></i> <strong class="text-dark">Visitas totales:</strong> <span class="stat-number">{{$empresa->nvisitas ?? 3250}}</span> <span class="text-secondary">interacciones</span></div>
-            <div class="mt-4 pt-2">
-              <p><i class="fas fa-map-marker-alt me-2" style="color:#2d557d;"></i> <strong>Dirección selecta</strong><br> {{$empresa->direccion ?? 'Avenida central, Galería empresarial'}}</p>
-              @if(isset($empresa->facebook))
-              <a href="{{$empresa->facebook}}" class="btn btn-outline-glass w-100 mt-2" target="_blank"><i class="fab fa-facebook-f me-2"></i>Conectar vía Facebook</a>
-              @endif
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sección multimedia con Glassmorphism -->
-  <div class="container my-5" id="media">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <span class="text-uppercase small fw-semibold" style="color:#2d557d;">Contenido inmersivo</span>
-      <h2 class="serif-heading fw-bold display-6" style="font-family: 'Playfair Display';">Experiencia audiovisual</h2>
-      <div class="gold-divider mx-auto"></div>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-6" data-aos="zoom-in">
-        <div class="media-frame-glass p-3 h-100">
-          <h4 class="fs-5 fw-semibold mb-3"><i class="fab fa-youtube me-2 text-danger"></i> Presentación corporativa</h4>
-          @if(isset($empresa->video) && $empresa->video != NULL)
-            <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
-              <iframe src="https://www.youtube.com/embed/{{$empresa->video}}" title="video promocional" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-          @elseif(isset($empresa->videof) && $empresa->videof != NULL)
-            <div class="bg-light rounded-4 p-5 text-center border" style="background: rgba(255,255,245,0.6);">
-              <i class="fab fa-facebook-f fa-3x mb-3 text-primary"></i>
-              <p>Video alojado en Facebook: <a href="{{$empresa->videof}}" target="_blank" class="fw-bold" style="color:#2d557d;">Ver ahora <i class="fas fa-arrow-right"></i></a></p>
-            </div>
-          @else
-            <div class="bg-light rounded-4 p-5 text-center border" style="background: rgba(255,255,245,0.5);">
-              <i class="fas fa-play-circle fa-3x mb-2 text-secondary"></i>
-              <p class="mb-0">Material en producción, próximamente.</p>
-            </div>
-          @endif
-        </div>
-      </div>
-      <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
-        <div class="media-frame-glass p-3 h-100">
-          <h4 class="fs-5 fw-semibold mb-3"><i class="fas fa-camera-retro me-2" style="color:#2d557d;"></i> Galería signature</h4>
-          <div class="rounded-4 overflow-hidden shadow-sm">
-            @if(isset($empresa->imagen1) && $empresa->imagen1)
-              <a href="{{asset('imagen/empresasproductos/'.$empresa->imagen1)}}" target="_blank">
-                <img src="{{asset('imagen/empresasproductos/'.$empresa->imagen1)}}" alt="Vista premium" class="img-fluid w-100" style="height: 280px; object-fit: cover; transition: 0.3s;">
-              </a>
-            @else
-              <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-50" style="height: 280px;">
-                <div class="text-center"><i class="fas fa-image fa-3x text-secondary mb-2"></i><br>Imagen representativa</div>
-              </div>
-            @endif
-          </div>
-          <div class="mt-3 text-secondary small text-center">Ambientes diseñados con refinamiento</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Ubicación y mapa con glass -->
-  <div class="container my-5" id="location">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-10" data-aos="fade-up">
-        <div class="card-glass overflow-hidden">
-          <div class="row g-0">
-            <div class="col-md-5 p-4 d-flex flex-column justify-content-center" style="background: rgba(255,255,250,0.5); backdrop-filter: blur(4px);">
-              <i class="fas fa-location-dot fa-2x mb-3" style="color: #2d557d;"></i>
-              <h3 class="serif-heading fw-bold">Punto de encuentro</h3>
-              <p class="small text-secondary">Visítenos en nuestras instalaciones, un ambiente diseñado para recibirle con distinción.</p>
-              <hr class="my-3">
-              <p><i class="fas fa-clock me-2"></i> Horario: {{$empresa->horario ?? '09:00 - 20:00 hs'}}</p>
-              <p><i class="fas fa-building me-2"></i> {{$empresa->direccion ?? 'Zona empresarial, anillo central'}}</p>
-            </div>
-            <div class="col-md-7 p-0">
-              @if(isset($empresa->mapa) && $empresa->mapa != null)
-                <iframe src="https://www.google.com/maps/embed?pb={{$empresa->mapa}}" width="100%" height="320" frameborder="0" style="border:0; display:block;" allowfullscreen="" loading="lazy"></iframe>
-              @else
-                <div class="d-flex align-items-center justify-content-center" style="height: 320px; background: rgba(245,245,245,0.5);">
-                  <div class="text-center p-4"><i class="fas fa-map fa-3x text-secondary mb-2"></i><br>Mapa actualizándose próximamente</div>
+                <div class="col-lg-6" data-aos="fade-right">
+                    <span class="hero-badge">
+                        <i class="fas fa-tag me-1"></i> {{ $empresa->descuento ?? 'Beneficio exclusivo' }}
+                    </span>
+                    <h1 class="business-name">
+                        {{ strtoupper($empresa->nombre ?? 'Empresa') }}
+                    </h1>
+                    <p class="lead mb-4">
+                        {{ $empresa->promocion ?? 'Descubre los beneficios y promociones exclusivas que esta empresa tiene para ti.' }}
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#info" class="btn-hero-primary">
+                            <i class="fas fa-info-circle me-2"></i> Ver detalles
+                        </a>
+                        @if(isset($empresa->facebook))
+                            <a href="{{ $empresa->facebook }}" class="btn-hero-outline" target="_blank">
+                                <i class="fab fa-facebook-f me-2"></i> Seguir en Facebook
+                            </a>
+                        @endif
+                    </div>
                 </div>
-              @endif
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Contacto elegante glass -->
-  <div class="container my-5" id="contact">
-    <div class="row g-4">
-      <div class="col-md-6" data-aos="fade-right">
-        <div class="card-glass p-4 h-100">
-          <div class="d-flex align-items-center gap-3 mb-3">
-            <i class="fas fa-envelope-open-text fa-2x" style="color: #2d557d;"></i>
-            <h4 class="serif-heading fw-bold mb-0">Atención personalizada</h4>
-          </div>
-          <p>¿Desea agendar una cita o solicitar información adicional? Nuestro equipo ejecutivo responderá a la brevedad.</p>
-          <div class="mt-auto">
-            <div class="mt-3"><i class="fas fa-phone-alt me-3" style="color:#2d557d;"></i> {{$empresa->telefono ?? '+591 2 123456'}}</div>
-            <div class="mt-2"><i class="fas fa-globe me-3" style="color:#2d557d;"></i> www.facebol.business / contacto</div>
-          </div>
+                <div class="col-lg-6 text-center hero-img-wrapper" data-aos="zoom-in" data-aos-delay="150">
+                    @if(isset($empresa->imagen1) && $empresa->imagen1)
+                        <img src="{{ asset('imagen/empresasproductos/' . $empresa->imagen1) }}"
+                             alt="{{ $empresa->nombre }}"
+                             class="img-fluid">
+                    @else
+                        <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}"
+                             alt="{{ $empresa->nombre }}"
+                             class="img-fluid">
+                    @endif
+                </div>
+
+            </div>
         </div>
-      </div>
-      <div class="col-md-6" data-aos="fade-left">
-        <div class="card-glass p-4 h-100 text-center">
-          <i class="fas fa-handshake fa-3x mb-3" style="color:#2d557d;"></i>
-          <h5 class="fw-bold">Valoramos su confianza</h5>
-          <p class="small">Más de {{$empresa->nvisitas ?? 2500}} visitas nos respaldan como un referente de calidad.</p>
-          <div class="d-flex justify-content-center gap-3 mt-2">
-            <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width: 42px; height:42px; line-height: 40px;"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle" style="width: 42px; height:42px;"><i class="fab fa-whatsapp"></i></a>
-            @if(isset($empresa->facebook))<a href="{{$empresa->facebook}}" class="btn btn-sm btn-outline-secondary rounded-circle"><i class="fab fa-facebook-f"></i></a>@endif
-          </div>
+
+        {{-- Logo flotante solo en desktop --}}
+        <div class="floating-logo-corner d-none d-md-flex">
+            <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}" alt="{{ $empresa->nombre }}">
+            <div>
+                <p class="m-0 fw-bold small text-white">{{ $empresa->nombre }}</p>
+                <p class="m-0 text-white-50" style="font-size: 0.7rem;">Empresa aliada FaceBol</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </header>
+
+    {{-- ── INFO + DATA ────────────────────────────────────── --}}
+    <section class="detalle-section" id="info">
+        <div class="container">
+            <div class="row g-4">
+
+                {{-- Descripción --}}
+                <div class="col-lg-7" data-aos="fade-right">
+                    <div class="card-glass p-4 p-xl-5">
+                        <span class="section-label"><i class="fas fa-building me-1"></i> Acerca de la empresa</span>
+                        <h2 class="mt-2 mb-0" style="font-size: 1.6rem; color: var(--primary); font-weight: 700;">
+                            {{ $empresa->nombre }}
+                        </h2>
+                        <div class="accent-divider"></div>
+                        <p class="lh-lg" style="color: var(--text-muted);">
+                            {!! $empresa->descripcion ?? 'Información sobre esta empresa próximamente.' !!}
+                        </p>
+                        <div class="row mt-3 g-3">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="fas fa-medal fa-2x" style="color: var(--accent);"></i>
+                                    <div>
+                                        <strong>Calidad garantizada</strong><br>
+                                        <small class="text-muted">Empresa verificada</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="fas fa-clock fa-2x" style="color: var(--blue-light);"></i>
+                                    <div>
+                                        <strong>Horario de atención</strong><br>
+                                        <small class="text-muted">{{ $empresa->horario ?? 'Consultar' }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Data ejecutiva --}}
+                <div class="col-lg-5" data-aos="fade-left">
+                    <div class="card-glass p-4 h-100 d-flex flex-column">
+                        <span class="section-label"><i class="fas fa-chart-bar me-1"></i> Información</span>
+                        <h4 class="mt-2 mb-3" style="color: var(--primary); font-weight: 700;">Datos de contacto</h4>
+
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="info-chip"><i class="fas fa-tag"></i> {{ $empresa->descuento ?? 'Beneficio especial' }}</span>
+                            @if($empresa->telefono)
+                                <span class="info-chip"><i class="fas fa-phone-alt"></i> {{ $empresa->telefono }}</span>
+                            @endif
+                            @if(isset($empresa->ciudad))
+                                <span class="info-chip"><i class="fas fa-map-pin"></i> {{ $empresa->ciudad->nombre }}</span>
+                            @endif
+                        </div>
+
+                        <hr style="opacity: 0.2;">
+
+                        {{-- <div class="mb-3">
+                            <small class="text-muted d-block mb-1">Visitas registradas</small>
+                            <span class="stat-number">{{ number_format($empresa->nvisitas ?? 0) }}</span>
+                            <span class="text-muted ms-1">personas</span>
+                        </div> --}}
+
+                        <div class="mb-3">
+                            <p class="mb-1">
+                                <i class="fas fa-map-marker-alt me-2" style="color: var(--blue-light);"></i>
+                                <strong>Dirección:</strong>
+                            </p>
+                            <p class="text-muted ps-4 mb-0">{{ $empresa->direccion ?? 'Disponible al contactar' }}</p>
+                        </div>
+
+                        @if(isset($empresa->facebook))
+                            <a href="{{ $empresa->facebook }}" class="btn-outline-primary-custom mt-auto" target="_blank">
+                                <i class="fab fa-facebook-f"></i> Ver en Facebook
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- ── MULTIMEDIA ─────────────────────────────────────── --}}
+    <section class="detalle-section" id="media">
+        <div class="container">
+            <div class="text-center mb-4" data-aos="fade-up">
+                <span class="section-label">Contenido</span>
+                <h2 class="mt-1" style="color: var(--primary); font-weight: 700;">Video y Galería</h2>
+                <div class="accent-divider mx-auto"></div>
+            </div>
+
+            <div class="row g-4">
+                {{-- Video --}}
+                <div class="col-md-6" data-aos="zoom-in">
+                    <div class="media-frame">
+                        <div class="inner">
+                            <h5 class="fw-semibold mb-3" style="color: var(--primary);">
+                                <i class="fab fa-youtube me-2 text-danger"></i> Video promocional
+                            </h5>
+                            @if(isset($empresa->video) && $empresa->video)
+                                <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
+                                    <iframe src="https://www.youtube.com/embed/{{ $empresa->video }}"
+                                            title="Video de {{ $empresa->nombre }}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen
+                                            loading="lazy"></iframe>
+                                </div>
+                            @elseif(isset($empresa->videof) && $empresa->videof)
+                                <div class="bg-light rounded-3 p-5 text-center">
+                                    <i class="fab fa-facebook-f fa-3x mb-3" style="color: #1877f2;"></i>
+                                    <p class="mb-0">
+                                        Video en Facebook:
+                                        <a href="{{ $empresa->videof }}" target="_blank" class="fw-bold" style="color: var(--primary);">
+                                            Ver ahora <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            @else
+                                <div class="d-flex align-items-center justify-content-center bg-light rounded-3" style="height: 220px;">
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-play-circle fa-3x mb-2 d-block"></i>
+                                        Material en producción
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Galería --}}
+                <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="media-frame">
+                        <div class="inner">
+                            <h5 class="fw-semibold mb-3" style="color: var(--primary);">
+                                <i class="fas fa-camera me-2" style="color: var(--blue-light);"></i> Galería
+                            </h5>
+                            @if(isset($empresa->imagen1) && $empresa->imagen1)
+                                <a href="{{ asset('imagen/empresasproductos/' . $empresa->imagen1) }}" target="_blank">
+                                    <img src="{{ asset('imagen/empresasproductos/' . $empresa->imagen1) }}"
+                                         alt="{{ $empresa->nombre }}"
+                                         class="img-fluid w-100 rounded-3"
+                                         style="height: 220px; object-fit: cover;"
+                                         loading="lazy">
+                                </a>
+                            @else
+                                <div class="d-flex align-items-center justify-content-center bg-light rounded-3" style="height: 220px;">
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-image fa-3x mb-2 d-block"></i>
+                                        Sin imagen disponible
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ── UBICACIÓN ───────────────────────────────────────── --}}
+    <section class="detalle-section" id="location">
+        <div class="container">
+            <div class="mapa-card" data-aos="fade-up">
+                <div class="row g-0">
+
+                    <div class="col-md-5 mapa-info d-flex flex-column justify-content-center">
+                        <i class="fas fa-location-dot fa-2x mb-3"></i>
+                        <h4 style="color: var(--primary); font-weight: 700;">Ubicación</h4>
+                        <p class="text-muted small">Visítenos en nuestras instalaciones.</p>
+                        <hr style="opacity: 0.15;">
+                        <p class="mb-2">
+                            <i class="fas fa-clock me-2"></i>
+                            <strong>Horario:</strong> {{ $empresa->horario ?? 'Consultar' }}
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-building me-2"></i>
+                            {{ $empresa->direccion ?? 'Dirección no disponible' }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-7 p-0">
+                        @if(isset($empresa->mapa) && $empresa->mapa)
+                            <iframe src="https://www.google.com/maps/embed?pb={{ $empresa->mapa }}"
+                                    width="100%"
+                                    height="320"
+                                    frameborder="0"
+                                    style="border:0; display:block;"
+                                    allowfullscreen
+                                    loading="lazy"></iframe>
+                        @else
+                            <div class="d-flex align-items-center justify-content-center bg-light" style="height: 320px;">
+                                <div class="text-center text-muted p-4">
+                                    <i class="fas fa-map fa-3x mb-2 d-block"></i>
+                                    Mapa próximamente disponible
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ── CONTACTO ────────────────────────────────────────── --}}
+    <section class="detalle-section" id="contact">
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card-glass p-4 h-100">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <i class="fas fa-envelope-open-text fa-2x" style="color: var(--blue-light);"></i>
+                            <h5 class="fw-bold mb-0" style="color: var(--primary);">Información de contacto</h5>
+                        </div>
+                        <p class="text-muted">¿Desea información adicional? Contáctese directamente con la empresa.</p>
+                        <div class="mt-3">
+                            @if($empresa->telefono)
+                                <div class="mb-2">
+                                    <i class="fas fa-phone-alt me-3" style="color: var(--blue-light);"></i>
+                                    {{ $empresa->telefono }}
+                                </div>
+                            @endif
+                            @if(isset($empresa->ciudad))
+                                <div>
+                                    <i class="fas fa-map-marker-alt me-3" style="color: var(--blue-light);"></i>
+                                    {{ $empresa->ciudad->nombre ?? '' }} — {{ $empresa->direccion ?? '' }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card-glass p-4 h-100 text-center d-flex flex-column align-items-center justify-content-center">
+                        <i class="fas fa-handshake fa-3x mb-3" style="color: var(--accent);"></i>
+                        <h5 class="fw-bold" style="color: var(--primary);">Seguir a {{ $empresa->nombre }}</h5>
+                        <p class="text-muted small mb-3">
+                            {{ number_format($empresa->nvisitas ?? 0) }} personas ya visitaron esta empresa.
+                        </p>
+                        <div class="d-flex justify-content-center gap-3">
+                            @if(isset($empresa->facebook) && $empresa->facebook)
+                                <a href="{{ $empresa->facebook }}" class="social-btn fb" target="_blank" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            @endif
+                            @if(isset($empresa->telefono) && $empresa->telefono)
+                                <a href="https://api.whatsapp.com/send?phone=591{{ preg_replace('/\D/', '', $empresa->telefono) }}&text=Hola!%20Vi%20su%20empresa%20en%20FaceBol%20y%20quiero%20más%20información."
+                                   class="social-btn wa" target="_blank" title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            @endif
+                            @if(isset($empresa->instagram) && $empresa->instagram)
+                                <a href="{{ $empresa->instagram }}" class="social-btn ig" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
 </div>
+@endsection
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+@push('scripts')
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  AOS.init({ duration: 700, once: true, offset: 20 });
-  window.addEventListener('load', function() {
-    const preloader = document.getElementById('ms-preload');
-    if(preloader) {
-      preloader.style.opacity = '0';
-      setTimeout(() => { preloader.style.display = 'none'; }, 500);
-    }
-  });
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
-      if(targetId !== "#" && targetId !== "" && targetId !== "#!" && targetId !== "#0") {
-        const targetEl = document.querySelector(targetId);
-        if(targetEl) {
-          e.preventDefault();
-          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
+    AOS.init({ duration: 650, once: true, offset: 20 });
+
+    // Scroll suave a secciones
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const id = this.getAttribute('href');
+            if (id.length > 1) {
+                const el = document.querySelector(id);
+                if (el) {
+                    e.preventDefault();
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
     });
-  });
 </script>
-@endsection
+@endpush
