@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('search', [\App\Http\Controllers\SearchController::class, 'show'])->name('search');
+Route::get('empresas/json', [\App\Http\Controllers\SearchController::class, 'data'])->name('json');
+
 Route::post('codigo/{ci}', [\App\Http\Controllers\controllerInicio::class, 'codigoUsuario'])->name('codigoUsuario');
 Route::post('registrar/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'crearUsuario'])->name('crearUsuario');
 Route::get('registro/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'registroUsuario'])->name('registroUsuario');

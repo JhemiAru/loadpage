@@ -224,6 +224,29 @@
         margin-bottom: 16px;
         display: block;
     }
+    #suggestions {
+
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    margin-top: 10px;
+    overflow: hidden;
+
+}
+
+.suggestion-item {
+
+    padding: 12px;
+    cursor: pointer;
+    transition: .2s;
+    color: var(--primary);
+}
+
+.suggestion-item:hover {
+
+    background: var(--yellow-light);
+
+}
 </style>
 @endpush
 
@@ -239,20 +262,26 @@
                 </div>
 
                 <div class="col-md-8 offset-md-2">
-                    <div class="search-wrapper">
-                        <div class="d-flex gap-2">
-                            <input 
+                    <form action="{{ route('search') }}" method="GET" id="searchForm">
+
+                        <div class="search-container">
+
+                            <input
+                                type="search" 
                                 id="search" 
-                                type="text" 
-                                class="form-control search-input-modern flex-grow-1" 
-                                placeholder="Buscar empresa por nombre..."
-                                autocomplete="off"
+                                name="query"
+                                placeholder="Buscar empresas..."
+                                value="{{ request('query') }}"
+                                class="form-control"
                             >
-                            <button class="btn-buscar">
-                                <i class="fas fa-search me-1"></i> Buscar
+                            <div id="suggestions"></div>
+                            <button type="submit">
+                                <i class="btn btn-search"></i>
                             </button>
+
                         </div>
-                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -317,27 +346,77 @@
             </div>
         </div>
     </section>
+<script>
 
+const searchInput = document.getElementById('search');
+const suggestionsBox = document.getElementById('suggestions');
+
+searchInput.addEventListener('keyup', async function () {
+
+    let query = this.value;
+
+    if (query.length < 2) {
+
+        suggestionsBox.innerHTML = '';
+        return;
+
+    }
+
+    const response = await fetch(
+        `/empresas/json?query=${query}`
+    );
+
+    const data = await response.json();
+
+    let html = '';
+
+    data.forEach(item => {
+
+        html += `
+            <div class="suggestion-item"
+                 onclick="selectSuggestion('${item.nombre}')">
+
+                ${item.nombre}
+
+            </div>
+        `;
+
+    });
+
+    suggestionsBox.innerHTML = html;
+
+});
+
+function selectSuggestion(value)
+{
+    searchInput.value = value;
+
+    suggestionsBox.innerHTML = '';
+
+    filterResults();
+}
+
+async function filterResults()
+{
+    let query = searchInput.value;
+
+    const response = await fetch(
+        `/search?query=${query}`
+    );
+
+    const html = await response.text();
+
+    document.getElementById('results').innerHTML = html;
+}
+document.getElementById('searchForm')
+.addEventListener('submit', function (e) {
+
+    e.preventDefault();
+
+    filterResults();
+
+});
+
+</script>
 @endsection
 
-@push('scripts')
-<script src="{{ asset('js/typeahead.bundle.js') }}"></script>
-<script>
-    $(function () {
-        var empresas = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: '{{ url("empresas/json") }}'
-        });
-
-        $('#search').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            name: 'empresas',
-            source: empresas
-        });
-    });
-</script>
-@endpush
