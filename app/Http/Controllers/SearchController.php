@@ -4,110 +4,178 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresa;
-use App\Categoria;
-use App\Institucion;
-use App\Ciudad;
-
+use App\Models\Categoria;
+use App\Models\Institucion;
+use App\Models\Ciudad;
 
 class SearchController extends Controller
 {
-    // public function  show(Request $request)
-    // {
-    // 	$query=$request->input('query');
-    // 	$institucion=Institucion::first();
-    //     $categorias=Categoria::all();
-    //     $ciudades=Ciudad::all();
-    // 	$empresas=Empresa::where('nombre','like',"%$query%")->where('activo',1 )->get();
-    	
-    // 	if ($empresas->count()==1) {
-    // 		$nombre = $empresas->first()->slug;
-    // 		return redirect("empresa/$nombre"); //'empresa/'.$nombre
-    		
-    // 	}
-    // 	return view('inicio.show')->with(compact('empresas','query','institucion','categorias','ciudades'));
-    // }
+    public function show(Request $request)
+    {
+        $query = trim($request->input('query', ''));
 
-    // public function data()
-    // {   $empresas=Empresa::where('activo',1 )->pluck('nombre');
-    // 	return $empresas;
-    // }
+        $words = collect(
+            preg_split('/\s+/', mb_strtolower($query))
+        )->filter()->unique();
 
-public function show(Request $request)
-{
-    $query = trim($request->input('query'));
+        // Detectar ciudad
+        $ciudadEncontrada = Ciudad::whereRaw(
+            'LOWER(nombre) LIKE ?',
+            ['%' . mb_strtolower($query) . '%']
+        )->first();
 
-    $empresas = Empresa::query()
+        // Palabras ignoradas
+        $ignoreWords = [
+            'en',
+            'de',
+            'la',
+            'el',
+            'las',
+            'los',
+            'un',
+            'una',
+            'y'
+        ];
 
-        ->with(['categoria', 'ciudad'])
+        // Normalizar palabras
+        $keywords = $words
+            ->reject(fn($w) => in_array($w, $ignoreWords))
+            ->map(function ($word) {
 
-        ->where('activo', 1)
+                // singular/plural simple
+                if (mb_substr($word, -2) === 'es') {
+                    $word = mb_substr($word, 0, -2);
+                } elseif (mb_substr($word, -1) === 's') {
+                    $word = mb_substr($word, 0, -1);
+                }
 
-        ->when($query, function ($q) use ($query) {
-
-            $q->where(function ($subquery) use ($query) {
-
-                $subquery->where('nombre', 'LIKE', "%{$query}%")
-                    ->orWhere('descripcion', 'LIKE', "%{$query}%")
-                    ->orWhere('direccion', 'LIKE', "%{$query}%");
-
+                return $word;
             })
 
-            ->orWhereHas('categoria', function ($categoria) use ($query) {
+            // quitar nombre de ciudad detectada
+            ->reject(function ($word) use ($ciudadEncontrada) {
 
-                $categoria->where(
-                    'nombre',
-                    'LIKE',
-                    "%{$query}%"
+                if (!$ciudadEncontrada) {
+                    return false;
+                }
+
+                return str_contains(
+                    mb_strtolower($ciudadEncontrada->nombre),
+                    $word
                 );
-
             });
 
-        })
+        $empresas = Empresa::query()
+            ->with(['categoria', 'ciudad'])
+            ->where('activo', 1);
 
-        ->paginate(12);
+        // FILTRO OBLIGATORIO DE CIUDAD
+        if ($ciudadEncontrada) {
 
-    return view('empresas', compact(
-        'empresas'
-    ));
-}
+            $empresas->where('ciudad_id', $ciudadEncontrada->id);
+        }
 
-	public function data(Request $request)
-	{
-		$query = trim($request->input('query'));
+        // FILTRO OBLIGATORIO DE PALABRAS
+        if ($keywords->count()) {
 
-		if (!$query) {
-			return response()->json([]);
-		}
+            $empresas->where(function ($q) use ($keywords) {
 
-		$empresas = Empresa::query()
+                foreach ($keywords as $word) {
 
-			->where('activo', 1)
+                    $q->where(function ($sub) use ($word) {
 
-			->where(function ($q) use ($query) {
+                        $sub->whereRaw(
+                            'LOWER(nombre) LIKE ?',
+                            ["%{$word}%"]
+                        )
 
-				$q->where('nombre', 'LIKE', "%{$query}%")
+                        ->orWhereRaw(
+                            'LOWER(descripcion) LIKE ?',
+                            ["%{$word}%"]
+                        )
 
-				->orWhereHas('categoria', function ($categoria) use ($query) {
+                        ->orWhereHas('categoria', function ($cat) use ($word) {
 
-						$categoria->where(
-							'nombre',
-							'LIKE',
-							"%{$query}%"
-						);
+                            $cat->whereRaw(
+                                'LOWER(nombre) LIKE ?',
+                                ["%{$word}%"]
+                            )
 
-				});
+                            ->orWhereRaw(
+                                'LOWER(descripcion) LIKE ?',
+                                ["%{$word}%"]
+                            );
+                        });
+                    });
+                }
+            });
+        }
 
-			})
+        $empresas = $empresas
+            ->paginate(12)
+            ->withQueryString();
 
-			->limit(5)
+        return view('empresas', compact('empresas', 'query'));
+    }
 
-			->get([
-				'id',
-				'nombre',
-				'slug',
-				'imagen'
-			]);
+    /**
+     * Sugerencias de autocompletado (JSON)
+     */
+    public function data(Request $request)
+    {
+        $query = trim($request->input('query', ''));
 
-		return response()->json($empresas);
-	}
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $words = collect(
+            preg_split('/\s+/', mb_strtolower($query))
+        )->filter()->unique();
+
+        $empresas = Empresa::query()
+            ->where('activo', 1)
+
+            ->where(function ($q) use ($words) {
+
+                foreach ($words as $word) {
+
+                    $q->orWhereRaw('LOWER(nombre) LIKE ?', ["%{$word}%"])
+
+                        ->orWhereHas('categoria', function ($cat) use ($word) {
+
+                            $cat->whereRaw('LOWER(nombre) LIKE ?', ["%{$word}%"])
+                                ->orWhereRaw('LOWER(descripcion) LIKE ?', ["%{$word}%"]);
+                        })
+
+                        ->orWhereHas('ciudad', function ($ciudad) use ($word) {
+
+                            $ciudad->whereRaw('LOWER(nombre) LIKE ?', ["%{$word}%"]);
+                        });
+                }
+            })
+
+            ->with(['categoria', 'ciudad'])
+            ->limit(6)
+            ->get([
+                'id',
+                'nombre',
+                'slug',
+                'imagen',
+                'descuento'
+            ]);
+
+        return response()->json($empresas->map(function ($e) {
+
+            return [
+                'id'        => $e->id,
+                'nombre'    => $e->nombre,
+                'slug'      => $e->slug,
+                'imagen'    => $e->imagen,
+                'descuento' => $e->descuento,
+                'categoria' => $e->categoria->nombre ?? null,
+                'ciudad'    => $e->ciudad->nombre ?? null,
+            ];
+        }));
+    }
 }

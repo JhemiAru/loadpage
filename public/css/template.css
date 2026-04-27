@@ -51,8 +51,8 @@ h1, h2, h3, h4, h5, .navbar-brand {
     left: 0;
     width: 100%;
     height: 120%;
-    /* background-image: linear-gradient(#002e6b70), url('../imagen/institucion/fondo.webp'); */
-    background-image: url('../imagen/institucion/fondo.webp');
+     background-image: linear-gradient(#002e6b70), url('../imagen/institucion/fondo.webp'); 
+    /* background-image: url('../imagen/institucion/fondo.webp'); */
     background-size: cover;
     background-position: center;
     z-index: -2;
