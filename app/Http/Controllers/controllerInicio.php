@@ -217,14 +217,14 @@ class controllerInicio extends Controller
    
     public function empresa()
     {
-        $empresas = Empresa::orderBy('prioridad','asc')->get();        
-
-        return view('empresas',compact('empresas'));
+        $empresas = Empresa::where('activo', 1)->orderBy('prioridad','asc')->paginate(24);        
+        $countEmpresas = Empresa::where('activo', 1)->count();
+        return view('empresas',compact('empresas', 'countEmpresas'));
     }
-      public function comision()
+
+    public function comision()
     {
         $empresas=Empresa::orderBy('prioridad','asc')->get();
-
         return view('inicio.comision',compact('empresas'));
     }
        
@@ -353,7 +353,7 @@ class controllerInicio extends Controller
         $actividad = Actividad::all();
         $ciudades=Ciudad::all();
 
-        return view('inicio.actividades',compact('actividad','categorias','actividades','ciudades'));
+        return view('actividades',compact('actividad','categorias','actividades','ciudades'));
     }
     public function equipo()
     {
@@ -361,7 +361,7 @@ class controllerInicio extends Controller
         $categorias=Categoria::all();
         $equipos1 = Equipo::where('estado', 1)->get();
         $ciudades=Ciudad::all();
-        return view('inicio.equipo',compact('equipos1'));
+        return view('equipo',compact('equipos1'));
     }
     public function noticia()
     {
@@ -378,7 +378,7 @@ class controllerInicio extends Controller
         $actividad = Actividad::all();
         $ciudades=Ciudad::all();
 
-        return view('inicio.noticias',compact('actividad','categorias','actividades','ciudades'));
+        return view('noticias',compact('actividad','categorias','actividades','ciudades'));
     }
     public function registroUsuario($codigo)
     {

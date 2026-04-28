@@ -216,3 +216,9 @@ INSERT INTO `tallers` (
     NOW(),
     NOW()
 );
+
+-- Cambiar extensiones de las imagenes en la bd
+UPDATE empresas
+SET imagen = REGEXP_REPLACE(LOWER(imagen), '\.(jpg|jpeg|png|gif|jfif)$', '.webp');
+UPDATE empresas
+SET imagen1 = REGEXP_REPLACE(LOWER(imagen), '\.(jpg|jpeg|png|gif|jfif)$', '.webp');

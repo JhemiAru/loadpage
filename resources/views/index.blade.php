@@ -182,7 +182,7 @@
 </section>
 
 @push('scripts')
-<script src="{{ asset('js/categoria.js') }}"></script>
+<script src="{{ asset('js/categoria_index.js') }}"></script>
 @endpush
 
 @endsection

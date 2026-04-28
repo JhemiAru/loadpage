@@ -45,6 +45,9 @@
                            Empresas
                         </a>
                         <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('empresa') }}">Todas las empresas</a>
+                            </li>
                             <!-- Categorías -->
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Categorías</a>
@@ -70,9 +73,6 @@
                                     </li>
                                     @endforeach
                                 </ul>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('empresa') }}">Todas las empresas</a>
                             </li>
                             <!-- <li>
                                 <a class="dropdown-item" href="{{ route('comision') }}">Empresas por comisión</a>
@@ -104,11 +104,11 @@
                         </a>
                     </li>
                     
-                    <!-- Contacto -->
+                    <!-- Talleres -->
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contactanos*') ? 'active' : '' }}" 
-                           href="{{ route('contactanos') }}">
-                           Contáctanos
+                        <a class="nav-link {{ request()->routeIs('taller*') ? 'active' : '' }}" 
+                           href="{{ route('taller') }}">
+                           Talleres
                         </a>
                     </li>
                 </ul>
@@ -119,7 +119,7 @@
         </div>
     </nav>
     @if(request()->routeIs('inicio'))
-        @include('hero-carousel', ['institucion' => $institucion])
+        @include('carrusel', ['institucion' => $institucion])
         <script src="{{ asset('js/carrusel.js') }}"></script>
     @endif
 </div>

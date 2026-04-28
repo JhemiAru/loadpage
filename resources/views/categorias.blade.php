@@ -58,15 +58,20 @@
                                         <i class="fas fa-store"></i>
                                     </div>
                                 @endif
-
-                                @if($empresa->descuento)
-                                    <span class="badge-descuento">
-                                        <i class="fas fa-tag me-1"></i>{{ $empresa->descuento }}
-                                    </span>
-                                @endif
                             </div>
                             <div class="empresa-card-body">
                                 <h5>{{ $empresa->nombre }}</h5>
+                                @if($empresa->descuento)
+                                    <div class="empresa-descuento-inline">
+                                        <i class="fas fa-tags"></i>
+                                        <span>{{ $empresa->descuento }}</span>
+                                    </div>
+                                @endif
+                                @if($empresa->descripcion)
+                                    <p class="empresa-desc">
+                                        {{ Str::limit(strip_tags($empresa->descripcion), 300) }}
+                                    </p>
+                                @endif
                                 <div class="empresa-contacto">
                                     @if($empresa->facebook)
                                         <a href="{{ $empresa->facebook }}"
