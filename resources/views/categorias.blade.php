@@ -25,17 +25,30 @@
 
 <div class="buscador-wrap">
     <div class="container">
-        <form method="GET" action="{{ request()->url() }}">
-            <div class="input-group">
-                <input type="text"
-                       name="q"
-                       class="form-control"
-                       placeholder="Buscar empresa en esta categoría..."
-                       value="{{ request('q') }}">
-                <button class="btn-buscar" type="submit">
+        <form action="{{ route('categoriaBuscar', $categoria->slug) }}" method="GET" class="categoria-search-form">
+            <div class="categoria-search-box">
+                <input
+                    type="text"
+                    name="query"
+                    class="categoria-search-input"
+                    placeholder="Buscar empresas en {{ $categoria->nombre }}..."
+                    value="{{ request('query') }}"
+                    autocomplete="off"
+                    id="searchInput"
+                >
+                <button class="btn-buscar-cat" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
+                <div id="suggestions"></div>
             </div>
+                @if(!empty($query))
+                    <div class="search-stats mt-2">
+                        <i class="fas fa-filter me-1"></i>
+                        Mostrando resultados para: <strong>{{ $query }}</strong>
+                        &nbsp;·&nbsp;
+                        <a href="{{ route('empresa') }}" style="color:#ffd166; font-weight:700">Limpiar</a>
+                    </div>
+                @endif
         </form>
     </div>
 </div>
@@ -159,9 +172,9 @@
             <div class="empty-state">
                 <i class="fas fa-store-slash"></i>
                 <h4>No hay empresas en esta categoría</h4>
-                <p>Aún no hay empresas registradas en <strong>{{ $categoria->nombre }}</strong>. ¡Pronto habrá novedades!</p>
-                <a href="{{ route('empresa') }}" class="btn-ver-mas d-inline-block mt-3" style="max-width:220px">
-                    Ver todas las empresas
+                <p>No se encontraron empresa en la categoría <strong>{{ $categoria->nombre }}</strong>.</p>
+                <a href="{{ route('categoria', ['slug' => request()->route('slug')]) }}" class="btn-ver-mas d-inline-block mt-3" style="max-width:220px">
+                    Volver
                 </a>
             </div>
         @endif

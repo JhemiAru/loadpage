@@ -153,12 +153,21 @@
     font-weight: 600;
     font-size: 0.88rem;
     color: var(--primary);
-    white-space: nowrap;
-    
-    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.suggestion-desc { font-size: 0.75rem; color: var(--accent2); font-weight: 600; }
+.suggestion-desc { 
+    font-size: 0.75rem; 
+    color: var(--accent2); 
+    font-weight: 600; 
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
 /* Stats búsqueda */
 .search-stats {

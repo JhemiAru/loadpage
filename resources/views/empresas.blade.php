@@ -10,7 +10,7 @@
         <div class="text-center" style="position:relative; z-index:1">
             <h1>Nuestras <span>Empresas</span></h1>
             <p class="lead">Encuentra descuentos y beneficios buscando por nombre, categoría o ciudad.</p>            
-            <form action="{{ route('search') }}" method="GET" id="searchForm" autocomplete="off">
+            <form action="{{ route('empresaBuscar') }}" method="GET" id="searchForm" autocomplete="off">
                 <div class="search-wrap">
                     <input
                         type="search"
@@ -31,7 +31,7 @@
                         <i class="fas fa-filter me-1"></i>
                         Mostrando resultados para: <strong>{{ $query }}</strong>
                         &nbsp;·&nbsp;
-                        <a href="{{ route('search') }}" style="color:#ffd166; font-weight:700">Limpiar</a>
+                        <a href="{{ route('empresa') }}" style="color:#ffd166; font-weight:700">Limpiar</a>
                     </div>
                 @endif
             </form>
@@ -172,7 +172,7 @@
                 @if(!empty($query))
                     <h5>Sin resultados para "{{ $query }}"</h5>
                     <p>Intenta con otro término: nombre de empresa, categoría o ciudad.</p>
-                    <a href="{{ route('search') }}" class="btn-limpiar">Ver todas las empresas</a>
+                    <a href="{{ route('empresa') }}" class="btn-limpiar">Ver todas las empresas</a>
                 @else
                     <h5>No hay empresas disponibles en este momento.</h5>
                 @endif

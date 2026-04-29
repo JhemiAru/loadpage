@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchSuggestions(q) {
         try {
-            const res = await fetch(`/empresa/data?query=${encodeURIComponent(q)}`);
+            const res = await fetch(`/categoria/data?query=${encodeURIComponent(q)}`);
             const data = await res.json();
             renderSuggestions(data, q);
         } catch (e) {

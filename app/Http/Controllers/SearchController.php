@@ -200,4 +200,179 @@ class SearchController extends Controller
             })
         );
     }
+
+
+    public function categoria(Request $request, $slug)
+    {
+        $categoria = Categoria::where('slug', $slug)
+            ->firstOrFail();
+
+        $query = trim(
+            mb_strtolower($request->input('query', ''))
+        );
+
+        $stopWords = [
+            'en','de','la','las',
+            'el','los','y','o',
+            'para','con','a'
+        ];
+
+        $words = collect(
+            preg_split('/\s+/', $query)
+        )
+        ->filter()
+
+        ->reject(fn($w) =>
+            in_array($w, $stopWords)
+        )
+
+        ->values();
+
+        $empresas = Empresa::query()
+
+            ->with(['categoria', 'ciudad'])
+
+            ->where('activo', 1)
+
+            // FILTRO POR CATEGORIA
+            ->where('categoria_id', $categoria->id);
+
+        // búsqueda
+        if ($words->count()) {
+
+            $empresas->where(function ($queryBuilder)
+                use ($words) {
+
+                foreach ($words as $word) {
+
+                    $variants =
+                        $this->keywordVariants($word);
+
+                    $queryBuilder->where(function ($q)
+                        use ($variants) {
+
+                        foreach ($variants as $variant) {
+
+                            $q->orWhereRaw(
+                                'LOWER(nombre) LIKE ?',
+                                ["%{$variant}%"]
+                            )
+
+                            ->orWhereRaw(
+                                'LOWER(descripcion) LIKE ?',
+                                ["%{$variant}%"]
+                            );
+                        }
+                    });
+                }
+            });
+        }
+
+        $empresas = $empresas
+
+            ->orderBy('prioridad', 'asc')
+
+            ->paginate(18)
+
+            ->withQueryString();
+
+        $countEmpresas = $empresas->total();
+
+        return view('categorias', compact(
+            'categoria',
+            'empresas',
+            'countEmpresas',
+            'query'
+        ));
+    }
+
+    public function categoriaData(Request $request, $slug)
+    {
+        $categoria = Categoria::where('slug', $slug)
+            ->firstOrFail();
+
+        $query = trim(
+            mb_strtolower($request->input('query', ''))
+        );
+
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $stopWords = ['en','de','la','las','el','los','y','o','para','con','a'];
+        $words = collect(
+            preg_split('/\s+/', $query)
+        )
+        ->filter()
+        ->reject(fn($w) => in_array($w, $stopWords))
+        ->values();
+
+        if ($words->isEmpty()) {
+            return response()->json([]);
+        }
+
+        $empresas = Empresa::query()
+            ->with(['categoria', 'ciudad'])
+            ->where('activo', 1)
+            ->where('categoria_id', $categoria->id);
+
+        $empresas->where(function ($queryBuilder) use ($words) {
+
+            foreach ($words as $word) {
+
+                $variants = $this->keywordVariants($word);
+
+                $queryBuilder->where(function ($q) use ($variants) {
+
+                    foreach ($variants as $variant) {
+
+                        $q->orWhereRaw(
+                            'LOWER(nombre) LIKE ?',
+                            ["%{$variant}%"]
+                        )
+
+                        ->orWhereRaw(
+                            'LOWER(descripcion) LIKE ?',
+                            ["%{$variant}%"]
+                        );
+                    }
+                });
+            }
+        });
+
+        $empresas = $empresas
+            ->limit(6)
+            ->get([
+                'id',
+                'nombre',
+                'slug',
+                'imagen',
+                'descuento'
+            ]);
+
+        return response()->json(
+
+            $empresas->map(function ($e) {
+
+                return [
+
+                    'id' => $e->id,
+
+                    'nombre' => $e->nombre,
+
+                    'slug' => $e->slug,
+
+                    'imagen' => $e->imagen,
+
+                    'descuento' => $e->descuento,
+
+                    'categoria' =>
+                        $e->categoria->nombre ?? null,
+
+                    'ciudad' =>
+                        $e->ciudad->nombre ?? null,
+                ];
+            })
+        );
+    }
 }
