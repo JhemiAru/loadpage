@@ -204,78 +204,36 @@ class SearchController extends Controller
 
     public function categoria(Request $request, $slug)
     {
-        $categoria = Categoria::where('slug', $slug)
-            ->firstOrFail();
+        $categoria = Categoria::where('slug', $slug)->firstOrFail();
+        $query = trim(mb_strtolower($request->input('query', '')));
+        $stopWords = ['en','de','la','las','el','los','y','o','para','con','a'];
 
-        $query = trim(
-            mb_strtolower($request->input('query', ''))
-        );
-
-        $stopWords = [
-            'en','de','la','las',
-            'el','los','y','o',
-            'para','con','a'
-        ];
-
-        $words = collect(
-            preg_split('/\s+/', $query)
-        )
-        ->filter()
-
-        ->reject(fn($w) =>
-            in_array($w, $stopWords)
-        )
-
-        ->values();
+        $words = collect(preg_split('/\s+/', $query))
+            ->filter()
+            ->reject(fn($w) =>in_array($w, $stopWords))
+            ->values();
 
         $empresas = Empresa::query()
-
             ->with(['categoria', 'ciudad'])
-
             ->where('activo', 1)
-
-            // FILTRO POR CATEGORIA
             ->where('categoria_id', $categoria->id);
 
-        // búsqueda
         if ($words->count()) {
-
             $empresas->where(function ($queryBuilder)
                 use ($words) {
-
                 foreach ($words as $word) {
-
-                    $variants =
-                        $this->keywordVariants($word);
-
-                    $queryBuilder->where(function ($q)
-                        use ($variants) {
-
+                    $variants = $this->keywordVariants($word);
+                    $queryBuilder->where(function ($q) use ($variants) {
                         foreach ($variants as $variant) {
-
-                            $q->orWhereRaw(
-                                'LOWER(nombre) LIKE ?',
-                                ["%{$variant}%"]
-                            )
-
-                            ->orWhereRaw(
-                                'LOWER(descripcion) LIKE ?',
-                                ["%{$variant}%"]
-                            );
+                            $q->orWhereRaw('LOWER(nombre) LIKE ?',["%{$variant}%"])
+                            ->orWhereRaw('LOWER(descripcion) LIKE ?',["%{$variant}%"]);
                         }
                     });
                 }
             });
         }
 
-        $empresas = $empresas
-
-            ->orderBy('prioridad', 'asc')
-
-            ->paginate(18)
-
-            ->withQueryString();
-
+        $empresas = $empresas->orderBy('prioridad', 'asc')->paginate(18)->withQueryString();
         $countEmpresas = $empresas->total();
 
         return view('categorias', compact(
@@ -300,12 +258,10 @@ class SearchController extends Controller
         }
 
         $stopWords = ['en','de','la','las','el','los','y','o','para','con','a'];
-        $words = collect(
-            preg_split('/\s+/', $query)
-        )
-        ->filter()
-        ->reject(fn($w) => in_array($w, $stopWords))
-        ->values();
+        $words = collect(preg_split('/\s+/', $query))
+            ->filter()
+            ->reject(fn($w) => in_array($w, $stopWords))
+            ->values();
 
         if ($words->isEmpty()) {
             return response()->json([]);
@@ -355,24 +311,107 @@ class SearchController extends Controller
             $empresas->map(function ($e) {
 
                 return [
-
                     'id' => $e->id,
-
                     'nombre' => $e->nombre,
-
                     'slug' => $e->slug,
-
                     'imagen' => $e->imagen,
-
                     'descuento' => $e->descuento,
-
-                    'categoria' =>
-                        $e->categoria->nombre ?? null,
-
-                    'ciudad' =>
-                        $e->ciudad->nombre ?? null,
+                    'categoria' => $e->categoria->nombre ?? null,
+                    'ciudad' => $e->ciudad->nombre ?? null,
                 ];
             })
+        );
+    }
+
+    public function ciudadBuscar(Request $request, $id)
+    {
+        $ciudad    = Ciudad::findOrFail($id);
+        $query     = trim(mb_strtolower($request->input('query', '')));
+        $stopWords = ['en','de','la','las','el','los','y','o','para','con','a'];
+
+        $words = collect(preg_split('/\s+/', $query))
+            ->filter()
+            ->reject(fn($w) => in_array($w, $stopWords))
+            ->values();
+
+        $empresas = Empresa::query()
+            ->with(['categoria', 'ciudad'])
+            ->where('activo', 1)
+            ->where('ciudad_id', $ciudad->id);
+
+        if ($words->count()) {
+            $empresas->where(function ($qb) use ($words) {
+                foreach ($words as $word) {
+                    $variants = $this->keywordVariants($word);
+                    $qb->where(function ($q) use ($variants) {
+                        foreach ($variants as $variant) {
+                            $q->orWhereRaw('LOWER(nombre) LIKE ?',      ["%{$variant}%"])
+                            ->orWhereRaw('LOWER(descripcion) LIKE ?', ["%{$variant}%"]);
+                        }
+                    });
+                }
+            });
+        }
+
+        $empresas = $empresas->paginate(18)->withQueryString();
+        $countEmpresas    = $empresas->total();
+
+        return view('ciudades', compact(
+            'ciudad',
+            'empresas',
+            'countEmpresas',
+            'query'
+        ));
+    }
+
+    public function ciudadData(Request $request, $id)
+    {
+        $ciudad = Ciudad::findOrFail($id);
+        $query  = trim(mb_strtolower($request->input('query', '')));
+
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $stopWords = ['en','de','la','las','el','los','y','o','para','con','a'];
+        $words = collect(preg_split('/\s+/', $query))
+            ->filter()
+            ->reject(fn($w) => in_array($w, $stopWords))
+            ->values();
+
+        if ($words->isEmpty()) {
+            return response()->json([]);
+        }
+
+        $empresas = Empresa::query()
+            ->with(['categoria', 'ciudad'])
+            ->where('activo', 1)
+            ->where('ciudad_id', $ciudad->id);
+
+        $empresas->where(function ($qb) use ($words) {
+            foreach ($words as $word) {
+                $variants = $this->keywordVariants($word);
+                $qb->where(function ($q) use ($variants) {
+                    foreach ($variants as $variant) {
+                        $q->orWhereRaw('LOWER(nombre) LIKE ?', ["%{$variant}%"])
+                        ->orWhereRaw('LOWER(descripcion) LIKE ?', ["%{$variant}%"]);
+                    }
+                });
+            }
+        });
+
+        $empresas = $empresas->limit(6)->get(['id','nombre','slug','imagen','descuento']);
+
+        return response()->json(
+            $empresas->map(fn($e) => [
+                'id'        => $e->id,
+                'nombre'    => $e->nombre,
+                'slug'      => $e->slug,
+                'imagen'    => $e->imagen,
+                'descuento' => $e->descuento,
+                'categoria' => $e->categoria->nombre ?? null,
+                'ciudad'    => $e->ciudad->nombre ?? null,
+            ])
         );
     }
 }

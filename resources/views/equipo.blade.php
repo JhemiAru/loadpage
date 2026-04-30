@@ -483,11 +483,6 @@
     </div>
 </section>
 
-{{-- Botón ir arriba --}}
-<button class="go-top" id="goTopBtn" aria-label="Ir arriba">
-    <i class="fas fa-chevron-up"></i>
-</button>
-
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {

@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/empresa/buscar', [\App\Http\Controllers\SearchController::class, 'show'])->name('empresaBuscar');
 Route::get('/empresa/data', [\App\Http\Controllers\SearchController::class, 'data'])->name('empresadata');
 Route::get('/categoria/{slug}/buscar',[\App\Http\Controllers\SearchController::class, 'categoria'])->name('categoriaBuscar');
-Route::get('/categoria/data/{slug}',[\App\Http\Controllers\SearchController::class, 'categoriaData'])->name('categoriaData');
+Route::get('/categoria/{slug}/data',[\App\Http\Controllers\SearchController::class, 'categoriaData'])->name('categoriaData');
+Route::get('/ciudad/{id}/buscar', [\App\Http\Controllers\SearchController::class, 'ciudadBuscar'])->name('ciudadBuscar');
+Route::get('/ciudad/{id}/data',   [\App\Http\Controllers\SearchController::class, 'ciudadData'])->name('ciudadData');
 
 Route::post('codigo/{ci}', [\App\Http\Controllers\controllerInicio::class, 'codigoUsuario'])->name('codigoUsuario');
 Route::post('registrar/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'crearUsuario'])->name('crearUsuario');

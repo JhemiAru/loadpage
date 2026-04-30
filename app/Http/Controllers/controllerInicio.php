@@ -230,30 +230,10 @@ class controllerInicio extends Controller
        
     public function ciudad($id)
     {
-        $ciudad = CiudadesEmpresa::where('ciudad_id', $id)->first();
-        $empresas = CiudadesEmpresa::all();
-        $ci = Ciudad::find($id);
-        $empresas1 = Empresa::where('ciudad_id', $ci->id)->orderBy('prioridad', 'asc')->get();
-        $nombreCiudad = $ciudad->ciudadess->nombre?? $ci->nombre?? 'Ciudad';
-        $todasLasEmpresas = collect();
-        foreach ($empresas as $emp) {
-            if (
-                $ciudad != null &&
-                isset($emp->ciudadess) &&
-                $emp->empresas &&
-                $emp->empresas->activo == 1
-            ) {
-                $todasLasEmpresas->push($emp->empresas);
-            }
-        }
-        foreach ($empresas1 as $emp1) {
-            if ($emp1->activo == 1) {
-                $todasLasEmpresas->push($emp1);
-            }
-        }
-        $totalEmpresas = $todasLasEmpresas->count();
-
-        return view('ciudades', compact('ciudad','empresas','empresas1','ci','nombreCiudad','todasLasEmpresas','totalEmpresas'));
+        $ciudad = Ciudad::where('id',$id)->first();
+        $empresas = Empresa::query()->where('activo', 1)->orderBy('prioridad', 'asc')->paginate(12);
+        $countEmpresas = Empresa::where('ciudad_id', $ciudad->id)->where('activo', 1)->count();
+        return view('ciudades', compact('ciudad','empresas','countEmpresas'));
     }
     
     public function categoria($slug)

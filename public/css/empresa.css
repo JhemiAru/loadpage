@@ -54,7 +54,7 @@
     position: relative;
     max-width: 600px;
     margin: 28px auto 0;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .search-input-hero {

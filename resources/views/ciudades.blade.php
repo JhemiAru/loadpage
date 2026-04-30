@@ -12,7 +12,7 @@
             <div class="ciudad-pin">
                 <i class="fas fa-map-marker-alt"></i>
             </div>
-            <h1>{{ $nombreCiudad }}</h1>
+            <h1>{{ $ciudad->nombre }}</h1>
             <p class="subtitulo-ciudad">
                 Empresas con beneficios y descuentos en esta ciudad
             </p>
@@ -29,7 +29,7 @@
             <div class="col-auto">
                 <div class="stat-item">
                     <i class="fas fa-store"></i>
-                    <span>{{ $totalEmpresas }} {{ $totalEmpresas === 1 ? 'empresa' : 'empresas' }} en {{ $nombreCiudad }}</span>
+                    <span>{{ $countEmpresas }} {{ $countEmpresas === 1 ? 'empresa' : 'empresas' }} en {{ $ciudad->nombre }}</span>
                 </div>
             </div>
         </div>
@@ -37,28 +37,45 @@
 </div>
 
 <div class="buscador-ciudad">
-    <div class="container">
-        <form method="GET" action="{{ request()->url() }}">
-            <div class="input-group">
-                <input type="text"
-                       name="q"
-                       class="form-control"
-                       placeholder="Buscar empresa en {{ $nombreCiudad }}..."
-                       value="{{ request('q') }}">
+    <div class="container mb-0 mt-0">
+        <form method="GET" action="{{ route('ciudadBuscar', $ciudad->id) }}">
+            <div class="search-wrap-ciudad">
+                <input
+                    type="text"
+                    name="query"
+                    id="searchInputCiudad"
+                    class="search-input-ciudad"
+                    data-ciudad-id="{{ $ciudad->id }}"
+                    placeholder="Buscar empresa en {{ $ciudad->nombre }}..."
+                    value="{{ $query ?? request('query') }}"
+                    autocomplete="off"
+                >
                 <button class="btn-buscar-ciudad" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
+                <div id="suggestionsCiudad"></div>
             </div>
+
+            @if(!empty($query))
+                <div class="text-center mt-2">
+                    <span class="search-stats-ciudad">
+                        <i class="fas fa-filter me-1"></i>
+                        Resultados para: <strong>{{ $query }}</strong>
+                        &nbsp;·&nbsp;
+                        <a href="{{ route('ciudad', $ciudad->id) }}"
+                           style="color:var(--accent); font-weight:700">Limpiar</a>
+                    </span>
+                </div>
+            @endif
         </form>
     </div>
 </div>
 
 <section class="empresas-ciudad-section">
     <div class="container">
-
-        @if($todasLasEmpresas->isNotEmpty())
+        @if($empresas->isNotEmpty())
             <div class="row g-3">
-                @foreach($todasLasEmpresas as $empresa)
+                @foreach($empresas as $empresa)
                     <div class="col-12 col-md-6">
                         <div class="empresa-ciudad-card">
                             <div class="empresa-ciudad-img-wrap">
@@ -120,17 +137,50 @@
                 @endforeach
             </div>
 
-            @if(method_exists($empresas1, 'hasPages') && $empresas1->hasPages())
+            @if($empresas->hasPages())
                 <div class="d-flex justify-content-center mt-5">
-                    {{ $empresas1->appends(request()->query())->links() }}
+                    @if ($empresas->hasPages())
+                        <nav class="custom-pagination-wrapper">
+                            <ul class="pagination">
+                                <li class="page-item {{ $empresas->onFirstPage() ? 'disabled' : '' }}">
+                                    @if ($empresas->onFirstPage())
+                                        <span class="page-link">‹ Anterior</span>
+                                    @else
+                                        <a class="page-link" href="{{ $empresas->previousPageUrl() }}">‹ Anterior</a>
+                                    @endif
+
+                                </li>
+                                @for ($i = 1; $i <= $empresas->lastPage(); $i++)
+                                    <li class="page-item {{ $i == $empresas->currentPage() ? 'active' : '' }}">
+                                        @if ($i == $empresas->currentPage())
+                                            <span class="page-link">{{ $i }}</span>
+                                        @else
+                                            <a class="page-link" href="{{ $empresas->url($i) }}">{{ $i }}</a>
+                                        @endif
+                                    </li>
+                                @endfor
+                                <li class="page-item {{ $empresas->hasMorePages() ? '' : 'disabled' }}">
+                                    @if ($empresas->hasMorePages())
+                                        <a class="page-link" href="{{ $empresas->nextPageUrl() }}">Siguiente ›</a>
+                                    @else
+                                        <span class="page-link">Siguiente ›</span>
+                                    @endif
+
+                                </li>
+                            </ul>
+                        </nav>
+                        @endif
                 </div>
             @endif
 
         @else
             <div class="empty-state-ciudad">
-                <i class="fas fa-map-marker-slash"></i>
-                <h4>Sin empresas en {{ $nombreCiudad }}</h4>
-                <p>Aún no hay empresas registradas en esta ciudad. ¡Pronto habrá novedades!</p>
+                <i class="fas fa-store-slash"></i>
+                <h4>Sin empresa mencionada en {{ $ciudad->nombre }}</h4>
+                <p>No se encontraron empresas en esta ciudad. ¡Pronto habrá novedades!</p>
+                <a href="{{ route('ciudad', ['id' => request()->route('id')]) }}" class="btn-ver-mas d-inline-block mt-3" style="max-width:220px">
+                    Volver
+                </a>
                 <a href="{{ route('empresa') }}"
                    class="btn-ver-empresa d-inline-block mt-3">
                     Ver todas las empresas
@@ -140,5 +190,9 @@
 
     </div>
 </section>
+
+@push('scripts')
+    <script src="{{ asset('js/ciudad.js') }}"></script>
+@endpush
 
 @endsection

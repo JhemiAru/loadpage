@@ -23,32 +23,36 @@
     </div>
 </section>
 
-<div class="buscador-wrap">
-    <div class="container">
-        <form action="{{ route('categoriaBuscar', $categoria->slug) }}" method="GET" class="categoria-search-form">
-            <div class="categoria-search-box">
+<div class="buscador-flotante-wrap">
+    <div class="container mb-0 mt-0">
+        <form action="{{ route('categoriaBuscar', $categoria->slug) }}" method="GET" autocomplete="off">
+            <div class="search-wrap">
                 <input
                     type="text"
                     name="query"
-                    class="categoria-search-input"
+                    id="searchInput"
+                    class="search-input-hero"
+                    data-slug="{{ $categoria->slug }}"
                     placeholder="Buscar empresas en {{ $categoria->nombre }}..."
                     value="{{ request('query') }}"
                     autocomplete="off"
-                    id="searchInput"
                 >
-                <button class="btn-buscar-cat" type="submit">
+                <button class="btn-search-hero" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
                 <div id="suggestions"></div>
             </div>
-                @if(!empty($query))
-                    <div class="search-stats mt-2">
+
+            @if(!empty($query))
+                <div class="text-center mt-2">
+                    <span class="search-stats-cat">
                         <i class="fas fa-filter me-1"></i>
-                        Mostrando resultados para: <strong>{{ $query }}</strong>
+                        Resultados para: <strong>{{ $query }}</strong>
                         &nbsp;·&nbsp;
-                        <a href="{{ route('empresa') }}" style="color:#ffd166; font-weight:700">Limpiar</a>
-                    </div>
-                @endif
+                        <a href="{{ route('categoria', $categoria->slug) }}" style="color:var(--accent); font-weight:700">Limpiar</a>
+                    </span>
+                </div>
+            @endif
         </form>
     </div>
 </div>
@@ -176,10 +180,18 @@
                 <a href="{{ route('categoria', ['slug' => request()->route('slug')]) }}" class="btn-ver-mas d-inline-block mt-3" style="max-width:220px">
                     Volver
                 </a>
+                <a href="{{ route('empresa') }}"
+                   class="btn-ver-empresa d-inline-block mt-3">
+                    Ver todas las empresas
+                </a>
             </div>
         @endif
 
     </div>
 </section>
+
+@push('scripts')
+    <script src="{{ asset('js/categoria.js') }}"></script>
+@endpush
 
 @endsection
