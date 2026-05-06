@@ -116,12 +116,6 @@
 
                         <hr style="opacity: 0.2;">
 
-                        {{-- <div class="mb-3">
-                            <small class="text-muted d-block mb-1">Visitas registradas</small>
-                            <span class="stat-number">{{ number_format($empresa->nvisitas ?? 0) }}</span>
-                            <span class="text-muted ms-1">personas</span>
-                        </div> --}}
-
                         <div class="mb-3">
                             <p class="mb-1">
                                 <i class="fas fa-map-marker-alt me-2" style="color: var(--blue-light);"></i>
@@ -313,9 +307,19 @@
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             @endif
-                            @if(isset($empresa->instagram) && $empresa->instagram)
-                                <a href="{{ $empresa->instagram }}" class="social-btn ig" target="_blank" title="Instagram">
-                                    <i class="fab fa-instagram"></i>
+                            @if($empresa->email)
+                                <a href="mailto:{{ $empresa->email }}"
+                                    class="social-btn ml"
+                                    title="Correo">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            @endif
+                            @if($empresa->web)
+                                <a href="{{ $empresa->web }}"
+                                    class="social-btn web"
+                                    target="_blank"
+                                    title="Sitio web">
+                                    <i class="fas fa-globe"></i>
                                 </a>
                             @endif
                         </div>

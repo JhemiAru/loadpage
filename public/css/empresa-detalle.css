@@ -278,8 +278,10 @@
 .social-btn.fb:hover  { background: #1877f2; color: white; }
 .social-btn.wa  { border-color: #25d366; color: #25d366; }
 .social-btn.wa:hover  { background: #25d366; color: white; }
-.social-btn.ig  { border-color: #e1306c; color: #e1306c; }
-.social-btn.ig:hover  { background: #e1306c; color: white; }
+.social-btn.ml { border-color: #ea4335; color: #ea4335; }
+.social-btn.ml:hover { background: #ea4335; color: white; }
+.social-btn.web { border-color: #007bff; color: #007bff; }
+.social-btn.web:hover { background: #007bff; color: white; }
 
 @media (max-width: 768px) {
     .business-name { font-size: 2rem; }

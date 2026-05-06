@@ -228,3 +228,11 @@ SET imagen = REGEXP_REPLACE(imagen, '(?i)\\.(jpg|jpeg|png|gif|jfif)$', '.webp');
 
 UPDATE empresas 
 SET imagen1 = REGEXP_REPLACE(imagen1, '(?i)\\.(jpg|jpeg|png|gif|jfif)$', '.webp');
+
+-- cambiar twitter a tiktok
+ALTER TABLE `institucions` CHANGE `twitter` `tiktok` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+UPDATE institucions 
+SET tiktok = 'https://www.tiktok.com/@facebolsrl' 
+WHERE id = 1;
+

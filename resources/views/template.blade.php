@@ -88,13 +88,13 @@
                         </a>
                     </li>
                     
-                    <!-- Noticias -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('noticia*') ? 'active' : '' }}" 
-                           href="{{ route('noticia') }}">
-                           Noticias
+                    <!-- Servicios -->
+                    {{-- <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('servicio*') ? 'active' : '' }}" 
+                           href="{{ route('servicio') }}">
+                           Servicios
                         </a>
-                    </li>
+                    </li> --}}
                     
                     <!-- Equipo -->
                     <li class="nav-item">
@@ -177,7 +177,7 @@
                             <i class="fab fa-instagram social-link"></i>
                         </a>
                         @endif
-                        @if($institucion->twitter)
+                        @if($institucion->tiktok)
                         <a href="{{ $institucion->tiktok }}" class="btn-circle btn-tiktok" target="_blank">
                             <i class="fab fa-tiktok social-link"></i>
                         </a>

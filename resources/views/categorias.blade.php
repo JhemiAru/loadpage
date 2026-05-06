@@ -86,7 +86,7 @@
                                 @endif
                                 @if($empresa->descripcion)
                                     <p class="empresa-desc">
-                                        {{ Str::limit(strip_tags($empresa->descripcion), 300) }}
+                                        {{$empresa->descripcion_corta}}
                                     </p>
                                 @endif
                                 <div class="empresa-contacto">

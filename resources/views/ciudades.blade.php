@@ -96,7 +96,7 @@
                                         <span class="badge-desc-ciudad">{{ $empresa->descuento }}</span>
                                     @endif
                                     @if($empresa->descripcion)
-                                        <p class="empresa-desc">{{ $empresa->descripcion }}</p>
+                                        <p class="empresa-desc">{{ $empresa->descripcion_corta }}</p>
                                     @endif
                                 </div>
 

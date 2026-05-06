@@ -104,7 +104,7 @@
                                 </div>
 
                                 @if($empresa->descripcion)
-                                    <p class="empresa-desc-card">{{ $empresa->descripcion }}</p>
+                                    <p class="empresa-desc-card">{{ $empresa->descripcion_corta }}</p>
                                 @endif
                                 <div class="empresa-card-actions">
                                     @if($empresa->imagen)

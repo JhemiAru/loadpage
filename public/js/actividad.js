@@ -1,15 +1,10 @@
 document.querySelectorAll('.modal').forEach(modalEl => {
     modalEl.addEventListener('show.bs.modal', function() {
-        document.body.style.overflow = 'hidden';
         this.style.zIndex = '1055';
-    });
-    
-    modalEl.addEventListener('hidden.bs.modal', function() {
-        document.body.style.overflow = '';
     });
 });
 
-document.querySelectorAll('.btn-leer').forEach(btn => {
+document.querySelectorAll('.btn-leer, .img-wrapper').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();

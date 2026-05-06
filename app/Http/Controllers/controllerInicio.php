@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Email;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -19,7 +18,7 @@ use App\Models\Planes;
 use App\Models\PlanesDetalle;
 use App\Models\Actividad;
 use App\Models\Ciudad;
-use App\Models\CiudadesEmpresa;
+use App\Models\Email;
 use App\Models\Taller;
 use Exception;
 
@@ -53,10 +52,13 @@ class controllerInicio extends Controller
 
         return view('index', compact('planes','planesDetalle','plan','planDetalle','countEmpresas','countUsers','empresas'));
     }
+    
     public function detalleEmpresa($slug)
     {        
         $actividad = Actividad::all();
         $empresa = Empresa::where('slug',$slug)->first();
+        $empresa->web = $empresa->web ? (str_starts_with($empresa->web, 'http') ? $empresa->web : 'https://'.$empresa->web) : null;
+        $empresa->facebook = $empresa->facebook ? (str_starts_with($empresa->facebook, 'http') ? $empresa->facebook : 'https://'.$empresa->facebook) : null;
         $nvisitas=Empresa::where('slug',$slug)->first();
         $n=$nvisitas->nvisitas+1;
         $nvisitas->fill([
@@ -217,7 +219,12 @@ class controllerInicio extends Controller
    
     public function empresa()
     {
-        $empresas = Empresa::where('activo', 1)->orderBy('prioridad','asc')->paginate(24);        
+        $empresas = Empresa::where('activo', 1)->orderBy('prioridad','asc')->paginate(24);
+        $empresas->getCollection()->transform(function ($empresa) {        
+            $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
+            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
+            return $empresa;
+        });        
         $countEmpresas = Empresa::where('activo', 1)->count();
         return view('empresas',compact('empresas', 'countEmpresas'));
     }
@@ -232,6 +239,13 @@ class controllerInicio extends Controller
     {
         $ciudad = Ciudad::where('id',$id)->first();
         $empresas = Empresa::query()->where('activo', 1)->orderBy('prioridad', 'asc')->paginate(12);
+        $empresas->getCollection()->transform(function ($empresa) {        
+            $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
+            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
+            $empresa->web = $empresa->web ? (str_starts_with($empresa->web, 'http') ? $empresa->web : 'https://'.$empresa->web) : null;
+            $empresa->facebook = $empresa->facebook ? (str_starts_with($empresa->facebook, 'http') ? $empresa->facebook : 'https://'.$empresa->facebook) : null;
+            return $empresa;
+        });  
         $countEmpresas = Empresa::where('ciudad_id', $ciudad->id)->where('activo', 1)->count();
         return view('ciudades', compact('ciudad','empresas','countEmpresas'));
     }
@@ -240,6 +254,13 @@ class controllerInicio extends Controller
     {
         $categoria=Categoria::where('slug',$slug)->first();
         $empresas=Empresa::where('categoria_id',$categoria->id)->where('activo', 1)->orderBy('prioridad','asc')->paginate(12);
+        $empresas->getCollection()->transform(function ($empresa) {        
+            $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
+            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
+            $empresa->web = $empresa->web ? (str_starts_with($empresa->web, 'http') ? $empresa->web : 'https://'.$empresa->web) : null;
+            $empresa->facebook = $empresa->facebook ? (str_starts_with($empresa->facebook, 'http') ? $empresa->facebook : 'https://'.$empresa->facebook) : null;
+            return $empresa;
+        });  
         $countEmpresas = Empresa::where('categoria_id', $categoria->id)->where('activo', 1)->count();
         return view('categorias',compact('categoria','empresas', 'countEmpresas'));
     }
@@ -341,8 +362,10 @@ class controllerInicio extends Controller
                 }
             }
             $descripcionLimpia = strip_tags($actividad->descripcion);
-            $actividad->descripcion_limpia = $descripcionLimpia;
-            $actividad->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150);
+            $actividad->descripcion_l = $descripcionLimpia;
+            $actividad->descripcion_c = \Illuminate\Support\Str::limit($descripcionLimpia, 150);
+            $actividad->descripcion_corta = html_entity_decode($actividad->descripcion_c);
+            $actividad->descripcion_limpia = html_entity_decode($actividad->descripcion_l);
             $actividad->mostrarBotonLeer = strlen($descripcionLimpia) > 150;
         }
 

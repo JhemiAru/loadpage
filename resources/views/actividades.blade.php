@@ -50,21 +50,19 @@
                                 </span>
                             </div>
 
-                            <!-- Descripción -->
                             <div class="descripcion-container">
                                 <div class="descripcion-corta @if($actividad->mostrarBotonLeer) collapsible @endif" id="desc-{{ $actividad->id }}">
-                                    {{ $actividad->descripcion_corta }}
+                                    {!! $actividad->descripcion_corta !!}
                                 </div>
                             </div>
 
-                            <!-- Botón Leer más -->
                             @if($actividad->mostrarBotonLeer)
                             <button class="btn-leer" data-id="{{ $actividad->id }}" data-bs-toggle="modal" data-bs-target="#modalActividad-{{ $actividad->id }}">
                                 Leer más <i class="fas fa-arrow-right"></i>
                             </button>
                             @endif
 
-                            <div class="img-wrapper">
+                            <div class="img-wrapper" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalActividad-{{ $actividad->id }}">
                                 <img src="{{asset('imagen/actividades/'.$actividad->imagen)}}" 
                                      alt="Imagen de {{$actividad->nombre}}"
                                      class="actividad-img-modern"
@@ -91,10 +89,9 @@
             </div>
         </div>
 
-        <!-- MODAL - Corregido para que no sea tapado por navbar -->
-        @if($actividad->mostrarBotonLeer)
+        <!-- MODAL -->        
         <div class="modal fade modal-modern" id="modalActividad-{{ $actividad->id }}" tabindex="-1" aria-labelledby="modalLabel-{{ $actividad->id }}" aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-lg modal-dialog-centered" style="margin-top: 5vh; margin-bottom: 5vh;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div>
@@ -116,7 +113,7 @@
                         </div>
                         
                         <div class="descripcion-completa mt-3">
-                            {!! nl2br(e($actividad->descripcion_limpia)) !!}
+                            {!! $actividad->descripcion_limpia !!}
                         </div>
                         
                         <hr class="my-4">
@@ -140,8 +137,7 @@
                 </div>
             </div>
         </div>
-        @endif
-        @endif
+        @endif        
         @endforeach
     </div>
 
