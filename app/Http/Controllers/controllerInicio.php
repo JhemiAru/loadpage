@@ -273,12 +273,12 @@ class controllerInicio extends Controller
                         {
                             if($numero=='06')
                             {
-                                $actividad["mes"]="Junio";
+                                return  $mes="Junio";
                             }else
                             {
                                 if($numero=='07')
                                 {
-                                    $actividad["mes"]="Julio";
+                                    return $mes="Julio";
                                 }else
                                 {
                                     if($numero=='08')
@@ -320,21 +320,39 @@ class controllerInicio extends Controller
 
     public function actividad()
     {
-        $actividades=Actividad::orderBy('id','desc')->get();
-        foreach($actividades as $actividad)
-        {
-            list($año,$mes,$dia)=explode("-",$actividad->fecha);
-            $actividad["dia"]=$dia;
-            $actividad["mes"]=$this->mes($mes);
-            $actividad["año"]=$año;
+        $actividades = Actividad::orderBy('fecha', 'desc')->get();        
+        foreach ($actividades as $actividad) {
+            [$año, $mes, $dia] = explode("-", $actividad->fecha);
+            $actividad->dia = $dia;
+            $actividad->mes = $this->mes($mes);
+            $actividad->año = $año;
+            $fechaActividad = \Carbon\Carbon::parse($actividad->fecha);
+            $hoy = \Carbon\Carbon::today();
+            if ($fechaActividad->isPast()) {
+                $actividad->estado = 'Finalizado';
+            } else {
+                $diasRestantes = $hoy->diffInDays($fechaActividad);
+                if ($diasRestantes == 0) {
+                    $actividad->estado = 'Hoy';
+                } elseif ($diasRestantes == 1) {
+                    $actividad->estado = 'Mañana';
+                } else {
+                    $actividad->estado = 'Faltan '. $diasRestantes . ' días';
+                }
+            }
+            $descripcionLimpia = strip_tags($actividad->descripcion);
+            $actividad->descripcion_limpia = $descripcionLimpia;
+            $actividad->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150);
+            $actividad->mostrarBotonLeer = strlen($descripcionLimpia) > 150;
         }
-        $institucion=Institucion::first();
-        $categorias=Categoria::all();
-        $actividad = Actividad::all();
-        $ciudades=Ciudad::all();
 
-        return view('actividades',compact('actividad','categorias','actividades','ciudades'));
+        $hasActive = $actividades->contains(function ($act) {
+            return $act->tipo == 'actividad' && $act->activo == 1;
+        });
+
+        return view('actividades', compact('actividades','hasActive'));
     }
+
     public function equipo()
     {
         $institucion=Institucion::first();

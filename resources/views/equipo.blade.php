@@ -5,7 +5,9 @@
 @endpush
 
 @section('content')
-
+{{-- ── CABECERA ── --}}
+<section class="equipo-hero">
+    <div class="equipo-hero-inner">
         <div class="container">
             <h1>
                 <i class="fas fa-users me-2" style="color:var(--accent)"></i>
@@ -18,10 +20,7 @@
     </div>
     <svg class="equipo-hero-wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <path d="M0,20 C480,70 960,-10 1440,20 L1440,60 L0,60 Z" fill="#f4f7fc"/>
-    </svg>{{-- ── CABECERA ── --}}
-<section class="equipo-hero">
-    <div class="equipo-hero-inner">
-
+    </svg>
 </section>
 
 {{-- ── GRID DE TARJETAS ── --}}
@@ -118,48 +117,6 @@
 </section>
 
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    // ── Go Top ──
-    const goTopBtn = document.getElementById('goTopBtn');
-    window.addEventListener('scroll', () => {
-        goTopBtn.classList.toggle('show', window.scrollY > 400);
-    });
-    goTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ── Flip táctil en dispositivos touch ──
-    if ('ontouchstart' in window) {
-        document.querySelectorAll('.flip-inner').forEach(inner => {
-            inner.addEventListener('click', function (e) {
-                // No girar si el clic fue en un enlace social
-                if (e.target.closest('a')) return;
-
-                const isFlipped = this.classList.contains('flipped');
-
-                // Cierra los demás
-                document.querySelectorAll('.flip-inner.flipped').forEach(other => {
-                    if (other !== this) other.classList.remove('flipped');
-                });
-
-                this.classList.toggle('flipped', !isFlipped);
-            });
-        });
-
-        // Cierra al tocar fuera
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('.flip-container')) {
-                document.querySelectorAll('.flip-inner.flipped').forEach(inner => {
-                    inner.classList.remove('flipped');
-                });
-            }
-        });
-    }
-
-});
-</script>
+    <script src="{{ asset('js/equipo.js') }}"></script>
 @endpush
-
 @endsection

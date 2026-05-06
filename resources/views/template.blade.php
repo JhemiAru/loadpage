@@ -12,7 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
     <link rel="preload" as="image" href="{{ asset('imagen/institucion/fondo.webp') }}" fetchpriority="high">
     <link rel="stylesheet" href="{{ asset('css/template.css') }}">    
-    <script src="{{ asset('js/index.js') }}" defer></script>
+    <script src="{{ asset('js/template.js') }}" defer></script>
     @stack('styles')
 </head>
 <body>
