@@ -73,7 +73,7 @@
                                     </p>
 
                                     <div class="social-links-flip">
-                                        @if($equipo->facebook)
+                                        @if($equipo->facebook && $equipo->facebook !== 'sdf')
                                             <a href="{{ $equipo->facebook }}" target="_blank"
                                                class="social-icon-flip" title="Facebook">
                                                 <i class="fab fa-facebook-f"></i>

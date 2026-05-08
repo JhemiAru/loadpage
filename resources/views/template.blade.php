@@ -88,6 +88,14 @@
                         </a>
                     </li>
                     
+                    <!-- Talleres -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('taller*') ? 'active' : '' }}" 
+                           href="{{ route('taller') }}">
+                           Talleres
+                        </a>
+                    </li>
+
                     <!-- Servicios -->
                     {{-- <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('servicio*') ? 'active' : '' }}" 
@@ -102,15 +110,7 @@
                            href="{{ route('equipo') }}">
                            Nosotros
                         </a>
-                    </li>
-                    
-                    <!-- Talleres -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('taller*') ? 'active' : '' }}" 
-                           href="{{ route('taller') }}">
-                           Talleres
-                        </a>
-                    </li>
+                    </li>                    
                 </ul>
                 <div class="d-flex gap-2">                    
                     <button href="#" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
