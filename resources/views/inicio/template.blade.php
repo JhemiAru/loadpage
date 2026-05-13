@@ -113,13 +113,13 @@
                     </li>                    
                 </ul>
                 <div class="d-flex gap-2">                    
-                    <button href="#" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
+                    <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
                 </div>
             </div>
         </div>
     </nav>
     @if(request()->routeIs('inicio'))
-        @include('carrusel', ['institucion' => $institucion])
+        @include('inicio.carrusel', ['institucion' => $institucion])
         <script src="{{ asset('js/carrusel.js') }}"></script>
     @endif
 </div>
@@ -198,7 +198,114 @@
         <p class="footer-copy text-center">Copyright © {{ date('Y') }} FaceBol S.R.L. Todos los derechos reservados.</p>
     </div>
 </footer>
+<!-- Modal de Login y Recuperación - Estilo FaceBol -->
+<div class="modal fade" id="ms-account-modal" tabindex="-1" aria-labelledby="ms-account-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <!-- Tabs de navegación con estilo FaceBol -->
+                <ul class="nav nav-tabs nav-fill mb-4" id="loginTab" role="tablist" style="border-bottom: 2px solid #e9ecef;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#ms-login-tab" type="button" role="tab" 
+                                style="font-family: 'Poppins', sans-serif; font-weight: 600; border: none; color: #6c757d; background: transparent;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="recovery-tab" data-bs-toggle="tab" data-bs-target="#ms-recovery-tab" type="button" role="tab"
+                                style="font-family: 'Poppins', sans-serif; font-weight: 600; border: none; color: #6c757d; background: transparent;">
+                            <i class="fas fa-key me-2"></i>Olvidé mi contraseña
+                        </button>
+                    </li>
+                </ul>
 
+                <!-- Contenido de los tabs -->
+                <div class="tab-content" id="loginTabContent">
+                    <!-- Tab Login -->
+                    <div class="tab-pane fade show active" id="ms-login-tab" role="tabpanel">
+                        <form action="{{ route('log') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="ms-form-user" class="form-label fw-semibold" style="color: var(--primary);">Correo electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                                    </span>
+                                    <input type="email" name="email" id="ms-form-user" class="form-control border-start-0" 
+                                           placeholder="usuario@ejemplo.com" required style="background-color: #f8f9fa;">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ms-form-pass" class="form-label fw-semibold" style="color: var(--primary);">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-lock" style="color: var(--primary);"></i>
+                                    </span>
+                                    <input type="password" name="password" id="ms-form-pass" class="form-control border-start-0" 
+                                           placeholder="••••••••" required style="background-color: #f8f9fa;">
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                        <label class="form-check-label small" for="remember">Recordarme</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="#" class="text-decoration-none small" data-bs-toggle="tab" data-bs-target="#ms-recovery-tab" 
+                                       type="button" role="tab" style="color: var(--accent);">¿Olvidaste tu contraseña?</a>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn w-100 py-2" style="background: linear-gradient(135deg, var(--primary), var(--blue-light)); color: white; font-weight: 600; border-radius: 25px;">
+                                <i class="fas fa-arrow-right me-2"></i>Ingresar
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">¿No tienes cuenta? <a href="#" style="color: var(--accent); text-decoration: none;">Regístrate aquí</a></small>
+                        </div>
+                    </div>
+
+                    <!-- Tab Recuperación -->
+                    <div class="tab-pane fade" id="ms-recovery-tab" role="tabpanel">
+                        <form action="{{ route('reset') }}" method="POST">
+                            @csrf
+                            <div class="text-center mb-4">
+                                <div class="mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--blue-light)); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-key fa-2x text-white"></i>
+                                </div>
+                                <p class="small text-muted">Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="ms-form-email-re" class="form-label fw-semibold" style="color: var(--primary);">Correo electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                                    </span>
+                                    <input type="email" name="email" id="ms-form-email-re" class="form-control border-start-0" 
+                                           placeholder="usuario@ejemplo.com" required style="background-color: #f8f9fa;">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn w-100 py-2" style="background: linear-gradient(135deg, var(--primary), var(--blue-light)); color: white; font-weight: 600; border-radius: 25px;">
+                                <i class="fas fa-paper-plane me-2"></i>Enviar enlace de recuperación
+                            </button>
+                            <div class="text-center mt-3">
+                                <a href="#" class="text-decoration-none small" data-bs-toggle="tab" data-bs-target="#ms-login-tab" 
+                                   type="button" role="tab" style="color: var(--primary);">
+                                    <i class="fas fa-arrow-left me-1"></i>Volver al inicio de sesión
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @stack('scripts')

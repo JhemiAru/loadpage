@@ -349,3 +349,104 @@ footer a:hover { color: var(--accent); }
         gap: 0 !important;
     }
 }
+
+/* Estilos del Modal de Login */
+#ms-account-modal .modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+#ms-account-modal .modal-header {
+    padding: 1rem 1.5rem 0;
+}
+
+#ms-account-modal .btn-close {
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    padding: 8px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+#ms-account-modal .btn-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    background-color: var(--accent);
+}
+
+/* Estilos para los tabs activos */
+#ms-account-modal .nav-tabs .nav-link.active {
+    color: var(--primary) !important;
+    border-bottom: 3px solid var(--accent) !important;
+    background: transparent !important;
+}
+
+#ms-account-modal .nav-tabs .nav-link:hover:not(.active) {
+    color: var(--accent) !important;
+    border-bottom-color: transparent !important;
+}
+
+#ms-account-modal .input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+#ms-account-modal .form-control {
+    border-left: none;
+    transition: all 0.3s ease;
+}
+
+#ms-account-modal .form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+    background-color: #fff !important;
+}
+
+#ms-account-modal .input-group:focus-within .input-group-text {
+    border-color: #86b7fe;
+    background-color: #fff;
+}
+
+#ms-account-modal .input-group:focus-within .input-group-text i {
+    color: var(--accent) !important;
+}
+
+/* Animación para el modal */
+#ms-account-modal .modal-dialog {
+    animation: modalZoomIn 0.3s ease-out;
+}
+
+@keyframes modalZoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.8, 0.8, 0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* Estilo para el checkbox */
+#ms-account-modal .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    #ms-account-modal .modal-body {
+        padding: 1rem;
+    }
+    
+    #ms-account-modal .nav-tabs .nav-link {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+    
+    #ms-account-modal .nav-tabs .nav-link i {
+        margin-right: 0.25rem;
+    }
+}

@@ -50,7 +50,7 @@ class controllerInicio extends Controller
         $countEmpresas = Empresa::count();
         $countUsers = User::count('id');
 
-        return view('index', compact('planes','planesDetalle','plan','planDetalle','countEmpresas','countUsers','empresas'));
+        return view('inicio.index', compact('planes','planesDetalle','plan','planDetalle','countEmpresas','countUsers','empresas'));
     }
     
     public function detalleEmpresa($slug)
@@ -65,7 +65,7 @@ class controllerInicio extends Controller
             'nvisitas'=>$n,
         ])->save();
 
-        return view('empresa-detalle',compact('empresa'));
+        return view('inicio.empresa-detalle',compact('empresa'));
     }
     public function suscribir(Request $datos)
     {
@@ -181,7 +181,7 @@ class controllerInicio extends Controller
     }
     public function contactanos()
     {
-        return view('contacto');
+        return view('inicio.contacto');
     }
     
     public function talleres()
@@ -214,7 +214,7 @@ class controllerInicio extends Controller
             'materiales' => 'Materiales',
         ];
 
-        return view('taller', compact('talleres','reciente','anteriores','labelDetalles'));
+        return view('inicio.taller', compact('talleres','reciente','anteriores','labelDetalles'));
     }
    
     public function empresa()
@@ -226,7 +226,7 @@ class controllerInicio extends Controller
             return $empresa;
         });        
         $countEmpresas = Empresa::where('activo', 1)->count();
-        return view('empresas',compact('empresas', 'countEmpresas'));
+        return view('inicio.empresas',compact('empresas', 'countEmpresas'));
     }
 
     public function comision()
@@ -247,7 +247,7 @@ class controllerInicio extends Controller
             return $empresa;
         });  
         $countEmpresas = Empresa::where('ciudad_id', $ciudad->id)->where('activo', 1)->count();
-        return view('ciudades', compact('ciudad','empresas','countEmpresas'));
+        return view('inicio.ciudades', compact('ciudad','empresas','countEmpresas'));
     }
     
     public function categoria($slug)
@@ -262,7 +262,7 @@ class controllerInicio extends Controller
             return $empresa;
         });  
         $countEmpresas = Empresa::where('categoria_id', $categoria->id)->where('activo', 1)->count();
-        return view('categorias',compact('categoria','empresas', 'countEmpresas'));
+        return view('inicio.categorias',compact('categoria','empresas', 'countEmpresas'));
     }
 
     public function mes($numero)
@@ -373,7 +373,7 @@ class controllerInicio extends Controller
             return $act->tipo == 'actividad' && $act->activo == 1;
         });
 
-        return view('actividades', compact('actividades','hasActive'));
+        return view('inicio.actividades', compact('actividades','hasActive'));
     }
 
     public function equipo()
@@ -382,7 +382,7 @@ class controllerInicio extends Controller
         $categorias=Categoria::all();
         $equipos1 = Equipo::where('estado', 1)->get();
         $ciudades=Ciudad::all();
-        return view('equipo',compact('equipos1'));
+        return view('inicio.equipo',compact('equipos1'));
     }
     public function noticia()
     {
@@ -399,7 +399,7 @@ class controllerInicio extends Controller
         $actividad = Actividad::all();
         $ciudades=Ciudad::all();
 
-        return view('noticias',compact('actividad','categorias','actividades','ciudades'));
+        return view('inicio.noticias',compact('actividad','categorias','actividades','ciudades'));
     }
     public function registroUsuario($codigo)
     {

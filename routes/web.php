@@ -29,3 +29,11 @@ Route::get('/', [\App\Http\Controllers\controllerInicio::class, 'inicio'])->name
 // Envío de emails de la página principal
 Route::post('suscribir', [\App\Http\Controllers\controllerInicio::class, 'suscribir'])->name('suscribir');
 Route::post('email_post', [\App\Http\Controllers\controllerInicio::class, 'emailPost'])->name('email_post');
+
+Route::post('log', [\App\Http\Controllers\controllerPanel::class, 'log'])->name('log');
+Route::get('reset/password/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'passwordReset'])->name('passwordReset');
+Route::post('reset', [\App\Http\Controllers\controllerInicio::class, 'emailReset'])->name('reset');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('panel', [\App\Http\Controllers\controllerPanel::class, 'startAdmin'])->name('start-a');
+});

@@ -1,4 +1,4 @@
-@extends('template')
+@extends('inicio.template')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/equipo.css') }}">
