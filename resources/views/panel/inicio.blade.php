@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-    <div>HOLA</div>
-    <a class="button {{ request()->routeIs('indexTaller') ? 'active' : '' }}" 
-        href="{{ route('indexTaller') }}">
-        Inicio
-    </a>                    
-</html>
+@extends('panel.layout')
+@section('titulo', 'Inicio')
+
+@section('content')
+<div>Bienvenido al sistema de FaceBol</div>                 
+@endsection

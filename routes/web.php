@@ -31,11 +31,18 @@ Route::post('suscribir', [\App\Http\Controllers\controllerInicio::class, 'suscri
 Route::post('email_post', [\App\Http\Controllers\controllerInicio::class, 'emailPost'])->name('email_post');
 
 Route::post('log', [\App\Http\Controllers\Panel\controllerPanel::class, 'log'])->name('log');
+Route::get('logout', [\App\Http\Controllers\Panel\controllerPanel::class, 'logout'])->name('logout');
+Route::post('reset/password/save', [\App\Http\Controllers\controllerInicio::class, 'passwordSave'])->name('passwordSave');
 Route::get('reset/password/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'passwordReset'])->name('passwordReset');
 Route::post('reset', [\App\Http\Controllers\controllerInicio::class, 'emailReset'])->name('reset');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('panel', [\App\Http\Controllers\Panel\controllerPanel::class, 'startAdmin'])->name('start-a');
     Route::get('taller/index', [\App\Http\Controllers\Panel\controllerTaller::class, 'index'])->name('indexTaller');
-    Route::post('taller/crear', [\App\Http\Controllers\Panel\controllerTaller::class, 'create'])->name('crearTaller');
+    Route::get('taller/crear', [\App\Http\Controllers\Panel\controllerTaller::class, 'create'])->name('crearTaller');
+    Route::post('taller/guardar', [\App\Http\Controllers\Panel\controllerTaller::class, 'store'])->name('guardarTaller');
+    Route::get('taller/{taller}/editar', [\App\Http\Controllers\Panel\controllerTaller::class, 'edit'])->name('editarTaller');    
+    Route::put('taller/{taller}', [\App\Http\Controllers\Panel\controllerTaller::class, 'update'])->name('actualizarTaller');
+    Route::delete('taller/{taller}', [\App\Http\Controllers\Panel\controllerTaller::class, 'destroy'])->name('eliminarTaller');
+
 });

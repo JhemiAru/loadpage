@@ -9,20 +9,17 @@ use App\Http\Controllers\Controller;
 
 class controllerTaller extends Controller
 {
-    // ── Listado ─────────────────────────────────────────────
     public function index()
     {
         $talleres = Taller::orderBy('fecha', 'desc')->paginate(10);
         return view('panel.talleres.index', compact('talleres'));
     }
 
-    // ── Formulario crear ────────────────────────────────────
     public function create()
     {
         return view('panel.talleres.create');
     }
 
-    // ── Guardar nuevo ───────────────────────────────────────
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -36,24 +33,16 @@ class controllerTaller extends Controller
             'imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        if ($request->hasFile('imagen')) {
-            $data['imagen'] = $request->file('imagen')
-                ->store('talleres', 'public');
-        }
-
         Taller::create($data);
 
-        return redirect()->route('panel.talleres.index')
-            ->with('success', 'Taller creado correctamente.');
+        return redirect()->route('indexTaller')->with('success', 'Taller creado correctamente.');
     }
 
-    // ── Formulario editar ───────────────────────────────────
     public function edit(Taller $taller)
     {
         return view('panel.talleres.edit', compact('taller'));
     }
 
-    // ── Actualizar ──────────────────────────────────────────
     public function update(Request $request, Taller $taller)
     {
         $data = $request->validate([
@@ -68,32 +57,26 @@ class controllerTaller extends Controller
         ]);
 
         if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($taller->imagen) {
-                Storage::disk('public')->delete($taller->imagen);
+            if ($taller->imagen && Storage::disk('talleres')->exists($taller->imagen)) {
+                Storage::disk('talleres')->delete($taller->imagen);
             }
-            $data['imagen'] = $request->file('imagen')
-                ->store('talleres', 'public');
+            $data['imagen'] = $request->file('imagen');
         } else {
-            unset($data['imagen']); // No sobreescribir si no viene nueva
+            unset($data['imagen']); 
         }
-
         $taller->update($data);
 
-        return redirect()->route('panel.talleres.index')
-            ->with('success', 'Taller actualizado correctamente.');
+        return redirect()->route('indexTaller')->with('success', 'Taller actualizado correctamente.');
     }
 
-    // ── Eliminar ────────────────────────────────────────────
     public function destroy(Taller $taller)
-    {
-        if ($taller->imagen) {
-            Storage::disk('public')->delete($taller->imagen);
+    {        
+        if ($taller->imagen && Storage::disk('talleres')->exists($taller->imagen)) {
+            Storage::disk('talleres')->delete($taller->imagen);
         }
 
         $taller->delete();
 
-        return redirect()->route('panel.talleres.index')
-            ->with('success', 'Taller eliminado correctamente.');
+        return redirect()->route('indexTaller')->with('success', 'Taller eliminado correctamente.');
     }
 }

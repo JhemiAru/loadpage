@@ -31,7 +31,7 @@
                     <td style="color: var(--text-muted); font-size: 0.8rem;">{{ $taller->id }}</td>
                     <td>
                         @if($taller->imagen)
-                            <img src="{{ Storage::url($taller->imagen) }}"
+                            <img src="{{ $taller->imagen ? asset('imagen/talleres/' . $taller->imagen) : '' }}" 
                                  alt="{{ $taller->titulo }}"
                                  class="img-preview">
                         @else
@@ -61,11 +61,11 @@
                     </td>
                     <td>
                         <div style="display:flex; gap:6px; justify-content:center;">
-                            <a href="{{ route('indexTaller', $taller) }}" class="btn-accent-panel">
+                            <a href="{{ route('editarTaller', $taller->id) }}" class="btn-accent-panel">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                             <form method="POST"
-                                  action="{{ route('indexTaller', $taller) }}"
+                                  action="{{ route('eliminarTaller', $taller->id) }}"
                                   onsubmit="return confirm('¿Eliminar el taller «{{ addslashes($taller->titulo) }}»? Esta acción no se puede deshacer.')">
                                 @csrf
                                 @method('DELETE')

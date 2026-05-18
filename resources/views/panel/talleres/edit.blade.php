@@ -1,5 +1,5 @@
 @extends('panel.layout')
-@section('titulo', 'Nuevo taller')
+@section('titulo', 'Editar taller')
 
 @section('content')
 
@@ -12,15 +12,16 @@
 
 <div class="panel-card" style="max-width: 780px;">
     <div class="panel-card-header">
-        <h5><i class="fas fa-plus-circle me-2"></i> Nuevo taller</h5>
+        <h5><i class="fas fa-edit me-2"></i> Editar taller</h5>
     </div>
 
     <form method="POST"
-          action="{{ route('guardarTaller') }}"
+          action="{{ route('actualizarTaller', $taller->id) }}"
           enctype="multipart/form-data"
           style="padding: 28px;">
 
         @csrf
+        @method('PUT') 
 
         <div class="row g-4">
 
@@ -31,7 +32,7 @@
                        id="titulo"
                        name="titulo"
                        class="form-control-panel @error('titulo') is-invalid @enderror"
-                       value="{{ old('titulo') }}"
+                       value="{{ old('titulo', $taller->titulo) }}"
                        placeholder="Ej: Taller de Marketing Digital"
                        maxlength="255">
                 @error('titulo')
@@ -46,7 +47,7 @@
                           name="descripcion"
                           class="form-control-panel @error('descripcion') is-invalid @enderror"
                           rows="3"
-                          placeholder="Descripción breve del taller...">{{ old('descripcion') }}</textarea>
+                          placeholder="Descripción breve del taller...">{{ old('descripcion', $taller->descripcion) }}</textarea>
                 @error('descripcion')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -59,7 +60,7 @@
                        id="fecha"
                        name="fecha"
                        class="form-control-panel @error('fecha') is-invalid @enderror"
-                       value="{{ old('fecha') }}">
+                       value="{{ old('fecha', $taller->fecha ? $taller->fecha->format('Y-m-d') : '') }}">
                 @error('fecha')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -71,7 +72,7 @@
                        id="horario"
                        name="horario"
                        class="form-control-panel @error('horario') is-invalid @enderror"
-                       value="{{ old('horario') }}"
+                       value="{{ old('horario', $taller->horario) }}"
                        placeholder="Ej: 09:00 - 13:00 hs"
                        maxlength="255">
                 @error('horario')
@@ -86,7 +87,7 @@
                        id="lugar"
                        name="lugar"
                        class="form-control-panel @error('lugar') is-invalid @enderror"
-                       value="{{ old('lugar') }}"
+                       value="{{ old('lugar', $taller->lugar) }}"
                        placeholder="Ej: Salón principal, Av. Chacaltaya #50"
                        maxlength="500">
                 @error('lugar')
@@ -100,7 +101,7 @@
                        id="costo"
                        name="costo"
                        class="form-control-panel @error('costo') is-invalid @enderror"
-                       value="{{ old('costo') }}"
+                       value="{{ old('costo', $taller->costo) }}"
                        placeholder="0.00"
                        step="0.01"
                        min="0">
@@ -119,13 +120,19 @@
                        accept="image/jpg,image/jpeg,image/png,image/webp"
                        onchange="previewImagen(this)">
                 <small style="color:var(--text-muted); font-size:0.78rem;">
-                    Formatos: JPG, PNG, WEBP. Máximo 2 MB.
+                    Formatos: JPG, PNG, WEBP. Máximo 2 MB. Dejar vacío para conservar la imagen actual.
                 </small>
                 @error('imagen')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
-                <div id="preview-wrapper" style="margin-top:10px; display:none;">
-                    <img id="img-preview" src="" alt="Vista previa" class="img-preview-large">
+                
+                <div id="preview-wrapper" style="margin-top:15px; display: {{ $taller->imagen ? 'block' : 'none' }};">
+                    <span style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--text-muted);">Vista previa:</span>
+                    <img id="img-preview" 
+                         src="{{ $taller->imagen ? asset('imagen/talleres/' . $taller->imagen) : '' }}" 
+                         alt="Vista previa" 
+                         class="img-preview-large" 
+                         style="max-width:200px; border-radius:8px; border:1px solid #dde2ee;">
                 </div>
             </div>
 
@@ -136,7 +143,7 @@
                           name="detalles"
                           class="form-control-panel @error('detalles') is-invalid @enderror"
                           rows="4"
-                          placeholder="Información adicional: requisitos, materiales, certificación...">{{ old('detalles') }}</textarea>
+                          placeholder="Información adicional: requisitos, materiales, certificación...">{{ old('detalles', $taller->detalles) }}</textarea>
                 @error('detalles')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -147,7 +154,7 @@
         {{-- Acciones --}}
         <div style="display:flex; gap:12px; margin-top:8px; padding-top:20px; border-top:1px solid #f0f3f9;">
             <button type="submit" class="btn-primary-panel">
-                <i class="fas fa-save"></i> Guardar taller
+                <i class="fas fa-sync-alt"></i> Actualizar taller
             </button>
             <a href="{{ route('indexTaller') }}"
                style="padding:9px 20px; border-radius:8px; border:1.5px solid #dde2ee; color:var(--text-muted); text-decoration:none; font-weight:600; font-size:0.875rem;">
@@ -157,9 +164,6 @@
 
     </form>
 </div>
-
-@endsection
-
 @push('scripts')
 <script>
     function previewImagen(input) {
@@ -173,8 +177,16 @@
             };
             reader.readAsDataURL(input.files[0]);
         } else {
-            wrapper.style.display = 'none';
+            @if($taller->imagen)
+                preview.src = "{{ asset('talleres/' . $taller->imagen) }}";
+                wrapper.style.display = 'block';
+            @else
+                wrapper.style.display = 'none';
+            @endif
         }
     }
 </script>
 @endpush
+
+@endsection
+
