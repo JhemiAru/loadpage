@@ -1,48 +1,63 @@
 <?php
 
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\controllerInicio;
+use App\Http\Controllers\Panel\controllerPanel;
+use App\Http\Controllers\Panel\controllerEmpresa;
+use App\Http\Controllers\Panel\controllerTaller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/empresa/buscar', [\App\Http\Controllers\SearchController::class, 'show'])->name('empresaBuscar');
-Route::get('/empresa/data', [\App\Http\Controllers\SearchController::class, 'data'])->name('empresadata');
-Route::get('/categoria/{slug}/buscar',[\App\Http\Controllers\SearchController::class, 'categoria'])->name('categoriaBuscar');
-Route::get('/categoria/{slug}/data',[\App\Http\Controllers\SearchController::class, 'categoriaData'])->name('categoriaData');
-Route::get('/ciudad/{id}/buscar', [\App\Http\Controllers\SearchController::class, 'ciudadBuscar'])->name('ciudadBuscar');
-Route::get('/ciudad/{id}/data',   [\App\Http\Controllers\SearchController::class, 'ciudadData'])->name('ciudadData');
+Route::get('/empresa/buscar', [SearchController::class, 'show'])->name('empresaBuscar');
+Route::get('/empresa/data', [SearchController::class, 'data'])->name('empresadata');
+Route::get('/categoria/{slug}/buscar',[SearchController::class, 'categoria'])->name('categoriaBuscar');
+Route::get('/categoria/{slug}/data',[SearchController::class, 'categoriaData'])->name('categoriaData');
+Route::get('/ciudad/{id}/buscar', [SearchController::class, 'ciudadBuscar'])->name('ciudadBuscar');
+Route::get('/ciudad/{id}/data',   [SearchController::class, 'ciudadData'])->name('ciudadData');
 
-Route::post('codigo/{ci}', [\App\Http\Controllers\controllerInicio::class, 'codigoUsuario'])->name('codigoUsuario');
-Route::post('registrar/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'crearUsuario'])->name('crearUsuario');
-Route::get('registro/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'registroUsuario'])->name('registroUsuario');
-Route::get('empresa/comision', [\App\Http\Controllers\controllerInicio::class, 'comision'])->name('comision');
-Route::get('empresa/{slug}', [\App\Http\Controllers\controllerInicio::class, 'detalleEmpresa'])->name('detalleEmpresa');
-Route::get('noticia', [\App\Http\Controllers\controllerInicio::class, 'noticia'])->name('noticia');
-Route::post('preregistro', [\App\Http\Controllers\controllerInicio::class, 'preRegistro'])->name('preregistro');
-Route::get('equipo', [\App\Http\Controllers\controllerInicio::class, 'equipo'])->name('equipo');
-Route::get('empresa', [\App\Http\Controllers\controllerInicio::class, 'empresa'])->name('empresa');
+Route::post('codigo/{ci}', [controllerInicio::class, 'codigoUsuario'])->name('codigoUsuario');
+Route::post('registrar/{codigo}', [controllerInicio::class, 'crearUsuario'])->name('crearUsuario');
+Route::get('registro/{codigo}', [controllerInicio::class, 'registroUsuario'])->name('registroUsuario');
+Route::get('empresa/comision', [controllerInicio::class, 'comision'])->name('comision');
+Route::get('empresa/{slug}', [controllerInicio::class, 'detalleEmpresa'])->name('detalleEmpresa');
+Route::get('noticia', [controllerInicio::class, 'noticia'])->name('noticia');
+Route::post('preregistro', [controllerInicio::class, 'preRegistro'])->name('preregistro');
+Route::get('equipo', [controllerInicio::class, 'equipo'])->name('equipo');
+Route::get('empresa', [controllerInicio::class, 'empresa'])->name('empresa');
 
-Route::get('ciudad/{id}', [\App\Http\Controllers\controllerInicio::class, 'ciudad'])->name('ciudad');
-Route::get('categoria/{slug}', [\App\Http\Controllers\controllerInicio::class, 'categoria'])->name('categoria');
-Route::get('actividad', [\App\Http\Controllers\controllerInicio::class, 'actividad'])->name('actividad');
-Route::get('taller', [\App\Http\Controllers\controllerInicio::class, 'talleres'])->name('taller');
-Route::get('contacto', [\App\Http\Controllers\controllerInicio::class, 'contactanos'])->name('contactanos');
-Route::get('/', [\App\Http\Controllers\controllerInicio::class, 'inicio'])->name('inicio');
+Route::get('ciudad/{id}', [controllerInicio::class, 'ciudad'])->name('ciudad');
+Route::get('categoria/{slug}', [controllerInicio::class, 'categoria'])->name('categoria');
+Route::get('actividad', [controllerInicio::class, 'actividad'])->name('actividad');
+Route::get('taller', [controllerInicio::class, 'talleres'])->name('taller');
+Route::get('contacto', [controllerInicio::class, 'contactanos'])->name('contactanos');
+Route::get('/', [controllerInicio::class, 'inicio'])->name('inicio');
 
 // Envío de emails de la página principal
-Route::post('suscribir', [\App\Http\Controllers\controllerInicio::class, 'suscribir'])->name('suscribir');
-Route::post('email_post', [\App\Http\Controllers\controllerInicio::class, 'emailPost'])->name('email_post');
+Route::post('suscribir', [controllerInicio::class, 'suscribir'])->name('suscribir');
+Route::post('email_post', [controllerInicio::class, 'emailPost'])->name('email_post');
 
-Route::post('log', [\App\Http\Controllers\Panel\controllerPanel::class, 'log'])->name('log');
-Route::get('logout', [\App\Http\Controllers\Panel\controllerPanel::class, 'logout'])->name('logout');
-Route::post('reset/password/save', [\App\Http\Controllers\controllerInicio::class, 'passwordSave'])->name('passwordSave');
-Route::get('reset/password/{codigo}', [\App\Http\Controllers\controllerInicio::class, 'passwordReset'])->name('passwordReset');
-Route::post('reset', [\App\Http\Controllers\controllerInicio::class, 'emailReset'])->name('reset');
+Route::post('log', [controllerPanel::class, 'log'])->name('log');
+Route::get('logout', [controllerPanel::class, 'logout'])->name('logout');
+Route::post('reset/password/save', [controllerInicio::class, 'passwordSave'])->name('passwordSave');
+Route::get('reset/password/{codigo}', [controllerInicio::class, 'passwordReset'])->name('passwordReset');
+Route::post('reset', [controllerInicio::class, 'emailReset'])->name('reset');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('panel', [\App\Http\Controllers\Panel\controllerPanel::class, 'startAdmin'])->name('start-a');
-    Route::get('taller/index', [\App\Http\Controllers\Panel\controllerTaller::class, 'index'])->name('indexTaller');
-    Route::get('taller/crear', [\App\Http\Controllers\Panel\controllerTaller::class, 'create'])->name('crearTaller');
-    Route::post('taller/guardar', [\App\Http\Controllers\Panel\controllerTaller::class, 'store'])->name('guardarTaller');
-    Route::get('taller/{taller}/editar', [\App\Http\Controllers\Panel\controllerTaller::class, 'edit'])->name('editarTaller');    
-    Route::put('taller/{taller}', [\App\Http\Controllers\Panel\controllerTaller::class, 'update'])->name('actualizarTaller');
-    Route::delete('taller/{taller}', [\App\Http\Controllers\Panel\controllerTaller::class, 'destroy'])->name('eliminarTaller');
+Route::middleware(['auth'])->prefix('panel')->group(function () {
+    Route::get('inicio', [controllerPanel::class, 'startAdmin'])->name('start-a');
+    Route::get('taller/index', [controllerTaller::class, 'index'])->name('indexTaller');
+    Route::get('taller/crear', [controllerTaller::class, 'create'])->name('crearTaller');
+    Route::post('taller/guardar', [controllerTaller::class, 'store'])->name('guardarTaller');
+    Route::get('taller/{taller}/editar', [controllerTaller::class, 'edit'])->name('editarTaller');    
+    Route::put('taller/{taller}', [controllerTaller::class, 'update'])->name('actualizarTaller');
+    Route::delete('taller/{taller}', [controllerTaller::class, 'destroy'])->name('eliminarTaller');
 
+    Route::get('empresa/index', [controllerEmpresa::class, 'index'])->name('indexEmpresa'); 
+    Route::get('empresa/crear', [controllerEmpresa::class, 'create'])->name('crearEmpresa');
+    Route::post('empresa/guardar', [controllerEmpresa::class, 'store'])->name('guardarEmpresa');
+    Route::get('empresa/{empresa}/editar', [controllerEmpresa::class, 'edit'])->name('editarEmpresa');    
+    Route::put('empresa/{empresa}', [controllerEmpresa::class, 'update'])->name('actualizarEmpresa');
+    Route::delete('empresa/{empresa}', [controllerEmpresa::class, 'destroy'])->name('eliminarEmpresa');
+    Route::patch('empresas/{empresa}/toggle-activo', [controllerEmpresa::class, 'toggleActivo'])->name('toggleActivoEmpresa');
+    Route::patch('empresas/{empresa}/toggle-destacado', [controllerEmpresa::class, 'toggleDestacado'])->name('toggleDestacadoEmpresa');
+    Route::patch('empresas/{empresa}/toggle-aliadas', [controllerEmpresa::class, 'toggleAliadas'])->name('toggleAliadasEmpresa');
+    Route::patch('empresas/{empresa}/toggle-comision', [controllerEmpresa::class, 'toggleComision'])->name('toggleComisionEmpresa');
 });

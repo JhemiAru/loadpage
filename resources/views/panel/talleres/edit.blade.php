@@ -3,7 +3,6 @@
 
 @section('content')
 
-{{-- Breadcrumb --}}
 <div style="margin-bottom: 20px; font-size: 0.85rem; color: var(--text-muted);">
     <a href="{{ route('indexTaller') }}" style="color: var(--blue-light); text-decoration:none; font-weight:600;">
         <i class="fas fa-arrow-left me-1"></i> Volver a talleres
@@ -153,13 +152,8 @@
 
         {{-- Acciones --}}
         <div style="display:flex; gap:12px; margin-top:8px; padding-top:20px; border-top:1px solid #f0f3f9;">
-            <button type="submit" class="btn-primary-panel">
-                <i class="fas fa-sync-alt"></i> Actualizar taller
-            </button>
-            <a href="{{ route('indexTaller') }}"
-               style="padding:9px 20px; border-radius:8px; border:1.5px solid #dde2ee; color:var(--text-muted); text-decoration:none; font-weight:600; font-size:0.875rem;">
-                Cancelar
-            </a>
+            <button type="submit" class="btn-primary-panel"><i class="fas fa-sync-alt"></i> Actualizar taller</button>
+            <a href="{{ route('indexTaller') }}" class="btn-accent-panel">Cancelar</a>
         </div>
 
     </form>

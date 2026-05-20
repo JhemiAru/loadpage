@@ -99,7 +99,7 @@ class SearchController extends Controller
         }
         $empresas = $empresas->paginate(18)->withQueryString();
         $countEmpresas = $empresas->total();
-        return view('empresas', compact('empresas', 'query','countEmpresas'));
+        return view('inicio.empresas', compact('empresas', 'query','countEmpresas'));
     }
 
     /*AUTOCOMPLETE */
@@ -236,7 +236,7 @@ class SearchController extends Controller
         $empresas = $empresas->orderBy('prioridad', 'asc')->paginate(18)->withQueryString();
         $countEmpresas = $empresas->total();
 
-        return view('categorias', compact(
+        return view('inicio.categorias', compact(
             'categoria',
             'empresas',
             'countEmpresas',
@@ -356,7 +356,7 @@ class SearchController extends Controller
         $empresas = $empresas->paginate(18)->withQueryString();
         $countEmpresas    = $empresas->total();
 
-        return view('ciudades', compact(
+        return view('inicio.ciudades', compact(
             'ciudad',
             'empresas',
             'countEmpresas',

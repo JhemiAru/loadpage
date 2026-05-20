@@ -47,16 +47,16 @@
                         @endif
                     </td>
                     <td>
-                        <span class="badge-panel badge-fecha">
+                        <span class="badge-panel badge-fecha text-nowrap">
                             <i class="fas fa-calendar-alt me-1"></i>
                             {{ \Carbon\Carbon::parse($taller->fecha)->format('d-m-Y') }}
                         </span>
                     </td>
                     <td style="font-size: 0.85rem;">{{ $taller->horario }}</td>
-                    <td style="font-size: 0.85rem; max-width: 160px;">{{ Str::limit($taller->lugar, 40) }}</td>
+                    <td style="font-size: 0.85rem; max-width: 160px;">{{ Str::limit($taller->lugar, 20) }}</td>
                     <td>
-                        <span class="badge-panel badge-costo">
-                            Bs. {{ number_format($taller->costo, 2) }}
+                        <span class="badge-panel badge-costo text-nowrap">
+                            {{ number_format($taller->costo, 2) }} Bs.
                         </span>
                     </td>
                     <td>
@@ -90,8 +90,8 @@
     </div>
 
     @if($talleres->hasPages())
-        <div style="padding: 16px 24px; border-top: 1px solid #f0f3f9;">
-            {{ $talleres->links() }}
+        <div class="d-flex justify-content-center mt-4">
+            {{ $talleres->links('pagination::bootstrap-5') }}
         </div>
     @endif
 </div>

@@ -146,13 +146,8 @@
 
         {{-- Acciones --}}
         <div style="display:flex; gap:12px; margin-top:8px; padding-top:20px; border-top:1px solid #f0f3f9;">
-            <button type="submit" class="btn-primary-panel">
-                <i class="fas fa-save"></i> Guardar taller
-            </button>
-            <a href="{{ route('indexTaller') }}"
-               style="padding:9px 20px; border-radius:8px; border:1.5px solid #dde2ee; color:var(--text-muted); text-decoration:none; font-weight:600; font-size:0.875rem;">
-                Cancelar
-            </a>
+            <button type="submit" class="btn-primary-panel"><i class="fas fa-save"></i> Guardar taller</button>
+            <a href="{{ route('indexTaller') }}" class="btn-accent-panel">Cancelar</a>
         </div>
 
     </form>

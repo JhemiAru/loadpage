@@ -50,43 +50,43 @@ return [
             'root' => public_path('/imagen/empresas'),
             'visibility' => 'public',
         ],
-        /*'empresasproductos' => [
+        'empresasproductos' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/empresasproductos',
+            'root' => public_path().'/imagen/empresasproductos',
             'visibility' => 'public',
         ],
         'administradores' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/administradores',
+            'root' => public_path().'/imagen/administradores',
             'visibility' => 'public',
         ],
         'actividades' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/actividades',
+            'root' => public_path().'/imagen/actividades',
             'visibility' => 'public',
         ],
         'categorias' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/categorias',
+            'root' => public_path().'/imagen/categorias',
             'visibility' => 'public', 
         ],
         'equipos' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/equipos',
+            'root' => public_path().'/imagen/equipos',
             'visibility' => 'public',
         ],
         'institucion' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/institucion',
+            'root' => public_path().'/imagen/institucion',
             'visibility' => 'public',
         ],
         'publicaciones' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/publicaciones',
+            'root' => public_path().'/imagen/publicaciones',
         ],
         'productos' => [
             'driver' => 'local',
-            'root' => public_path().'/public/imagen/productos',
+            'root' => public_path().'/imagen/productos',
             'visibility' => 'public',        
         ],
         'imagen' => [
@@ -96,9 +96,9 @@ return [
         ],
         'rangos' => [
             'driver' => 'local',
-            'root' => base_path().'/public/imagen/rangos',
+            'root' => base_path().'/imagen/rangos',
             'visibility' => 'public',
-        ],*/
+        ],
 
         'local' => [
             'driver' => 'local',

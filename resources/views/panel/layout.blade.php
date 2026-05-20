@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel — @yield('titulo', 'FaceBol')</title>
+    <title>Panel | @yield('titulo', 'FaceBol')</title>
+    <link rel="shortcut icon" href="imagen/institucion/favicon_facebol.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/panel/layout.css') }}">    
+    <link rel="stylesheet" href="{{ asset('css/panel_layout.css') }}">    
     @stack('styles')
 </head>
 <body>
-
-    {{-- Overlay para cerrar el sidebar al hacer clic fuera --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    {{-- ── Sidebar ── --}}
     <aside class="panel-sidebar" id="panelSidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -39,8 +36,10 @@
             <a href="{{ route('indexTaller') }}" class="sidebar-link {{ request()->routeIs('indexTaller') ? 'active' : '' }}">
                 <i class="fas fa-chalkboard-teacher"></i> <span>Talleres</span>
             </a>
+            <a href="{{ route('indexEmpresa') }}" class="sidebar-link {{ request()->routeIs('indexEmpresa') ? 'active' : '' }}">
+                <i class="fas fa-building"></i> <span>Empresas</span>
+            </a>
             
-            {{-- Puedes agregar más secciones aquí --}}
         </nav>
 
         <div class="sidebar-footer">

@@ -236,155 +236,31 @@ UPDATE institucions
 SET tiktok = 'https://www.tiktok.com/@facebolsrl' 
 WHERE id = 1;
 
-<?php
-
-use App\Http\Controllers\AjusteHoraController;
-use App\Http\Controllers\InventarioController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\InformacionController;
-use App\Http\Controllers\AsistenciaController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ReporteActividadController;
-use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\UserController;
-
-//Route::get('/', function () { return view('index'); })->middleware('auth');
-Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->middleware('auth')->name('index');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Auth::routes(['register' => false]);
-
-
-Route::get('/refresh-csrf', function () {
-    return response()->json(['token' => csrf_token()]);
-})->middleware('web'); // Asegúrate de usar el middleware web
-
-Route::get('/check-session', function () {
-    return response()->json(['status' => 'active']);
-})->middleware('web');
-
-
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-dddddd
-
-// Guardar los cambios en la base de datos
-Route::put('/reporteactividad/{id}', [ReporteActividadController::class, 'actualizarActividad'])->name('reporteactividad.actualizar');
-// Eliminar una actividad
-Route::delete('/eliminar-actividad/{id}', [ReporteActividadController::class, 'eliminarActividad'])->name('eliminarActividad');
-// Reporte actividad pdf
-Route::get('/reporteactividad/{id}/pdf', [ReporteActividadController::class, 'generarPdf'])->name('reporteactividad.pdf');
-// enviar informe por correo
-Route::post('/enviar-informe/{id}', [ReporteActividadController::class, 'enviarInforme'])->name('enviar.informe');
-
-/* Route::resource('/reporteactividades', \App\Http\Controllers\ReporteActividadController::class); */
-/* Route::get('/reporteactividad/{id}/usuario', [ReporteActividadController::class, 'mostrarUsuarioDeReporte'])->name('reporteactividad.mostrarUsuario'); */
-
-
-/* Route::get('/asistencias/{id}', [AsistenciaController::class, 'show'])->name('asistencias.show'); */
-
-
-Route::resource('/multas', \App\Http\Controllers\MultaController::class)->middleware('can:multas');
-
-Route::resource('/actividads', \App\Http\Controllers\ActividadController::class)->middleware('can:actividads');
-
-Route::resource('/programas', \App\Http\Controllers\ProgramaController::class)->middleware('can:programas');
-
-Route::resource('/detalles', \App\Http\Controllers\DetalleController::class)->middleware('can:detalles');
-
-Route::resource('/certificados', \App\Http\Controllers\CertificadoController::class)->middleware('can:certificados');
-
-/* Route::resource('/cron_schedule', \App\Http\Controllers\CronScheduleController::class); */
-Route::get('/cron-schedule/edit', [\App\Http\Controllers\CronScheduleController::class, 'edit'])->name('cron_schedule.edit')->middleware('can:configuraciones');
-Route::put('/cron-schedule/update', [\App\Http\Controllers\CronScheduleController::class, 'update'])->name('cron_schedule.update');
-
-Route::get('certificadopdf/{id}', [App\Http\Controllers\GenerarCertificadoController::class, 'generarcertificado'])->name('certificadopdf');
-Route::get('certificadoword/{id}', [App\Http\Controllers\GenerarCertificadoWordController::class, 'generarCertificadoHTML'])->name('certificadoword');
 
 
 
-/* Route::get('/test-websocket', function() {
-    event(new App\Events\TestEvent('¡Funciona!'));
-    return "Evento enviado";
-}); */
+-- Evento para respaldo de asistencias
+SET GLOBAL event_scheduler = ON;
 
+CREATE TABLE IF NOT EXISTS resp LIKE asistencias;
 
-Route::get('/ajuste-horas/{id}/obtener', [AjusteHoraController::class, 'obtener']);
-Route::post('/ajuste-horas/{id}/guardar-extra', [AjusteHoraController::class, 'guardarExtra']);
-Route::post('/ajuste-horas/{id}/guardar-descuento', [AjusteHoraController::class, 'guardarDescuento']);
+DELIMITER $$
+CREATE EVENT IF NOT EXISTS evt_resp_asis
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    IF EXISTS (
+        SELECT 1 
+        FROM information_schema.tables 
+        WHERE table_schema = DATABASE() 
+          AND table_name = 'asistencias'
+    ) THEN
+        TRUNCATE TABLE resp;
+        INSERT INTO resp SELECT * FROM asistencias;
+        
+    END IF;
+END$$
+DELIMITER ;
 
-
-
-Route::resource('/convenios', \App\Http\Controllers\ConvenioController::class);
-// ==================== RUTAS DE INVENTARIO ====================
-Route::middleware(['can:inventarios'])->group(function () {
-    
-    Route::get('/inventarios/todas/pdf', 
-        [InventarioController::class, 'pdfTodas']
-    )->name('inventarios.pdf.todas');
-
-    Route::get('inventarios/pdf/todas/{pagina?}', [InventarioController::class, 'pdfTodas']);
-
-    Route::get('/inventarios/cliente/{clienteId}/pdf', 
-        [InventarioController::class, 'pdfCliente']
-    )->name('inventarios.pdf.cliente');
-
-    Route::get('/inventarios/{id}/pdf', 
-        [InventarioController::class, 'pdfInventario']
-    )->name('inventarios.pdf');
-
-    Route::resource('/inventarios', InventarioController::class);
-
-});
-
-// ==================== RUTAS DE FACTURACIÓN ====================
-Route::prefix('facturacion')->name('facturacion.')->group(function () {
-
-    // ========== MIS RECIBOS (Solo para pasantes - ver sus propios recibos) ==========
-    Route::middleware(['can:facturacion.recibos.ver'])->group(function () {
-        Route::get('/mis-recibos', [\App\Http\Controllers\FacturacionReciboController::class, 'misRecibos'])->name('mis-recibos');
-    });
-
-    // ========== COMPROBANTES (Facturas) ==========
-    Route::middleware(['can:facturacion.registros.admin'])->prefix('comprobantes')->name('comprobante.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\FacturacionRegistroController::class, 'index'])->name('index');
-        Route::get('/{id}/show', [\App\Http\Controllers\FacturacionRegistroController::class, 'show'])->name('show');
-        Route::post('/', [\App\Http\Controllers\FacturacionRegistroController::class, 'store'])->name('store');
-        Route::put('/{id}', [\App\Http\Controllers\FacturacionRegistroController::class, 'update'])->name('update');
-        Route::delete('/{id}', [\App\Http\Controllers\FacturacionRegistroController::class, 'destroy'])->name('destroy');
-
-        // rutas pdf
-        Route::get('/todas/pdf', [\App\Http\Controllers\FacturacionRegistroController::class, 'pdfTodas'])->name('pdf.todas');
-        Route::get('/enviar/pdf', [\App\Http\Controllers\FacturacionController::class, 'pdfEnviar'])->name('pdf.enviar');
-        Route::get('/{id}/pdf', [\App\Http\Controllers\FacturacionRegistroController::class, 'pdfFactura'])->name('pdf');
-
-        Route::post('/{id}/enviar-correo', [\App\Http\Controllers\FacturacionController::class, 'enviarCorreo'])->name('enviar.correo');
-        Route::post('/enviar-correo-multiples', [\App\Http\Controllers\FacturacionController::class, 'enviarCorreoMultiples'])->name('enviar-correo-multiples');
-    });
-
-    // ========== RECIBOS ==========
-    Route::middleware(['can:facturacion.recibos.admin'])->prefix('recibos')->name('recibo.')->group(function () {
-        // CRUD completo en FacturacionReciboController
-        Route::get('/', [\App\Http\Controllers\FacturacionReciboController::class, 'index'])->name('index');
-        Route::get('/{id}/show', [\App\Http\Controllers\FacturacionReciboController::class, 'show'])->name('show');
-        Route::post('/', [\App\Http\Controllers\FacturacionReciboController::class, 'store'])->name('store');
-        Route::put('/{id}', [\App\Http\Controllers\FacturacionReciboController::class, 'update'])->name('update');
-        Route::delete('/{id}', [\App\Http\Controllers\FacturacionReciboController::class, 'destroy'])->name('destroy');
-
-        // IMPORTANTE: Rutas específicas ANTES de rutas con parámetros dinámicos
-        Route::get('/todas/pdf', [\App\Http\Controllers\FacturacionReciboController::class, 'pdfTodas'])->name('pdf.todas');
-        Route::get('/cliente/{id}/pdf', [\App\Http\Controllers\FacturacionReciboController::class, 'pdfCliente'])->name('pdf.cliente');
-
-        // Rutas de envío de correo
-        Route::post('/{id}/enviar-correo', [\App\Http\Controllers\FacturacionReciboController::class, 'enviarCorreo'])->name('enviar.correo');
-
-        // Ruta con {id} al final para evitar conflictos
-        Route::get('/{id}/pdf', [\App\Http\Controllers\FacturacionReciboController::class, 'pdfFactura'])->name('pdf');
-    });
-});
-
-Route::resource('/categorias', \App\Http\Controllers\CategoriaController::class)->middleware('can:categorias');
+-- Opcionalmente se puede reemplazar STARTS CURRENT_TIMESTAMP por el siguioente para tener por un dia y hora concreto STARTS TIMESTAMP(DATE_ADD(CURDATE(), INTERVAL (5 - DAYOFWEEK(CURDATE()) + IF(DAYOFWEEK(CURDATE()) > 6, 7, 0)) DAY), '23:59:00')
