@@ -5,6 +5,7 @@ use App\Http\Controllers\controllerInicio;
 use App\Http\Controllers\Panel\controllerPanel;
 use App\Http\Controllers\Panel\controllerEmpresa;
 use App\Http\Controllers\Panel\controllerTaller;
+use App\Http\Controllers\Panel\controllerActividad;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/empresa/buscar', [SearchController::class, 'show'])->name('empresaBuscar');
@@ -60,4 +61,12 @@ Route::middleware(['auth'])->prefix('panel')->group(function () {
     Route::patch('empresas/{empresa}/toggle-destacado', [controllerEmpresa::class, 'toggleDestacado'])->name('toggleDestacadoEmpresa');
     Route::patch('empresas/{empresa}/toggle-aliadas', [controllerEmpresa::class, 'toggleAliadas'])->name('toggleAliadasEmpresa');
     Route::patch('empresas/{empresa}/toggle-comision', [controllerEmpresa::class, 'toggleComision'])->name('toggleComisionEmpresa');
+
+    Route::get('actividad/index', [controllerActividad::class, 'index'])->name('indexActividad'); 
+    Route::get('actividad/crear', [controllerActividad::class, 'create'])->name('crearActividad');
+    Route::post('actividad/guardar', [controllerActividad::class, 'store'])->name('guardarActividad');
+    Route::get('actividad/{actividad}/editar', [controllerActividad::class, 'edit'])->name('editarActividad');    
+    Route::put('actividad/{actividad}', [controllerActividad::class, 'update'])->name('actualizarActividad');
+    Route::delete('actividad/{actividad}', [controllerActividad::class, 'destroy'])->name('eliminarActividad');
+    Route::patch('actividads/{actividad}/toggle-activo', [controllerActividad::class, 'toggleActivo'])->name('toggleActivoActividad');
 });

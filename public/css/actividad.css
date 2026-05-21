@@ -404,6 +404,80 @@
     animation: fadeUp 0.5s ease-out backwards;
 }
 
+/* ── PAGINACIÓN ── */
+.custom-pagination-wrapper {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pagination .page-item {
+    list-style: none;
+}
+
+.pagination .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 42px;
+    height: 42px;
+
+    padding: 0 14px;
+
+    border-radius: 10px;
+    border: none;
+
+    background: #fff;
+    color: var(--blue-light);
+
+    text-decoration: none;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--primary);
+    color: #fff;
+
+    box-shadow: 0 4px 12px rgba(26,58,107,0.2);
+}
+
+.pagination .page-item .page-link:hover {
+    background: var(--yellow-light);
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    padding: 0 16px;
+    font-size: 0.85rem;
+}
+
 @media (max-width: 992px) {
     .actividad-img-modern {
         height: 240px;

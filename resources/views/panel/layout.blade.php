@@ -39,6 +39,9 @@
             <a href="{{ route('indexEmpresa') }}" class="sidebar-link {{ request()->routeIs('indexEmpresa') ? 'active' : '' }}">
                 <i class="fas fa-building"></i> <span>Empresas</span>
             </a>
+            <a href="{{ route('indexActividad') }}" class="sidebar-link {{ request()->routeIs('indexActividad') ? 'active' : '' }}">
+                <i class="fas fa-calendar-day"></i> <span>Actividades</span>
+            </a>
             
         </nav>
 

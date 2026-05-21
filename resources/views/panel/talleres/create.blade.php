@@ -26,14 +26,17 @@
 
             {{-- Título --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="titulo">Título <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="titulo">
+                    Título <span class="text-danger">*</span>
+                </label>
                 <input type="text"
                        id="titulo"
                        name="titulo"
                        class="form-control-panel @error('titulo') is-invalid @enderror"
                        value="{{ old('titulo') }}"
                        placeholder="Ej: Taller de Marketing Digital"
-                       maxlength="255">
+                       maxlength="255"
+                       required>
                 @error('titulo')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -41,61 +44,77 @@
 
             {{-- Descripción --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="descripcion">Descripción <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="descripcion">
+                    Descripción <span class="text-danger">*</span>
+                </label>
                 <textarea id="descripcion"
                           name="descripcion"
                           class="form-control-panel @error('descripcion') is-invalid @enderror"
                           rows="3"
-                          placeholder="Descripción breve del taller...">{{ old('descripcion') }}</textarea>
+                          placeholder="Descripción breve del taller..."
+                          required>{{ old('descripcion') }}</textarea>
                 @error('descripcion')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
-            {{-- Fecha / Horario --}}
+            {{-- Fecha --}}
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="fecha">Fecha <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="fecha">
+                    Fecha <span class="text-danger">*</span>
+                </label>
                 <input type="date"
                        id="fecha"
                        name="fecha"
                        class="form-control-panel @error('fecha') is-invalid @enderror"
-                       value="{{ old('fecha') }}">
+                       value="{{ old('fecha') }}"
+                       required>
                 @error('fecha')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
+            {{-- Horario --}}
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="horario">Horario <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="horario">
+                    Horario <span class="text-danger">*</span>
+                </label>
                 <input type="text"
                        id="horario"
                        name="horario"
                        class="form-control-panel @error('horario') is-invalid @enderror"
                        value="{{ old('horario') }}"
                        placeholder="Ej: 09:00 - 13:00 hs"
-                       maxlength="255">
+                       maxlength="255"
+                       required>
                 @error('horario')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
-            {{-- Lugar / Costo --}}
+            {{-- Lugar --}}
             <div class="col-md-8 form-group">
-                <label class="form-label-panel" for="lugar">Lugar <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="lugar">
+                    Lugar <span class="text-danger">*</span>
+                </label>
                 <input type="text"
                        id="lugar"
                        name="lugar"
                        class="form-control-panel @error('lugar') is-invalid @enderror"
                        value="{{ old('lugar') }}"
                        placeholder="Ej: Salón principal, Av. Chacaltaya #50"
-                       maxlength="500">
+                       maxlength="500"
+                       required>
                 @error('lugar')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
+            {{-- Costo --}}
             <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="costo">Costo (Bs.) <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="costo">
+                    Costo (Bs.) <span class="text-danger">*</span>
+                </label>
                 <input type="number"
                        id="costo"
                        name="costo"
@@ -103,7 +122,8 @@
                        value="{{ old('costo') }}"
                        placeholder="0.00"
                        step="0.01"
-                       min="0">
+                       min="0"
+                       required>
                 @error('costo')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -129,7 +149,7 @@
                 </div>
             </div>
 
-            {{-- Detalles --}}
+            {{-- Detalles adicionales --}}
             <div class="col-12 form-group">
                 <label class="form-label-panel" for="detalles">Detalles adicionales</label>
                 <textarea id="detalles"
@@ -141,18 +161,17 @@
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
-
         </div>
 
         {{-- Acciones --}}
         <div style="display:flex; gap:12px; margin-top:8px; padding-top:20px; border-top:1px solid #f0f3f9;">
-            <button type="submit" class="btn-primary-panel"><i class="fas fa-save"></i> Guardar taller</button>
+            <button type="submit" class="btn-primary-panel">
+                <i class="fas fa-save"></i> Guardar taller
+            </button>
             <a href="{{ route('indexTaller') }}" class="btn-accent-panel">Cancelar</a>
         </div>
-
     </form>
 </div>
-
 @endsection
 
 @push('scripts')

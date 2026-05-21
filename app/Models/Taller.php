@@ -11,16 +11,7 @@ class Taller extends Model
 {
     protected $table = 'tallers';
  
-    protected $fillable = [
-        'titulo',
-        'descripcion',
-        'fecha',
-        'horario',
-        'lugar',
-        'imagen',
-        'costo',
-        'detalles',
-    ];
+    protected $fillable = ['titulo','descripcion','fecha','horario','lugar','imagen','costo','detalles'];
 
     public function setImagenAttribute($imagen)
     {

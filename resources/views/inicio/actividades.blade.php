@@ -20,7 +20,7 @@
 
     <div class="row g-4">
         @foreach($actividades as $index => $actividad)
-        @if($actividad->tipo == 'actividad' && $actividad->activo == 1)
+        @if($actividad->tipo == 'actividad')
         <div class="col-12" style="animation-delay: {{ $loop->index * 0.05 }}s;">
             <div class="card-actividad-modern" data-id="{{ $actividad->id }}">
                 <div class="row g-0 align-items-stretch">
@@ -30,7 +30,7 @@
                                 <span class="dia-numero">{{$actividad->dia}}</span>
                                 <div class="mes-texto">{{$actividad->mes}}</div>
                                 <div class="anio-texto">
-                                    <i class="far fa-calendar-alt me-1"></i> {{$actividad->año}}
+                                    <i class="far fa-calendar-alt me-1"></i> {{$actividad->anio}}
                                 </div>
                             </div>
                             <div class="{{ $actividad->estado == 'Finalizado' ? 'estado-badge-f' : 'estado-badge-c' }}">{{ $actividad->estado }}
@@ -87,6 +87,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- MODAL -->        
@@ -100,7 +101,7 @@
                             </h4>
                             <div class="modal-fecha-badge">
                                 <i class="fas fa-calendar-day"></i>
-                                <span>{{ $actividad->dia }} de {{ $actividad->mes }}, {{ $actividad->año }}</span>
+                                <span>{{ $actividad->dia }} de {{ $actividad->mes }}, {{ $actividad->anio }}</span>
                             </div>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -148,6 +149,41 @@
         <p>Pronto publicaremos nuevas experiencias para ti.</p>
     </div>
     @endif
+    
+    @if($actividades->hasPages())
+        <div class="d-flex justify-content-center pb-5">
+        @if ($actividades->hasPages())
+            <nav class="custom-pagination-wrapper">
+                <ul class="pagination">
+                    <li class="page-item {{ $actividades->onFirstPage() ? 'disabled' : '' }}">
+                        @if ($actividades->onFirstPage())
+                            <span class="page-link">‹ Anterior</span>
+                        @else
+                            <a class="page-link" href="{{ $actividades->previousPageUrl() }}">‹ Anterior</a>
+                        @endif
+                    </li>
+                    @for ($i = 1; $i <= $actividades->lastPage(); $i++)
+                        <li class="page-item {{ $i == $actividades->currentPage() ? 'active' : '' }}">
+                            @if ($i == $actividades->currentPage())
+                                <span class="page-link">{{ $i }}</span>
+                            @else
+                                <a class="page-link" href="{{ $actividades->url($i) }}">{{ $i }}</a>
+                            @endif
+                        </li>
+                    @endfor
+                    <li class="page-item {{ $actividades->hasMorePages() ? '' : 'disabled' }}">
+                        @if ($actividades->hasMorePages())
+                            <a class="page-link" href="{{ $actividades->nextPageUrl() }}">Siguiente ›</a>
+                        @else
+                            <span class="page-link">Siguiente ›</span>
+                        @endif
+                    </li>
+                </ul>
+            </nav>
+        @endif
+        </div>
+    @endif
+
 </div>
 @push('scripts')
     <script src="{{ asset('js/actividad.js') }}"></script>

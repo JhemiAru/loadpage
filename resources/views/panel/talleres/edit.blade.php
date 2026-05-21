@@ -26,14 +26,15 @@
 
             {{-- Título --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="titulo">Título <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="titulo">Título <span class="text-danger">*</span></label>
                 <input type="text"
                        id="titulo"
                        name="titulo"
                        class="form-control-panel @error('titulo') is-invalid @enderror"
                        value="{{ old('titulo', $taller->titulo) }}"
                        placeholder="Ej: Taller de Marketing Digital"
-                       maxlength="255">
+                       maxlength="255"
+                       required>
                 @error('titulo')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -41,12 +42,13 @@
 
             {{-- Descripción --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="descripcion">Descripción <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="descripcion">Descripción <span class="text-danger">*</span></label>
                 <textarea id="descripcion"
                           name="descripcion"
                           class="form-control-panel @error('descripcion') is-invalid @enderror"
                           rows="3"
-                          placeholder="Descripción breve del taller...">{{ old('descripcion', $taller->descripcion) }}</textarea>
+                          placeholder="Descripción breve del taller..."
+                          required>{{ old('descripcion', $taller->descripcion) }}</textarea>
                 @error('descripcion')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -54,26 +56,28 @@
 
             {{-- Fecha / Horario --}}
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="fecha">Fecha <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="fecha">Fecha <span class="text-danger">*</span></label>
                 <input type="date"
                        id="fecha"
                        name="fecha"
                        class="form-control-panel @error('fecha') is-invalid @enderror"
-                       value="{{ old('fecha', $taller->fecha ? $taller->fecha->format('Y-m-d') : '') }}">
+                       value="{{ old('fecha', $taller->fecha ? $taller->fecha->format('Y-m-d') : '') }}"
+                       required>
                 @error('fecha')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="horario">Horario <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="horario">Horario <span class="text-danger">*</span></label>
                 <input type="text"
                        id="horario"
                        name="horario"
                        class="form-control-panel @error('horario') is-invalid @enderror"
                        value="{{ old('horario', $taller->horario) }}"
                        placeholder="Ej: 09:00 - 13:00 hs"
-                       maxlength="255">
+                       maxlength="255"
+                       required>
                 @error('horario')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -81,21 +85,22 @@
 
             {{-- Lugar / Costo --}}
             <div class="col-md-8 form-group">
-                <label class="form-label-panel" for="lugar">Lugar <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="lugar">Lugar <span class="text-danger">*</span></label>
                 <input type="text"
                        id="lugar"
                        name="lugar"
                        class="form-control-panel @error('lugar') is-invalid @enderror"
                        value="{{ old('lugar', $taller->lugar) }}"
                        placeholder="Ej: Salón principal, Av. Chacaltaya #50"
-                       maxlength="500">
+                       maxlength="500"
+                       required>
                 @error('lugar')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="costo">Costo (Bs.) <span style="color:#dc2626;">*</span></label>
+                <label class="form-label-panel" for="costo">Costo (Bs.) <span class="text-danger">*</span></label>
                 <input type="number"
                        id="costo"
                        name="costo"
@@ -103,7 +108,8 @@
                        value="{{ old('costo', $taller->costo) }}"
                        placeholder="0.00"
                        step="0.01"
-                       min="0">
+                       min="0"
+                       required>
                 @error('costo')
                     <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
                 @enderror
@@ -158,6 +164,7 @@
 
     </form>
 </div>
+
 @push('scripts')
 <script>
     function previewImagen(input) {
@@ -172,7 +179,7 @@
             reader.readAsDataURL(input.files[0]);
         } else {
             @if($taller->imagen)
-                preview.src = "{{ asset('talleres/' . $taller->imagen) }}";
+                preview.src = "{{ asset('imagen/talleres/' . $taller->imagen) }}";
                 wrapper.style.display = 'block';
             @else
                 wrapper.style.display = 'none';
@@ -183,4 +190,3 @@
 @endpush
 
 @endsection
-

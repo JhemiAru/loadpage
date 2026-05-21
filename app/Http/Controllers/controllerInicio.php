@@ -21,6 +21,7 @@ use App\Models\Ciudad;
 use App\Models\Email;
 use App\Models\Taller;
 use Exception;
+use Carbon\Carbon;
 
 use App\Http\Requests\RequestUsuarioCreate;
 
@@ -187,21 +188,21 @@ class controllerInicio extends Controller
     public function talleres()
     {
         $talleres = Taller::orderBy('fecha', 'desc')->get();
-        $hoy = \Carbon\Carbon::today();
+        $hoy = Carbon::today();
         $reciente = $talleres->first();
         $anteriores = $talleres->skip(1);
 
         if ($reciente) {
-            $reciente->esFuturo = \Carbon\Carbon::parse($reciente->fecha)->gte($hoy);
-            $reciente->fecha_formateada = \Carbon\Carbon::parse($reciente->fecha)->isoFormat('D [de] MMMM [de] YYYY');
+            $reciente->esFuturo = $reciente->fecha->gte($hoy);
+            $reciente->fecha_formateada = $reciente->fecha->isoFormat('D [de] MMMM [de] YYYY');
             $reciente->costo_formateado = $reciente->costo == 0 ? 'Gratuito' : 'Bs. ' . number_format($reciente->costo, 2);
             $decoded = json_decode($reciente->detalles, true);
             $reciente->detalles_array = is_array($decoded) ? $decoded : [];
         }
 
         foreach ($anteriores as $taller) {
-            $taller->esFuturo = \Carbon\Carbon::parse($taller->fecha)->gte($hoy);
-            $taller->fecha_formateada = \Carbon\Carbon::parse($taller->fecha)->isoFormat('D MMM YYYY');
+            $taller->esFuturo = $taller->fecha->gte($hoy);
+            $taller->fecha_formateada = $taller->fecha->isoFormat('D MMM YYYY');
             $taller->costo_formateado = $taller->costo == 0 ? 'Gratuito' : 'Bs. ' . number_format($taller->costo, 2);
         }
 
@@ -265,101 +266,22 @@ class controllerInicio extends Controller
         return view('inicio.categorias',compact('categoria','empresas', 'countEmpresas'));
     }
 
-    public function mes($numero)
-    {
-        if($numero=='01')
-        {
-            return $mes="Enero";
-        }else
-        {
-            if($numero=='02')
-            {
-                return $mes="Febrero";
-            }else
-            {
-                if($numero=='03')
-                {
-                    return $mes="Marzo";
-                }else
-                {
-                    if($numero=='04')
-                    {
-                        return $mes="Abril";
-                    }else
-                    {
-                        if($numero=='05')
-                        {
-                            return $mes="Mayo";
-                        }else
-                        {
-                            if($numero=='06')
-                            {
-                                return  $mes="Junio";
-                            }else
-                            {
-                                if($numero=='07')
-                                {
-                                    return $mes="Julio";
-                                }else
-                                {
-                                    if($numero=='08')
-                                    {
-                                        return $mes="Agosto";
-                                    }else
-                                    {
-                                        if($numero=='09')
-                                        {
-                                            return $mes="Septiembre";
-                                        }else
-                                        {
-                                            if($numero=='10')
-                                            {
-                                                return $mes="Octubre";
-                                            }else
-                                            {
-                                                if($numero=='11')
-                                                {
-                                                    return $mes="Noviembre";
-                                                }else
-                                                {
-                                                    if($numero=='12')
-                                                    {
-                                                        return $mes="Diciembre";
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function actividad()
     {
-        $actividades = Actividad::orderBy('fecha', 'desc')->get();        
+        $actividades = Actividad::where('activo', 1)->where('tipo', 'actividad')->orderBy('fecha', 'desc')->paginate(12);        
         foreach ($actividades as $actividad) {
-            [$año, $mes, $dia] = explode("-", $actividad->fecha);
-            $actividad->dia = $dia;
-            $actividad->mes = $this->mes($mes);
-            $actividad->año = $año;
-            $fechaActividad = \Carbon\Carbon::parse($actividad->fecha);
-            $hoy = \Carbon\Carbon::today();
-            if ($fechaActividad->isPast()) {
+            $fechaCarbon = $actividad->fecha;
+            $actividad->dia = $fechaCarbon->format('d');
+            $actividad->mes = $fechaCarbon->translatedFormat('F');
+            $actividad->anio = $fechaCarbon->format('Y');
+            $hoy = Carbon::today();
+            if ($fechaCarbon->isPast()) {
                 $actividad->estado = 'Finalizado';
             } else {
-                $diasRestantes = $hoy->diffInDays($fechaActividad);
-                if ($diasRestantes == 0) {
-                    $actividad->estado = 'Hoy';
-                } elseif ($diasRestantes == 1) {
-                    $actividad->estado = 'Mañana';
-                } else {
-                    $actividad->estado = 'Faltan '. $diasRestantes . ' días';
-                }
+                $diasRestantes = $hoy->diffInDays($fechaCarbon);
+                if ($diasRestantes == 0) $actividad->estado = 'Hoy';
+                elseif ($diasRestantes == 1) $actividad->estado = 'Mañana';
+                else $actividad->estado = "Faltan $diasRestantes días";
             }
             $descripcionLimpia = strip_tags($actividad->descripcion);
             $actividad->descripcion_l = $descripcionLimpia;
