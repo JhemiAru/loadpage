@@ -259,6 +259,251 @@ footer a:hover { color: var(--accent); }
     color: #8aabdf;
 }
 
+/* Estilos del Modal de Login */
+.modal-login {
+    max-width: 650px;
+    width: 95%;
+}
+ 
+.login-card {
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    min-height: 380px;
+    box-shadow: 0 32px 80px rgba(26, 58, 107, 0.25);
+}
+.login-form-panel {
+    flex: 1;
+    background: white;
+    padding: 36px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+}
+ 
+.login-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(26, 58, 107, 0.07);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 10;
+}
+ 
+.login-close-btn:hover {
+    background: rgba(26, 58, 107, 0.14);
+    transform: scale(1.1);
+}
+ 
+.login-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid #eef0f6;
+    padding-bottom: 0;
+}
+ 
+.login-tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 16px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.25s;
+    white-space: nowrap;
+}
+ 
+.login-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--blue-light));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+ 
+.login-tab-btn.active {
+    color: var(--primary);
+}
+ 
+.login-tab-btn.active::after {
+    transform: scaleX(1);
+}
+ 
+.login-field {
+    margin-bottom: 18px;
+}
+ 
+.login-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 7px;
+    font-family: 'Poppins', sans-serif;
+}
+ 
+.login-input-group {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #dde2ee;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    background: #f8fafc;
+}
+ 
+.login-input-group:focus-within {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 3px rgba(46, 107, 196, 0.12);
+    background: white;
+}
+ 
+.login-input-icon {
+    padding: 0 14px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: color 0.25s;
+}
+ 
+.login-input-group:focus-within .login-input-icon {
+    color: var(--blue-light);
+}
+ 
+.login-input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 11px 4px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-family: 'Open Sans', sans-serif;
+    outline: none;
+}
+ 
+.login-input-group input::placeholder {
+    color: #b0bac8;
+}
+ 
+.login-eye-btn {
+    background: none;
+    border: none;
+    padding: 0 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+ 
+.login-eye-btn:hover {
+    color: var(--primary);
+}
+ 
+.login-row-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -4px;
+}
+ 
+.login-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+}
+ 
+.login-check input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+ 
+.login-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent2);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+ 
+.login-link:hover {
+    color: var(--primary);
+}
+ 
+.btn-login-submit {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--blue-light) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.25s, transform 0.2s, box-shadow 0.25s;
+    letter-spacing: 0.2px;
+}
+ 
+.btn-login-submit:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26, 58, 107, 0.3);
+}
+ 
+.btn-login-submit:active {
+    transform: translateY(0);
+}
+ 
+.recovery-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+ 
+.recovery-header h5 {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+ 
+.recovery-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
 @media (max-width: 768px) {    
     html, body {
         overflow-x: hidden;
@@ -298,6 +543,41 @@ footer a:hover { color: var(--accent); }
     .hero-section {
         padding: 90px 0 10px 0; 
     }
+
+        .login-card {
+        flex-direction: column;
+        border-radius: 20px;
+        min-height: unset;
+    }
+ 
+    .login-brand-panel {
+        width: 100%;
+        padding: 28px 24px 24px;
+    }
+ 
+    .brand-logo {
+        max-width: 120px;
+        margin-bottom: 16px;
+    }
+ 
+    .brand-title { font-size: 1.3rem; }
+ 
+    .brand-sub,
+    .brand-badges { display: none; }
+ 
+    .brand-circle-1 {
+        width: 180px;
+        height: 180px;
+        top: -50px;
+        right: -50px;
+    }
+ 
+    .login-form-panel {
+        padding: 24px 20px 28px;
+    }
+ 
+    .login-close-btn.d-none { display: flex !important; }
+    .login-close-btn.d-lg-none { display: none !important; }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -350,103 +630,4 @@ footer a:hover { color: var(--accent); }
     }
 }
 
-/* Estilos del Modal de Login */
-#ms-account-modal .modal-content {
-    border-radius: 20px;
-    border: none;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-}
-
-#ms-account-modal .modal-header {
-    padding: 1rem 1.5rem 0;
-}
-
-#ms-account-modal .btn-close {
-    background-color: #f8f9fa;
-    border-radius: 50%;
-    padding: 8px;
-    opacity: 0.8;
-    transition: all 0.3s ease;
-}
-
-#ms-account-modal .btn-close:hover {
-    opacity: 1;
-    transform: rotate(90deg);
-    background-color: var(--accent);
-}
-
-/* Estilos para los tabs activos */
-#ms-account-modal .nav-tabs .nav-link.active {
-    color: var(--primary) !important;
-    border-bottom: 3px solid var(--accent) !important;
-    background: transparent !important;
-}
-
-#ms-account-modal .nav-tabs .nav-link:hover:not(.active) {
-    color: var(--accent) !important;
-    border-bottom-color: transparent !important;
-}
-
-#ms-account-modal .input-group-text {
-    background-color: #f8f9fa;
-    border-right: none;
-}
-
-#ms-account-modal .form-control {
-    border-left: none;
-    transition: all 0.3s ease;
-}
-
-#ms-account-modal .form-control:focus {
-    border-color: #ced4da;
-    box-shadow: none;
-    background-color: #fff !important;
-}
-
-#ms-account-modal .input-group:focus-within .input-group-text {
-    border-color: #86b7fe;
-    background-color: #fff;
-}
-
-#ms-account-modal .input-group:focus-within .input-group-text i {
-    color: var(--accent) !important;
-}
-
-/* Animación para el modal */
-#ms-account-modal .modal-dialog {
-    animation: modalZoomIn 0.3s ease-out;
-}
-
-@keyframes modalZoomIn {
-    from {
-        opacity: 0;
-        transform: scale3d(0.8, 0.8, 0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale3d(1, 1, 1);
-    }
-}
-
-/* Estilo para el checkbox */
-#ms-account-modal .form-check-input:checked {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-    #ms-account-modal .modal-body {
-        padding: 1rem;
-    }
-    
-    #ms-account-modal .nav-tabs .nav-link {
-        font-size: 0.85rem;
-        padding: 0.5rem;
-    }
-    
-    #ms-account-modal .nav-tabs .nav-link i {
-        margin-right: 0.25rem;
-    }
-}
+ 

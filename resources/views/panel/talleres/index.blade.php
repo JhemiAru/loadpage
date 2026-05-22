@@ -2,7 +2,6 @@
 @section('titulo', 'Talleres')
 
 @section('content')
-
 <div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-chalkboard-teacher me-2"></i> Talleres registrados</h5>

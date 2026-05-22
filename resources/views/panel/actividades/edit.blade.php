@@ -9,7 +9,7 @@
     </a>
 </div>
 
-<div class="panel-card" style="max-width:720px;">
+<div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-edit me-2"></i> Editar actividad</h5>
     </div>

@@ -26,23 +26,25 @@ class Empresa extends Model
         'comision'  => 'boolean',
     ];
 
-    public function setImagenAttribute($imagen)
+    public function setImagenAttribute($value)
     {
-        if (!empty($imagen) && is_object($imagen)) {
-            $disk = Storage::disk('empresas');
-            $name = Carbon::now()->timestamp . '_' . $imagen->getClientOriginalName();
-            $disk->put($name, file_get_contents($imagen));
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
             $this->attributes['imagen'] = $name;
+            Storage::disk('empresas')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen'] = $value;
         }
     }
 
-    public function setImagen1Attribute($imagen1)
+    public function setImagen1Attribute($value)
     {
-        if (!empty($imagen1) && is_object($imagen1)) {
-            $disk = Storage::disk('empresasproductos');
-            $name = Carbon::now()->timestamp . '_' . $imagen1->getClientOriginalName();
-            $disk->put($name, file_get_contents($imagen1));
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
             $this->attributes['imagen1'] = $name;
+            Storage::disk('empresasproductos')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen1'] = $value;
         }
     }
 

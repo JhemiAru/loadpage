@@ -8,7 +8,7 @@
     </a>
 </div>
 
-<div class="panel-card" style="max-width: 900px;">
+<div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-edit me-2"></i> Editar empresa: {{ $empresa->nombre }}</h5>
     </div>

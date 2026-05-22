@@ -238,16 +238,16 @@ class controllerInicio extends Controller
        
     public function ciudad($id)
     {
-        $ciudad = Ciudad::where('id',$id)->first();
-        $empresas = Empresa::query()->where('activo', 1)->orderBy('prioridad', 'asc')->paginate(12);
+        $ciudad = Ciudad::findOrFail($id);
+        $empresas = Empresa::where('ciudad_id', $ciudad->id)->where('activo', 1)->orderBy('prioridad', 'asc')->paginate(12);
         $empresas->getCollection()->transform(function ($empresa) {        
             $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
-            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
+            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');            
             $empresa->web = $empresa->web ? (str_starts_with($empresa->web, 'http') ? $empresa->web : 'https://'.$empresa->web) : null;
-            $empresa->facebook = $empresa->facebook ? (str_starts_with($empresa->facebook, 'http') ? $empresa->facebook : 'https://'.$empresa->facebook) : null;
+            $empresa->facebook = $empresa->facebook ? (str_starts_with($empresa->facebook, 'http') ? $empresa->facebook : 'https://'.$empresa->facebook) : null;            
             return $empresa;
         });  
-        $countEmpresas = Empresa::where('ciudad_id', $ciudad->id)->where('activo', 1)->count();
+        $countEmpresas = $empresas->total();
         return view('inicio.ciudades', compact('ciudad','empresas','countEmpresas'));
     }
     

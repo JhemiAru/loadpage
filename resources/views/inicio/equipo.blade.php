@@ -91,7 +91,7 @@
                                                 <i class="fab fa-instagram"></i>
                                             </a>
                                         @endif
-                                        @if(empty($equipo->facebook) && empty($equipo->twitter) && empty($equipo->instagram))
+                                        @if(empty($equipo->facebook && $equipo->facebook !== 'sdf') && empty($equipo->twitter) && empty($equipo->instagram))
                                             <span style="font-size:0.75rem; opacity:0.6">
                                                 <i class="fas fa-user-circle me-1"></i> Equipo FaceBol
                                             </span>

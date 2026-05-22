@@ -20,7 +20,7 @@ class Institucion extends Model
       'telefono',
       'email',
       'facebook',
-      'twitter',
+      'tiktok',
       'youtube',
       'instagram',
       'google',
@@ -56,32 +56,59 @@ class Institucion extends Model
       'tituloempresa',
       'visitas'
     ];
-    public function setImagenAttribute($imagen){
-        if(! empty($imagen)){
-              $name = Carbon::now()->second.$imagen->getClientOriginalName();
-              $this->attributes['imagen'] = $name;
-              Storage::disk('institucion')->put($name, File::get($imagen));
+
+    public function setImagenAttribute($value)
+    {
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['imagen'] = $name;
+            Storage::disk('institucion')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen'] = $value;
         }
     }
-     public function setBanner1Attribute($imagen){
-        if(! empty($imagen)){
-              $name = Carbon::now()->second.$imagen->getClientOriginalName();
-              $this->attributes['banner1'] = $name;
-              Storage::disk('institucion')->put($name, File::get($imagen));
+
+    public function setBanner1Attribute($value)
+    {
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['banner1'] = $name;
+            Storage::disk('institucion')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['banner1'] = $value;
         }
     }
-    public function setBanner2Attribute($imagen){
-        if(! empty($imagen)){
-              $name = Carbon::now()->second.$imagen->getClientOriginalName();
-              $this->attributes['banner2'] = $name;
-              Storage::disk('institucion')->put($name, File::get($imagen));
+
+    public function setBanner2Attribute($value)
+    {
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['banner2'] = $name;
+            Storage::disk('institucion')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['banner2'] = $value;
         }
     }
-    public function setBanner3Attribute($imagen){
-        if(! empty($imagen)){
-              $name = Carbon::now()->second.$imagen->getClientOriginalName();
-              $this->attributes['banner3'] = $name;
-              Storage::disk('institucion')->put($name, File::get($imagen));
+
+    public function setBanner3Attribute($value)
+    {
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['banner3'] = $name;
+            Storage::disk('institucion')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['banner3'] = $value;
+        }
+    }
+
+    public function setImgtrabajaAttribute($value)
+    {
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['imgtrabaja'] = $name;
+            Storage::disk('institucion')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imgtrabaja'] = $value;
         }
     }
 }

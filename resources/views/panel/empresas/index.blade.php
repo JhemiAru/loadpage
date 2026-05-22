@@ -10,35 +10,117 @@
         </a>
     </div>
 
-    {{-- Buscador --}}
+    {{-- Buscador y filtros --}}
     <div class="p-3 border-bottom" style="background: #fafbfe;">
-        <form method="GET" action="{{ route('indexEmpresa') }}" id="searchForm" autocomplete="off">
-            <div class="search-wrap mb-2" style="position: relative; display: flex; gap: 8px;">
-                <div style="flex: 1; position: relative;">
+        <form method="GET" action="{{ route('indexEmpresa') }}" id="filterForm" autocomplete="off">
+            <div class="search-wrap mb-3" style="position: relative; display: flex; gap: 8px;">
+                <div style="flex: 1; display: flex; gap: 8px;">
                     <input type="text"
-                           name="search"
-                           id="searchInput"
-                           class="form-control-panel"
-                           placeholder="Buscar por nombre, categoría, ciudad o teléfono..."
-                           value="{{ request('search') }}"
-                           style="padding-right: 40px;">
-                    <button type="submit" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--blue-light);">
-                        <i class="fas fa-search"></i>
+                        name="search"
+                        id="searchInput"
+                        class="form-control-panel"
+                        placeholder="Buscar por nombre, categoría, ciudad o teléfono..."
+                        value="{{ request('search') }}"
+                        style="flex: 1;">
+                    
+                    <button type="submit" class="btn-primary-panel" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                        <i class="fas fa-search"></i> Buscar
                     </button>
-                    <div id="suggestions" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 1000; display: none; max-height: 300px; overflow-y: auto;"></div>
                 </div>
-                @if(request('search'))
-                    <a href="{{ route('indexEmpresa') }}" class="btn-accent-panel" style="display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="fas fa-times"></i> Limpiar
+                @if(request('search') || request('categoria_id') || request('ciudad_id') || request('activo') !== null || request('aliadas') !== null || request('destacado') !== null || request('sort_field') || request('sort_dir'))
+                    <a href="{{ route('indexEmpresa') }}" class="btn-accent-panel" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                        <i class="fas fa-times"></i> Limpiar filtros
                     </a>
                 @endif
             </div>
+
+            <div class="row g-2 mb-2">
+                <div class="col-md-3">
+                    <select name="categoria_id" class="form-control-panel">
+                        <option value="">-- Categoría --</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                                {{ $categoria->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="ciudad_id" class="form-control-panel">
+                        <option value="">-- Ciudad --</option>
+                        @foreach($ciudades as $ciudad)
+                            <option value="{{ $ciudad->id }}" {{ request('ciudad_id') == $ciudad->id ? 'selected' : '' }}>
+                                {{ $ciudad->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="activo" class="form-control-panel">
+                        <option value="">-- Estado --</option>
+                        <option value="1" {{ request('activo') == '1' ? 'selected' : '' }}>Activo</option>
+                        <option value="0" {{ request('activo') == '0' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="aliadas" class="form-control-panel">
+                        <option value="">-- Aliada --</option>
+                        <option value="1" {{ request('aliadas') == '1' ? 'selected' : '' }}>Sí</option>
+                        <option value="0" {{ request('aliadas') == '0' ? 'selected' : '' }}>No</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="destacado" class="form-control-panel">
+                        <option value="">-- Destacado --</option>
+                        <option value="1" {{ request('destacado') == '1' ? 'selected' : '' }}>Destacado</option>
+                        <option value="0" {{ request('destacado') == '0' ? 'selected' : '' }}>No destacado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <select name="sort_field" class="form-control-panel">
+                        <option value="prioridad" {{ request('sort_field', 'prioridad') == 'prioridad' ? 'selected' : '' }}>Ordenar por Prioridad</option>
+                        <option value="nombre" {{ request('sort_field') == 'nombre' ? 'selected' : '' }}>Ordenar por Nombre</option>
+                        <option value="created_at" {{ request('sort_field') == 'created_at' ? 'selected' : '' }}>Ordenar por Fecha creación</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="sort_dir" class="form-control-panel">
+                        <option value="asc" {{ request('sort_dir', 'asc') == 'asc' ? 'selected' : '' }}>Ascendente</option>
+                        <option value="desc" {{ request('sort_dir') == 'desc' ? 'selected' : '' }}>Descendente</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn-primary-panel w-100">Aplicar filtros</button>
+                </div>
+            </div>
         </form>
-        @if(request('search'))
+
+        @if(request('search') || request('categoria_id') || request('ciudad_id') || request('activo') !== null || request('aliadas') !== null || request('destacado') !== null)
             <div class="mt-2 small text-muted">
-                <i class="fas fa-filter me-1"></i> Mostrando resultados para: <strong>{{ request('search') }}</strong>
+                <i class="fas fa-filter me-1"></i> 
+                Filtros activos:
+                @if(request('search')) <span class="badge bg-secondary">Búsqueda: "{{ request('search') }}"</span> @endif
+                @if(request('categoria_id')) <span class="badge bg-secondary">Categoría: {{ $categorias->firstWhere('id', request('categoria_id'))?->nombre ?? '?' }}</span> @endif
+                @if(request('ciudad_id')) <span class="badge bg-secondary">Ciudad: {{ $ciudades->firstWhere('id', request('ciudad_id'))?->nombre ?? '?' }}</span> @endif
+                @if(request('activo') !== null) <span class="badge bg-secondary">Estado: {{ request('activo') == '1' ? 'Activo' : 'Inactivo' }}</span> @endif
+                @if(request('aliadas') !== null) <span class="badge bg-secondary">Aliada: {{ request('aliadas') == '1' ? 'Sí' : 'No' }}</span> @endif
+                @if(request('destacado') !== null) <span class="badge bg-secondary">Destacado: {{ request('destacado') == '1' ? 'Sí' : 'No' }}</span> @endif
             </div>
         @endif
+    </div>
+
+    <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background: #fafbfe;">
+        <div>
+            <i class="fas fa-table-list me-1"></i>
+            <strong>{{ $empresas->total() }}</strong> 
+            {{ $empresas->total() == 1 ? 'empresa encontrada' : 'empresas encontradas' }}
+        </div>
+        <div>
+            Mostrando {{ $empresas->firstItem() ?? 0 }} - {{ $empresas->lastItem() ?? 0 }} de {{ $empresas->total() }}
+        </div>
     </div>
 
     <div style="overflow-x: auto;">
@@ -131,7 +213,7 @@
                             </a>
                             <form method="POST"
                                   action="{{ route('eliminarEmpresa', $empresa->id) }}"
-                                  onsubmit="return confirm('¿Eliminar «{{ addslashes($empresa->nombre) }}»? Esta acción no se puede deshacer.')">
+                                  onsubmit="return confirm('¿Eliminar «{{ addslashes($empresa->nombre) }}»?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn-danger-panel" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
@@ -145,9 +227,9 @@
                     <td colspan="10" style="text-align:center;padding:40px;color:var(--text-muted);">
                         <i class="fas fa-store-slash" style="font-size:2rem;display:block;margin-bottom:8px;color:#ccd3e0;"></i>
                         No hay empresas registradas.
-                        @if(request('search'))
-                            <br>No se encontraron resultados para "<strong>{{ request('search') }}</strong>".
-                            <br><a href="{{ route('indexEmpresa') }}" style="color:var(--blue-light);">Limpiar búsqueda</a>
+                        @if(request('search') || request('categoria_id') || request('ciudad_id') || request('activo') !== null)
+                            <br>No se encontraron resultados con los filtros actuales.
+                            <br><a href="{{ route('indexEmpresa') }}" style="color:var(--blue-light);">Limpiar filtros</a>
                         @else
                             <a href="{{ route('crearEmpresa') }}" style="color:var(--blue-light);font-weight:600;margin-left:4px;">
                                 Crear la primera
@@ -166,5 +248,4 @@
         </div>
     @endif
 </div>
-
 @endsection

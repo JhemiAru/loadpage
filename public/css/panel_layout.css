@@ -188,7 +188,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-logout:hover { 
-    color: #ff7070;
+    color: var(--accent);
     transform: translateX(5px);
 }
 
@@ -384,7 +384,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 8px;
     padding: 9px 20px;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -404,13 +404,13 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 7px 16px;
+    padding: 9px 20px;
     font-weight: 600;
     font-size: 0.8rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     transition: all 0.25s ease;
     cursor: pointer;
 }
@@ -425,12 +425,12 @@ h1, h2, h3, h4, h5, h6 {
     color: #dc2626;
     border: none;
     border-radius: 8px;
-    padding: 7px 16px;
+    padding: 9px 20px;
     font-weight: 600;
     font-size: 0.8rem;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     transition: all 0.25s ease;
     cursor: pointer;
 }
@@ -634,6 +634,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .panel-card {
     animation: fadeIn 0.4s ease;
+}
+
+.card img {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.card img:hover {
+    transform: scale(1.02);
 }
 
 /* Paginacion */

@@ -14,12 +14,14 @@ class Actividad extends Model
         'fecha'  => 'date',
         'activo' => 'boolean',
     ];
-    public function setImagenAttribute($imagen)
+    public function setImagenAttribute($value)
     {
-        if (!empty($imagen) && is_object($imagen)) {
-            $name = Carbon::now()->timestamp . '_' . $imagen->getClientOriginalName();
-            Storage::disk('actividades')->put($name, file_get_contents($imagen));
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
             $this->attributes['imagen'] = $name;
+            Storage::disk('actividades')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen'] = $value;
         }
     }
 }

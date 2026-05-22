@@ -22,18 +22,43 @@ class controllerEmpresa extends Controller
                 $q->where('nombre', 'LIKE', "%{$search}%")
                 ->orWhere('descripcion', 'LIKE', "%{$search}%")
                 ->orWhere('telefono', 'LIKE', "%{$search}%")
-                ->orWhereHas('categoria', function($cat) use ($search) {
-                    $cat->where('nombre', 'LIKE', "%{$search}%");
-                })
-                ->orWhereHas('ciudad', function($ciu) use ($search) {
-                    $ciu->where('nombre', 'LIKE', "%{$search}%");
-                });
+                ->orWhereHas('categoria', fn($cat) => $cat->where('nombre', 'LIKE', "%{$search}%"))
+                ->orWhereHas('ciudad', fn($ciu) => $ciu->where('nombre', 'LIKE', "%{$search}%"));
             });
         }
 
-        $empresas = $query->orderBy('prioridad', 'asc')->paginate(20);
-        $empresas->appends($request->only('search'));
-        return view('panel.empresas.index', compact('empresas'));
+        if ($request->filled('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+        if ($request->filled('ciudad_id')) {
+            $query->where('ciudad_id', $request->ciudad_id);
+        }
+        if ($request->filled('activo') && in_array($request->activo, ['0','1'])) {
+            $query->where('activo', $request->activo);
+        }
+        if ($request->filled('aliadas') && in_array($request->aliadas, ['0','1'])) {
+            $query->where('aliadas', $request->aliadas);
+        }
+        if ($request->filled('destacado') && in_array($request->destacado, ['0','1'])) {
+            $query->where('destacado', $request->destacado);
+        }
+
+        $sortField = $request->get('sort_field', 'prioridad');
+        $sortDir = $request->get('sort_dir', 'asc');
+        $allowedSortFields = ['prioridad', 'nombre', 'created_at'];
+        if (in_array($sortField, $allowedSortFields)) {
+            $query->orderBy($sortField, $sortDir === 'desc' ? 'desc' : 'asc');
+        } else {
+            $query->orderBy('prioridad', 'asc');
+        }
+
+        $empresas = $query->paginate(20);
+        $empresas->appends($request->only('search', 'categoria_id', 'ciudad_id', 'activo', 'aliadas', 'destacado', 'sort_field', 'sort_dir'));
+
+        $categorias = Categoria::orderBy('nombre')->get();
+        $ciudades = Ciudad::orderBy('nombre')->get();
+
+        return view('panel.empresas.index', compact('empresas', 'categorias', 'ciudades'));
     }
 
     public function create()

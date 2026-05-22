@@ -8,7 +8,7 @@
     </a>
 </div>
 
-<div class="panel-card" style="max-width: 900px;">
+<div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-plus-circle me-2"></i> Nueva empresa</h5>
     </div>

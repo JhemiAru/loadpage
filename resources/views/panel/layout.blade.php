@@ -31,8 +31,14 @@
             <a href="{{ route('start-a') }}" class="sidebar-link {{ request()->routeIs('start-a') ? 'active' : '' }}">
                 <i class="fas fa-home"></i> <span>Inicio</span>
             </a>
+            <a href="{{ route('indexGaleria') }}" class="sidebar-link {{ request()->routeIs('indexGaleria') ? 'active' : '' }}">
+                <i class="fas fa-images"></i> <span>Galeria</span>
+            </a>
 
             <div class="nav-section-label">Contenido</div>
+            <a href="{{ route('indexUsuario') }}" class="sidebar-link {{ request()->routeIs('indexUsuario') ? 'active' : '' }}">
+                <i class="fas fa-user-group"></i> <span>Usuarios</span>
+            </a>
             <a href="{{ route('indexTaller') }}" class="sidebar-link {{ request()->routeIs('indexTaller') ? 'active' : '' }}">
                 <i class="fas fa-chalkboard-teacher"></i> <span>Talleres</span>
             </a>
@@ -42,13 +48,24 @@
             <a href="{{ route('indexActividad') }}" class="sidebar-link {{ request()->routeIs('indexActividad') ? 'active' : '' }}">
                 <i class="fas fa-calendar-day"></i> <span>Actividades</span>
             </a>
-            
+            <a href="{{ route('indexCategoria') }}" class="sidebar-link {{ request()->routeIs('indexCategoria') ? 'active' : '' }}">
+                <i class="fas fa-layer-group"></i> <span>Categorias</span>
+            </a>
+            <a href="{{ route('indexCiudad') }}" class="sidebar-link {{ request()->routeIs('indexCiudad') ? 'active' : '' }}">
+                <i class="fas fa-city"></i> <span>Ciudades</span>
+            </a>
+            <a href="{{ route('indexPais') }}" class="sidebar-link {{ request()->routeIs('indexPais') ? 'active' : '' }}">
+                <i class="fas fa-earth-americas"></i> <span>Paises</span>
+            </a>
+            <a href="{{ route('indexEquipo') }}" class="sidebar-link {{ request()->routeIs('indexEquipo') ? 'active' : '' }}">
+                <i class="fas fa-people-group"></i> <span>Equipo</span>
+            </a>
         </nav>
 
         <div class="sidebar-footer">
-            <button type="submit" class="btn-logout" action="{{ route('logout') }}">
+            <a href="{{ route('logout') }}" class="btn-logout">
                 <i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span>
-            </button>            
+            </a>            
         </div>
     </aside>
 
@@ -118,19 +135,16 @@
                 }, 5000); 
             });
         });
-        // Sistema de sidebar responsive
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('panelSidebar');
             const mobileToggle = document.getElementById('mobileMenuToggle');
             const sidebarClose = document.getElementById('sidebarCloseMobile');
             const overlay = document.getElementById('sidebarOverlay');
-            
-            // Verificar si estamos en móvil (viewport < 768px)
+
             function isMobile() {
                 return window.innerWidth < 768;
             }
-            
-            // Abrir sidebar
+
             function openSidebar() {
                 if (isMobile()) {
                     sidebar.classList.add('mobile-open');
@@ -139,7 +153,6 @@
                 }
             }
             
-            // Cerrar sidebar
             function closeSidebar() {
                 if (isMobile()) {
                     sidebar.classList.remove('mobile-open');
@@ -148,7 +161,6 @@
                 }
             }
             
-            // Toggle sidebar (abrir/cerrar)
             function toggleSidebar() {
                 if (sidebar.classList.contains('mobile-open')) {
                     closeSidebar();
@@ -157,7 +169,6 @@
                 }
             }
             
-            // Event listeners
             if (mobileToggle) {
                 mobileToggle.addEventListener('click', toggleSidebar);
             }
@@ -170,14 +181,12 @@
                 overlay.addEventListener('click', closeSidebar);
             }
             
-            // Cerrar sidebar al cambiar de tamaño de ventana a desktop
             window.addEventListener('resize', function() {
                 if (!isMobile() && sidebar.classList.contains('mobile-open')) {
                     closeSidebar();
                 }
             });
             
-            // Prevenir que los enlaces del sidebar cierren el menú automáticamente
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', function() {

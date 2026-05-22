@@ -10,7 +10,7 @@
     </a>
 </div>
 
-<div class="panel-card" style="max-width: 780px;">
+<div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-plus-circle me-2"></i> Nuevo taller</h5>
     </div>

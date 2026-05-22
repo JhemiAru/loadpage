@@ -9,7 +9,7 @@
     </a>
 </div>
 
-<div class="panel-card" style="max-width:720px;">
+<div class="panel-card">
     <div class="panel-card-header">
         <h5><i class="fas fa-plus-circle me-2"></i> Nueva actividad</h5>
     </div>

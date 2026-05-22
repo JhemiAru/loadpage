@@ -13,20 +13,14 @@ class Taller extends Model
  
     protected $fillable = ['titulo','descripcion','fecha','horario','lugar','imagen','costo','detalles'];
 
-    public function setImagenAttribute($imagen)
+    public function setImagenAttribute($value)
     {
-        if (!empty($imagen) && is_object($imagen)) {
-            $disk = Storage::disk('talleres');
-            $originalName = pathinfo($imagen->getClientOriginalName(), PATHINFO_FILENAME);
-            $extension = $imagen->getClientOriginalExtension();            
-            $name = $originalName . '.' . $extension;
-            $counter = 1;
-            while ($disk->exists($name)) {
-                $name = $originalName . '(' . $counter . ').' . $extension;
-                $counter++;
-            }
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
             $this->attributes['imagen'] = $name;
-            $disk->putFileAs('', $imagen, $name);
+            Storage::disk('talleres')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen'] = $value;
         }
     }
 
