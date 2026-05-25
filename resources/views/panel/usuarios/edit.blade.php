@@ -148,7 +148,7 @@
                 <input type="file" id="imagen" name="imagen" class="form-control-panel @error('imagen') is-invalid @enderror" accept="image/jpg,image/jpeg,image/png,image/webp" onchange="previewImagen(this, 'previewImg')">
                 <small>Formatos: JPG, PNG, WEBP. Máx 2 MB. Dejar vacío para conservar la imagen actual.</small>
                 <div id="previewImgWrapper" style="margin-top:10px; {{ $usuario->imagen ? '' : 'display:none;' }}">
-                    <img id="previewImg" src="{{ $usuario->imagen ? asset('storage/usuarios/' . $usuario->imagen) : '' }}" class="img-preview-large" style="max-width:150px; border-radius:50%;">
+                    <img id="previewImg" src="{{ $usuario->imagen ? asset('imagen/usuarios/' . $usuario->imagen) : '' }}" class="img-preview-large" style="max-width:150px; border-radius:50%;">
                 </div>
                 @error('imagen')<p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>@enderror
             </div>

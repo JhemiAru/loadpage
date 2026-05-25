@@ -10,19 +10,27 @@ class controllerPanel extends Controller
 {
     public function log(Request $request)
     {
-        if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password']]))
-        {   
-            return redirect()->route('start-a');
-    
-        }else{
-            return redirect()->route('inicio');
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('inicio'));
         }
+
+        return back()->withErrors([
+            'email' => 'Contraseña o correo incorrectos',
+        ])->onlyInput('email');
     }
-    public function logout()
+
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('inicio');
     }
+
     public function startAdmin() 
     {
         return view('panel.inicio');

@@ -20,8 +20,9 @@
                 <div class="col-md-3">
                     <select name="tipo" class="form-control-panel">
                         <option value="">Todos los tipos</option>
-                        <option value="admin" {{ request('tipo')=='admin' ? 'selected' : '' }}>Administrador</option>
-                        <option value="user" {{ request('tipo')=='user' ? 'selected' : '' }}>Usuario normal</option>
+                        <option value="sadministrador" {{ request('tipo')=='sadministrador' ? 'selected' : '' }}>Super Admin</option>
+                        <option value="administrador" {{ request('tipo')=='admininstrador' ? 'selected' : '' }}>Administrador</option>
+                        <option value="usuario" {{ request('tipo')=='usuario' ? 'selected' : '' }}>Usuario normal</option>
                         <option value="empresa" {{ request('tipo')=='empresa' ? 'selected' : '' }}>Empresa</option>
                     </select>
                 </div>

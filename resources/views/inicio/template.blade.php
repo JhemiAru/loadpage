@@ -74,9 +74,6 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <!-- <li>
-                                <a class="dropdown-item" href="{{ route('comision') }}">Empresas por comisión</a>
-                            </li> -->
                         </ul>
                     </li>
                     
@@ -95,14 +92,6 @@
                            Talleres
                         </a>
                     </li>
-
-                    <!-- Servicios -->
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('servicio*') ? 'active' : '' }}" 
-                           href="{{ route('servicio') }}">
-                           Servicios
-                        </a>
-                    </li> --}}
                     
                     <!-- Equipo -->
                     <li class="nav-item">
@@ -112,8 +101,36 @@
                         </a>
                     </li>                    
                 </ul>
-                <div class="d-flex gap-2">                    
-                    <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
+
+                <!-- Inicio de Sesion / Usuario -->
+                <div class="d-flex gap-2">
+                    @auth
+                        <div class="dropdown">
+                            <button class="btn btn-user-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: transparent; border: none; display: flex; align-items: center; gap: 8px; color: white;">
+                                @if(Auth::user()->imagen)
+                                    <img src="{{ asset('imagen/usuarios/' . Auth::user()->imagen) }}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                @else
+                                    <div class="avatar-placeholder" style="width: 32px; height: 32px; border-radius: 50%; background: #f5a623; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a6b;">
+                                        {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
+                                    </div>
+                                @endif
+                                <span>{{ Auth::user()->nombre ?? 'Usuario' }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @if(Auth::user()->tipo == 'Administrador' || Auth::user()->tipo == 'Sadministrador')
+                                    <li><a class="dropdown-item" href="{{ route('start-a') }}"><i class="fas fa-tachometer-alt me-2"></i> Panel de control</a></li>
+                                @endif
+                                <li><a class="dropdown-item" href="{{ route('perfil.show') }}"><i class="fas fa-user-circle me-2"></i> Mi perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    @else
+                        <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -204,93 +221,64 @@
     <div class="modal-dialog modal-dialog-centered modal-login">
         <div class="modal-content login-card"> 
             <div class="login-form-panel">
-                <button type="button"
-                        class="login-close-btn d-none d-lg-flex"
-                        data-bs-dismiss="modal" aria-label="Cerrar">
+                <button type="button" class="login-close-btn d-none d-lg-flex" data-bs-dismiss="modal" aria-label="Cerrar">
                     <i class="fas fa-times"></i>
                 </button>
  
                 <ul class="login-tabs" id="loginTab" role="tablist">
                     <li>
-                        <button class="login-tab-btn active"
-                                id="login-tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#ms-login-tab"
-                                type="button" role="tab"
-                                aria-selected="true">
+                        <button class="login-tab-btn active" id="login-tab" data-bs-toggle="tab" data-bs-target="#ms-login-tab" type="button" role="tab" aria-selected="true">
                             <i class="fas fa-sign-in-alt me-2"></i>Iniciar sesión
                         </button>
                     </li>
                     <li>
-                        <button class="login-tab-btn"
-                                id="recovery-tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#ms-recovery-tab"
-                                type="button" role="tab"
-                                aria-selected="false">
+                        <button class="login-tab-btn" id="recovery-tab" data-bs-toggle="tab" data-bs-target="#ms-recovery-tab" type="button" role="tab" aria-selected="false">
                             <i class="fas fa-key me-2"></i>Recuperar
                         </button>
                     </li>
                 </ul>
                 <div class="login-tab-indicator"></div>
  
+                <!-- Mostrar errores de autenticación aquí -->
+                @if(session('error') || $errors->has('email'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ session('error') ?? $errors->first('email') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+ 
                 <div class="tab-content mt-4" id="loginTabContent">
- 
-                    <div class="tab-pane fade show active"
-                         id="ms-login-tab" role="tabpanel">
- 
+                    <div class="tab-pane fade show active" id="ms-login-tab" role="tabpanel">
                         <form action="{{ route('log') }}" method="POST">
                             @csrf
- 
                             <div class="login-field">
                                 <label for="ms-form-user">Correo electrónico</label>
                                 <div class="login-input-group">
-                                    <span class="login-input-icon">
-                                        <i class="fas fa-envelope"></i>
-                                    </span>
-                                    <input type="email"
-                                           name="email"
-                                           id="ms-form-user"
-                                           placeholder="usuario@ejemplo.com"
-                                           required>
+                                    <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" name="email" id="ms-form-user" placeholder="usuario@ejemplo.com" required>
                                 </div>
                             </div>
- 
                             <div class="login-field">
                                 <label for="ms-form-pass">Contraseña</label>
                                 <div class="login-input-group">
-                                    <span class="login-input-icon">
-                                        <i class="fas fa-lock"></i>
-                                    </span>
-                                    <input type="password"
-                                           name="password"
-                                           id="ms-form-pass"
-                                           placeholder="••••••••"
-                                           required>
-                                    <button type="button"
-                                            id="togglePassword"
-                                            class="login-eye-btn"
-                                            tabindex="-1">
+                                    <span class="login-input-icon"><i class="fas fa-lock"></i></span>
+                                    <input type="password" name="password" id="ms-form-pass" placeholder="••••••••" required>
+                                    <button type="button" id="togglePassword" class="login-eye-btn" tabindex="-1">
                                         <i class="fas fa-eye" id="eyeIcon"></i>
                                     </button>
                                 </div>
                             </div>
- 
                             <div class="login-row-options">
                                 <label class="login-check">
                                     <input type="checkbox" name="remember" id="remember">
                                     <span>Recordarme</span>
                                 </label>
-                                <a href="#"
-                                   class="login-link"
-                                   onclick="bootstrap.Tab.getInstance(document.getElementById('recovery-tab')).show(); return false;">
+                                <a href="#" class="login-link" onclick="bootstrap.Tab.getInstance(document.getElementById('recovery-tab')).show(); return false;">
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>
- 
-                            <button type="submit" class="btn-login-submit">
-                                <i class="fas fa-arrow-right me-2"></i>Ingresar
-                            </button>
+                            <button type="submit" class="btn-login-submit"><i class="fas fa-arrow-right me-2"></i>Ingresar</button>
                         </form>
                     </div>
  
@@ -304,31 +292,18 @@
                             <div class="login-field">
                                 <label for="ms-form-email-re">Correo electrónico</label>
                                 <div class="login-input-group">
-                                    <span class="login-input-icon">
-                                        <i class="fas fa-envelope"></i>
-                                    </span>
-                                    <input type="email"
-                                           name="email"
-                                           id="ms-form-email-re"
-                                           placeholder="usuario@ejemplo.com"
-                                           required>
+                                    <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" name="email" id="ms-form-email-re" placeholder="usuario@ejemplo.com" required>
                                 </div>
                             </div>
- 
-                            <button type="submit" class="btn-login-submit">
-                                <i class="fas fa-paper-plane me-2"></i>Enviar enlace
-                            </button>
- 
+                            <button type="submit" class="btn-login-submit"><i class="fas fa-paper-plane me-2"></i>Enviar enlace</button>
                             <div class="text-center mt-3">
-                                <a href="#"
-                                   class="login-link"
-                                   onclick="bootstrap.Tab.getInstance(document.getElementById('login-tab')).show(); return false;">
+                                <a href="#" class="login-link" onclick="bootstrap.Tab.getInstance(document.getElementById('login-tab')).show(); return false;">
                                     <i class="fas fa-arrow-left me-1"></i> Volver al inicio de sesión
                                 </a>
                             </div>
                         </form>
                     </div>
- 
                 </div>
             </div>
         </div>
@@ -336,8 +311,33 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    @if(session('error') || $errors->has('email'))
+        var myModal = new bootstrap.Modal(document.getElementById('ms-account-modal'));
+        myModal.show();
+    @endif
+
+    const togglePassword = document.querySelector('#togglePassword');
+    if (togglePassword) {
+        togglePassword.addEventListener('click', function () {
+            const passwordInput = document.querySelector('#ms-form-pass');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    }
+</script>
 
 @stack('scripts')
 
+@if(session('open_login_modal'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var myModal = new bootstrap.Modal(document.getElementById('ms-account-modal'));
+            myModal.show();
+        });
+    </script>
+@endif
 </body>
 </html>

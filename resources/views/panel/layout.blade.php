@@ -63,9 +63,12 @@
         </nav>
 
         <div class="sidebar-footer">
-            <a href="{{ route('logout') }}" class="btn-logout">
-                <i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span>
-            </a>            
+            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span>
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -79,10 +82,16 @@
                 <h6 class="panel-title" id="panelTitle">@yield('titulo', 'Dashboard')</h6>
             </div>
             <div class="topbar-right">
-                <div class="topbar-user">
-                    <div class="avatar">{{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}</div>
-                    <span>{{ Auth::user()->name ?? 'Admin' }}</span>
-                </div>
+                <a href="{{ route('perfil.show') }}" class="topbar-user" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                    @if(Auth::user()->imagen)
+                        <img src="{{ asset('imagen/usuarios/' . Auth::user()->imagen) }}" alt="Avatar" class="avatar-small" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                    @else
+                        <div class="avatar" style="width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #ccc;">
+                            {{ strtoupper(substr(Auth::user()->name ?? Auth::user()->nombre ?? 'U', 0, 1)) }}
+                        </div>
+                    @endif
+                    <span>{{ Auth::user()->nombre ?? Auth::user()->name ?? 'Usuario' }}</span>
+                </a>
             </div>
         </div>
 

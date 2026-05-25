@@ -75,7 +75,7 @@ class controllerGaleria extends Controller
                             'nombre_archivo' => $institucion->$campo,
                             'titulo'    => ucfirst($campo),
                             'created_at'=> $institucion->created_at,
-                            'url'       => asset('storage/institucion/' . $institucion->$campo),
+                            'url'       => asset('imagen/institucion/' . $institucion->$campo),
                             'ruta_disco'=> 'institucion',
                             'ruta_eliminar' => route('eliminarGaleria', ['modelo' => 'institucion', 'id' => $institucion->id, 'campo' => $campo])
                         ]);

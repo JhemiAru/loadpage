@@ -27,7 +27,7 @@ class controllerUsuario extends Controller
             });
         }
 
-        if ($request->filled('tipo') && in_array($request->tipo, ['admin', 'user', 'empresa'])) {
+        if ($request->filled('tipo') && in_array($request->tipo, ['administrador', 'usuario', 'empresa', 'sadministrador'])) {
             $query->where('tipo', $request->tipo);
         }
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\Panel\controllerEquipo;
 use App\Http\Controllers\Panel\controllerInstitucion;
 use App\Http\Controllers\Panel\controllerUsuario;
 use App\Http\Controllers\Panel\controllerGaleria;
+use App\Http\Controllers\Panel\controllerPerfil;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/empresa/buscar', [SearchController::class, 'show'])->name('empresaBuscar');
@@ -43,14 +44,20 @@ Route::get('/', [controllerInicio::class, 'inicio'])->name('inicio');
 Route::post('suscribir', [controllerInicio::class, 'suscribir'])->name('suscribir');
 Route::post('email_post', [controllerInicio::class, 'emailPost'])->name('email_post');
 
+Route::get('/login', function () {
+    session()->flash('open_login_modal', true);
+    return redirect()->route('inicio');
+})->name('login');
 Route::post('log', [controllerPanel::class, 'log'])->name('log');
-Route::get('logout', [controllerPanel::class, 'logout'])->name('logout');
+Route::post('logout', [controllerPanel::class, 'logout'])->name('logout');
 Route::post('reset/password/save', [controllerInicio::class, 'passwordSave'])->name('passwordSave');
 Route::get('reset/password/{codigo}', [controllerInicio::class, 'passwordReset'])->name('passwordReset');
 Route::post('reset', [controllerInicio::class, 'emailReset'])->name('reset');
 
 Route::middleware(['auth'])->prefix('panel')->group(function () {
     Route::get('inicio', [controllerPanel::class, 'startAdmin'])->name('start-a');
+    Route::get('/perfil', [controllerPerfil::class, 'show'])->name('perfil.show');
+    Route::put('/perfil', [controllerPerfil::class, 'update'])->name('perfil.update');
     Route::get('/institucion/editar', [controllerInstitucion::class, 'edit'])->name('editarInstitucion');
     Route::put('/institucion/actualizar', [controllerInstitucion::class, 'update'])->name('actualizarInstitucion');
 
