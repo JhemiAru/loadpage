@@ -1,4 +1,4 @@
-@extends('inicio.template')
+@extends('inicio.layout')
 
 @push('styles') 
 <link rel="stylesheet" href="{{ asset('css/empresa-detalle.css') }}">
@@ -7,7 +7,7 @@
 @section('content')
 <div class="detalle-page">
 
-    {{-- ── HERO ──────────────────────────────────────────── --}}
+    {{-- HERO --}}
     <header class="hero-detalle">
         <div class="container">
             <div class="row align-items-center g-4">
@@ -35,15 +35,21 @@
                 </div>
 
                 <div class="col-lg-6 text-center hero-img-wrapper" data-aos="zoom-in" data-aos-delay="150">
+                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}"
+                        alt="{{ $empresa->nombre }}"
+                        class="img-fluid d-lg-none"
+                        style="max-width: 220px;">
+                        
                     @if(isset($empresa->imagen1) && $empresa->imagen1)
                         <img src="{{ asset('imagen/empresasproductos/' . $empresa->imagen1) }}"
-                             alt="{{ $empresa->nombre }}"
-                             class="img-fluid">
+                            alt="{{ $empresa->nombre }}"
+                            class="img-fluid d-none d-lg-block">
                     @else
                         <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}"
-                             alt="{{ $empresa->nombre }}"
-                             class="img-fluid">
+                            alt="{{ $empresa->nombre }}"
+                            class="img-fluid d-none d-lg-block">
                     @endif
+
                 </div>
 
             </div>
@@ -59,7 +65,7 @@
         </div>
     </header>
 
-    {{-- ── INFO + DATA ────────────────────────────────────── --}}
+    {{-- INFO + DATA --}}
     <section class="detalle-section" id="info">
         <div class="container">
             <div class="row g-4">
@@ -136,7 +142,7 @@
         </div>
     </section>
 
-    {{-- ── MULTIMEDIA ─────────────────────────────────────── --}}
+    {{-- MULTIMEDIA --}}
     <section class="detalle-section" id="media">
         <div class="container">
             <div class="text-center mb-4" data-aos="fade-up">
@@ -214,7 +220,7 @@
         </div>
     </section>
 
-    {{-- ── UBICACIÓN ───────────────────────────────────────── --}}
+    {{-- UBICACIÓN --}}
     <section class="detalle-section" id="location">
         <div class="container">
             <div class="mapa-card" data-aos="fade-up">
@@ -259,7 +265,7 @@
         </div>
     </section>
 
-    {{-- ── CONTACTO ────────────────────────────────────────── --}}
+    {{-- CONTACTO --}}
     <section class="detalle-section" id="contact">
         <div class="container">
             <div class="row g-4">

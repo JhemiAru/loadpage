@@ -27,24 +27,26 @@
         </div>
         <div class="row g-4">
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="direccion">Dirección <span class="text-danger">*</span></label>
-                <input type="text" id="direccion" name="direccion" class="form-control-panel @error('direccion') is-invalid @enderror" value="{{ old('direccion', $institucion->direccion) }}" required placeholder="Calle, número, zona...">
-                @error('direccion')<p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>@enderror
+                <label class="form-label-panel" for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" class="form-control-panel" value="{{ old('direccion', $institucion->direccion) }}" placeholder="Calle, número, zona...">
             </div>
             <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="email">Email <span class="text-danger">*</span></label>
-                <input type="email" id="email" name="email" class="form-control-panel @error('email') is-invalid @enderror" value="{{ old('email', $institucion->email) }}" required placeholder="contacto@facebol.com">
-                @error('email')<p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>@enderror
+                <label class="form-label-panel" for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control-panel" value="{{ old('email', $institucion->email) }}" placeholder="contacto@facebol.com">                
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-3 form-group">
                 <label class="form-label-panel" for="celular">Celular</label>
                 <input type="text" id="celular" name="celular" class="form-control-panel" value="{{ old('celular', $institucion->celular) }}" placeholder="76266570">
             </div>
-            <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="telefono">Teléfono fijo</label>
-                <input type="text" id="telefono" name="telefono" class="form-control-panel" value="{{ old('telefono', $institucion->telefono) }}" placeholder="2XXXXXX">
+            <div class="col-md-3 form-group">
+                <label class="form-label-panel" for="celular2">Celular de contacto para tarjeta</label>
+                <input type="text" id="celular2" name="celular2" class="form-control-panel" value="{{ old('celular2', $institucion->celular2) }}" placeholder="77793217">
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-3 form-group">
+                <label class="form-label-panel" for="telefono">Teléfono fijo</label>
+                <input type="text" id="telefono" name="telefono" class="form-control-panel" value="{{ old('telefono', $institucion->telefono) }}" placeholder="31231234">
+            </div>
+            <div class="col-md-3 form-group">
                 <label class="form-label-panel" for="visitas">Visitas (contador)</label>
                 <input type="number" id="visitas" name="visitas" class="form-control-panel" value="{{ old('visitas', $institucion->visitas) }}" placeholder="0">
             </div>
@@ -71,9 +73,52 @@
                 <label class="form-label-panel" for="instagram">Instagram</label>
                 <input type="url" id="instagram" name="instagram" class="form-control-panel" value="{{ old('instagram', $institucion->instagram) }}" placeholder="https://instagram.com/facebol">
             </div>
-            <div class="col-md-12 form-group">
-                <label class="form-label-panel" for="google">Google Maps / Otra URL</label>
-                <input type="url" id="google" name="google" class="form-control-panel" value="{{ old('google', $institucion->google) }}" placeholder="https://goo.gl/maps/...">
+        </div>
+
+        {{-- === CARRUSEL === --}}
+        <div class="mt-5 mb-4 pb-2 border-bottom">
+            <h6 class="fw-bold" style="color: var(--primary);"><i class="fas fa-pager me-2"></i> Carrusel Principal</h6>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="banner1">Imagen 1 del carrusel</label>
+                <input type="file" id="banner1" name="banner1" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner1')">
+                <div id="previewImgBanner1Wrapper" style="margin-top:10px; {{ $institucion->banner1 ? '' : 'display:none;' }}">
+                    <img id="previewImgBanner1" src="{{ $institucion->banner1 ? asset('imagen/institucion/' . $institucion->banner1) : '' }}" class="img-preview-large">
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="banner2">Imagen 2 del carrusel</label>
+                <input type="file" id="banner2" name="banner2" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner2')">
+                <div id="previewImgBanner2Wrapper" style="margin-top:10px; {{ $institucion->banner2 ? '' : 'display:none;' }}">
+                    <img id="previewImgBanner2" src="{{ $institucion->banner2 ? asset('imagen/institucion/' . $institucion->banner2) : '' }}" class="img-preview-large">
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="banner3">Imagen 3 del carrusel</label>
+                <input type="file" id="banner3" name="banner3" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner3')">
+                <div id="previewImgBanner3Wrapper" style="margin-top:10px; {{ $institucion->banner3 ? '' : 'display:none;' }}">
+                    <img id="previewImgBanner3" src="{{ $institucion->banner3 ? asset('imagen/institucion/' . $institucion->banner3) : '' }}" class="img-preview-large">
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="frase1">Descripción 1 del carrusel</label>
+                <input type="text" id="frase1" name="frase1" class="form-control-panel" value="{{ old('frase1', $institucion->frase1) }}">
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="frase2">Descripción 2 del carrusel</label>
+                <input type="text" id="frase2" name="frase2" class="form-control-panel" value="{{ old('frase2', $institucion->frase2) }}">
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="form-label-panel" for="frase3">Descripción 3 del carrusel</label>
+                <input type="text" id="frase3" name="frase3" class="form-control-panel" value="{{ old('frase3', $institucion->frase3) }}">
+            </div>
+            <div class="col-md-6 form-group ">
+                <label class="form-label-panel" for="imagen">Logo principal</label>
+                <input type="file" id="imagen" name="imagen" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgLogo')">
+                <div id="previewImgLogoWrapper" style="margin-top:10px; {{ $institucion->imagen ? '' : 'display:none;' }}">
+                    <img id="previewImgLogo" src="{{ $institucion->imagen ? asset('imagen/institucion/' . $institucion->imagen) : '' }}" class="img-preview-large">
+                </div>
             </div>
         </div>
 
@@ -98,18 +143,6 @@
                 <label class="form-label-panel" for="desEmpresa">Descripción de la empresa (corta)</label>
                 <textarea id="desEmpresa" name="desEmpresa" rows="3" class="form-control-panel">{{ old('desEmpresa', $institucion->desEmpresa) }}</textarea>
             </div>
-            <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="frase1">Frase destacada 1</label>
-                <input type="text" id="frase1" name="frase1" class="form-control-panel" value="{{ old('frase1', $institucion->frase1) }}">
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="frase2">Frase destacada 2</label>
-                <input type="text" id="frase2" name="frase2" class="form-control-panel" value="{{ old('frase2', $institucion->frase2) }}">
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="form-label-panel" for="frase3">Frase destacada 3</label>
-                <input type="text" id="frase3" name="frase3" class="form-control-panel" value="{{ old('frase3', $institucion->frase3) }}">
-            </div>
         </div>
 
         {{-- === SECCIONES DE LA PÁGINA === --}}
@@ -117,14 +150,6 @@
             <h6 class="fw-bold" style="color: var(--primary);"><i class="fas fa-newspaper me-2"></i> Contenido de secciones</h6>
         </div>
         <div class="row g-4">
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="titulonoticias">Título de la sección Noticias</label>
-                <input type="text" id="titulonoticias" name="titulonoticias" class="form-control-panel" value="{{ old('titulonoticias', $institucion->titulonoticias) }}">
-            </div>
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="desnoticias">Subtítulo / descripción Noticias</label>
-                <input type="text" id="desnoticias" name="desnoticias" class="form-control-panel" value="{{ old('desnoticias', $institucion->desnoticias) }}">
-            </div>
             <div class="col-md-6 form-group">
                 <label class="form-label-panel" for="tituloactividades">Título de Actividades</label>
                 <input type="text" id="tituloactividades" name="tituloactividades" class="form-control-panel" value="{{ old('tituloactividades', $institucion->tituloactividades) }}">
@@ -148,6 +173,14 @@
             <div class="col-md-6 form-group">
                 <label class="form-label-panel" for="titulosomos">Título "Quiénes somos"</label>
                 <input type="text" id="titulosomos" name="titulosomos" class="form-control-panel" value="{{ old('titulosomos', $institucion->titulosomos) }}">
+            </div>
+            <div class="col-md-6 form-group">
+                <label class="form-label-panel" for="titulonoticias">Título de la sección Noticias</label>
+                <input type="text" id="titulonoticias" name="titulonoticias" class="form-control-panel" value="{{ old('titulonoticias', $institucion->titulonoticias) }}">
+            </div>
+            <div class="col-md-6 form-group">
+                <label class="form-label-panel" for="desnoticias">Subtítulo / descripción Noticias</label>
+                <input type="text" id="desnoticias" name="desnoticias" class="form-control-panel" value="{{ old('desnoticias', $institucion->desnoticias) }}">
             </div>
         </div>
 
@@ -222,41 +255,6 @@
             <div class="col-md-12 form-group">
                 <label class="form-label-panel" for="benplan5">Beneficio 5</label>
                 <input type="text" id="benplan5" name="benplan5" class="form-control-panel" value="{{ old('benplan5', $institucion->benplan5) }}">
-            </div>
-        </div>
-
-        {{-- === IMÁGENES (logo y banners) === --}}
-        <div class="mt-5 mb-4 pb-2 border-bottom">
-            <h6 class="fw-bold" style="color: var(--primary);"><i class="fas fa-image me-2"></i> Imágenes institucionales</h6>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="imagen">Logo principal</label>
-                <input type="file" id="imagen" name="imagen" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgLogo')">
-                <div id="previewImgLogoWrapper" style="margin-top:10px; {{ $institucion->imagen ? '' : 'display:none;' }}">
-                    <img id="previewImgLogo" src="{{ $institucion->imagen ? asset('imagen/institucion/' . $institucion->imagen) : '' }}" class="img-preview-large">
-                </div>
-            </div>
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="banner1">Banner principal (hero)</label>
-                <input type="file" id="banner1" name="banner1" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner1')">
-                <div id="previewImgBanner1Wrapper" style="margin-top:10px; {{ $institucion->banner1 ? '' : 'display:none;' }}">
-                    <img id="previewImgBanner1" src="{{ $institucion->banner1 ? asset('imagen/institucion/' . $institucion->banner1) : '' }}" class="img-preview-large">
-                </div>
-            </div>
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="banner2">Banner secundario 2</label>
-                <input type="file" id="banner2" name="banner2" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner2')">
-                <div id="previewImgBanner2Wrapper" style="margin-top:10px; {{ $institucion->banner2 ? '' : 'display:none;' }}">
-                    <img id="previewImgBanner2" src="{{ $institucion->banner2 ? asset('imagen/institucion/' . $institucion->banner2) : '' }}" class="img-preview-large">
-                </div>
-            </div>
-            <div class="col-md-6 form-group">
-                <label class="form-label-panel" for="banner3">Banner secundario 3</label>
-                <input type="file" id="banner3" name="banner3" class="form-control-panel" accept="image/*" onchange="previewImagen(this, 'previewImgBanner3')">
-                <div id="previewImgBanner3Wrapper" style="margin-top:10px; {{ $institucion->banner3 ? '' : 'display:none;' }}">
-                    <img id="previewImgBanner3" src="{{ $institucion->banner3 ? asset('imagen/institucion/' . $institucion->banner3) : '' }}" class="img-preview-large">
-                </div>
             </div>
         </div>
 

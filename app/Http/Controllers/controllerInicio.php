@@ -36,24 +36,36 @@ class controllerInicio extends Controller
     }
     public function Inicio()
     {   
-        // $empresas = Empresa::where('activo', 1)->get();
-        $empresas = Empresa::all();
-        $visitas = Institucion::find(1);
-        $n = $visitas->visitas + 1;
-        $visitas->fill([
-            'visitas' => $n,
-        ])->save();
-
-        $plan = Planes::first();
-        $planDetalle = PlanesDetalle::all();                
-        $planes = Planes::all();
-        $planesDetalle = PlanesDetalle::all();        
+        // $empresasSlider = Empresa::where('activo', 1)
+        $empresasSlider = Empresa::where('destacado', 1)
+            ->orderBy('prioridad','asc')
+            ->select('id', 'nombre', 'imagen')
+            ->limit(30)->get();
+        
+        // $empresasAliadas = Empresa::where('activo', 1)
+        $empresasAliadas = Empresa::where('aliadas', 1)
+            ->orderBy('prioridad','asc')
+            ->select('id', 'nombre', 'imagen', 'slug')
+            ->limit(12)->get();
+        
+        //$countEmpresas = Empresa::where('activo', 1)->count();
         $countEmpresas = Empresa::count();
-        $countUsers = User::count('id');
 
-        return view('inicio.index', compact('planes','planesDetalle','plan','planDetalle','countEmpresas','countUsers','empresas'));
+        return view('inicio.index', compact('empresasSlider','empresasAliadas','countEmpresas'));
     }
     
+    public function empresa()
+    {
+        $empresas = Empresa::where('activo', 1)->orderBy('prioridad','asc')->paginate(24);
+        $empresas->getCollection()->transform(function ($empresa) {        
+            $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
+            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
+            return $empresa;
+        });        
+        $countEmpresas = Empresa::where('activo', 1)->count();
+        return view('inicio.empresas',compact('empresas', 'countEmpresas'));
+    }
+
     public function detalleEmpresa($slug)
     {        
         $actividad = Actividad::all();
@@ -67,122 +79,6 @@ class controllerInicio extends Controller
         ])->save();
 
         return view('inicio.empresa-detalle',compact('empresa'));
-    }
-    public function suscribir(Request $datos)
-    {
-        if(is_null($datos->email))
-        {
-            return redirect()->route('inicio');
-        }else
-        {
-            Email::create([
-                'email'=>$datos->email
-            ]);
-            $name = '/FaceBol.pptx';
-            $path = base_path().'/public_html/imagen/'.$name;
-            //$path = public_path('imagen').$name;
-            $email = $datos->email;
-            Mail::send('emails.emailPost',$datos->all(), function ($message) use ($path,$email) {
-                $message->to($email,$email)
-                ->subject('Acerca de Facebol');
-                $message->attach($path);
-            });
-            return redirect()->route('inicio');
-        }
-    }
-    public function emailPost(Request $datos)
-    {
-        $usuario=User::where('email',$datos->email)->first();
-        if(!$usuario){
-            Email::create([
-                'email'=>$datos->email,
-            ]);
-        }
-        Mail::send('emails.emailGet',$datos->all(),function($message) use($datos){
-            $message->to('facebol@facebolsrl.com','Facebol')
-            ->subject($datos->situacion);
-        });
-        return redirect()->route('inicio');
-    }
-    public function emailReset(Request $datos)
-    {
-        $usuario = User::where('email',$datos->email)->first();
-        if($usuario)
-        {
-            $user=['nombre'=>$usuario->nombre,'email'=>$usuario->email,'codigo'=>$usuario->codigo];
-            Mail::send('emails.emailReset',$user,function($message) use ($user){
-                $message->to($user['email'],$user['nombre'])
-                ->subject('Recuperacion de Contraseña');
-            });
-        }
-        return redirect()->route('inicio');
-    }
-    public function passwordReset($dato)
-    {
-        $institucion=Institucion::first();
-        $categorias=Categoria::all();
-        $ciudades=Ciudad::all();
-        $usuario=User::where('codigo',$dato)->first();
-        if($usuario)
-        {
-            return view('inicio.reset.index',compact('dato'));
-        }else
-        {
-            return redirect()->route('inicio');
-        }
-    }
-    public function newCodigo()
-    {
-        $codigo=str::random(25);
-        $user=User::where('codigo',$codigo)->first();
-        if($user)
-        {
-            $this->newCodigo();
-        }else
-        {
-            return $codigo;
-        }
-    }
-    public function passwordSave(Request $datos)
-    {
-        $usuario=User::where('codigo',$datos->codigo)->first();
-        $usuario->fill(
-            [
-                'password'=>$datos->password,
-                'codigo'=>$this->newCodigo(),
-            ]
-        );
-        $usuario->save();
-        Session::flash('title','Éxito al cambiar la contraseña');
-        Session::flash('body','El cambio de contraseña fue un éxito, al identificarse nuevamente utilize  su nueva contraseña');
-        return view('inicio.mensaje');
-    }
-    public function preRegistro(Request $datos)
-    {
-        $usuario=User::where('cod_face',$datos->codigo)->first();
-        if($usuario)
-        {
-        PreRegistro::create(
-            [
-                'nombre'=>$datos->nombre,
-                'apellido'=>$datos->apellido,
-                'email'=>$datos->email,
-                'celular'=>$datos->celular,
-                'usuario_id'=>$usuario->id,
-                'imagen'=>$datos->imagen,
-            ]);
-            Session::flash('title','El Pre Registro fue un Éxito');
-            Session::flash('body','Su pre registro fue un éxito, le mandamos un mensaje a su correo electrónico para mas información revíselo');
-            return view('inicio.mensaje');
-        }else{
-            Session::flash('title','El Pre Registro No Fue Realizado');
-            Session::flash('body','No se pudo realizar el pre registro ya que el codigo de usuario no fue encontrado, por favor vuelva a realizar el registro y verifique el el codigo.');
-            return view('inicio.mensaje');
-        }
-    }
-    public function contactanos()
-    {
-        return view('inicio.contacto');
     }
     
     public function talleres()
@@ -216,24 +112,6 @@ class controllerInicio extends Controller
         ];
 
         return view('inicio.taller', compact('talleres','reciente','anteriores','labelDetalles'));
-    }
-   
-    public function empresa()
-    {
-        $empresas = Empresa::where('activo', 1)->orderBy('prioridad','asc')->paginate(24);
-        $empresas->getCollection()->transform(function ($empresa) {        
-            $descripcionLimpia = strip_tags(html_entity_decode($empresa->descripcion, ENT_QUOTES, 'UTF-8'));
-            $empresa->descripcion_corta = \Illuminate\Support\Str::limit($descripcionLimpia, 150, '...');
-            return $empresa;
-        });        
-        $countEmpresas = Empresa::where('activo', 1)->count();
-        return view('inicio.empresas',compact('empresas', 'countEmpresas'));
-    }
-
-    public function comision()
-    {
-        $empresas=Empresa::orderBy('prioridad','asc')->get();
-        return view('inicio.comision',compact('empresas'));
     }
        
     public function ciudad($id)
@@ -306,6 +184,12 @@ class controllerInicio extends Controller
         $ciudades=Ciudad::all();
         return view('inicio.equipo',compact('equipos1'));
     }
+
+    public function contactanos()
+    {
+        return view('inicio.contacto');
+    }
+
     public function noticia()
     {
         $actividades=Actividad::orderBy('id','desc')->get();
@@ -323,6 +207,158 @@ class controllerInicio extends Controller
 
         return view('inicio.noticias',compact('actividad','categorias','actividades','ciudades'));
     }
+
+    public function comision()
+    {
+        $empresas=Empresa::orderBy('prioridad','asc')->get();
+        return view('inicio.comision',compact('empresas'));
+    }
+
+    public function suscribir(Request $datos)
+    {
+        if(is_null($datos->email))
+        {
+            return redirect()->route('inicio');
+        }else
+        {
+            Email::create([
+                'email'=>$datos->email
+            ]);
+            $name = '/FaceBol.pptx';
+            $path = base_path().'/public_html/imagen/'.$name;
+            //$path = public_path('imagen').$name;
+            $email = $datos->email;
+            Mail::send('emails.emailPost',$datos->all(), function ($message) use ($path,$email) {
+                $message->to($email,$email)
+                ->subject('Acerca de Facebol');
+                $message->attach($path);
+            });
+            return redirect()->route('inicio');
+        }
+    }
+
+    public function emailPost(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'situacion' => 'nullable|string|max:255'
+        ]);
+
+        $email = $request->input('email');
+        $situacion = $request->input('situacion', 'Contacto desde web');
+
+        try {
+            Mail::send('emails.emailGet', [
+                'email' => $email,
+                'situacion' => $situacion,
+                'contenido' => $request->input('mensaje', '')
+            ], function ($message) use ($situacion) {
+                $message->to('facebol@facebolsrl.com', 'Facebol')
+                        ->subject($situacion);
+            });
+
+            return redirect()->route('inicio')->with('success', 'Mensaje enviado correctamente.');
+        } catch (\Exception $e) {
+            Log::error('Error enviando email: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'No se pudo enviar el mensaje. Intente más tarde.');
+        }
+    }
+
+    public function emailReset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $usuario = User::where('email', $request->email)->first();
+
+        if (!$usuario) {
+            return redirect()->route('actividades')->with('error', 'El correo no está registrado.');
+        }
+
+        $data = [
+            'nombre' => $usuario->nombre,
+            'email' => $usuario->email,
+            'codigo' => $usuario->codigo,
+        ];
+
+        try {
+            Mail::send('emails.emailReset', $data, function ($message) use ($data) {
+                $message->to($data['email'], $data['nombre'])
+                        ->subject('Recuperación de Contraseña');
+            });
+
+            return redirect()->route('inicio')->with('success', 'Revisa tu correo para restablecer la contraseña.');
+        } catch (\Exception $e) {
+            Log::error('Error en emailReset: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al enviar el correo de recuperación.');
+        }
+    }
+
+    public function passwordReset($dato)
+    {
+        $institucion=Institucion::first();
+        $categorias=Categoria::all();
+        $ciudades=Ciudad::all();
+        $usuario=User::where('codigo',$dato)->first();
+        if($usuario)
+        {
+            return view('inicio.reset.index',compact('dato'));
+        }else
+        {
+            return redirect()->route('inicio');
+        }
+    }
+    public function newCodigo()
+    {
+        $codigo=str::random(25);
+        $user=User::where('codigo',$codigo)->first();
+        if($user)
+        {
+            $this->newCodigo();
+        }else
+        {
+            return $codigo;
+        }
+    }
+    public function passwordSave(Request $datos)
+    {
+        $usuario=User::where('codigo',$datos->codigo)->first();
+        $usuario->fill(
+            [
+                'password'=>$datos->password,
+                'codigo'=>$this->newCodigo(),
+            ]
+        );
+        $usuario->save();
+        Session::flash('title','Éxito al cambiar la contraseña');
+        Session::flash('body','El cambio de contraseña fue un éxito, al identificarse nuevamente utilize  su nueva contraseña');
+        return view('inicio.mensaje');
+    }
+    public function preRegistro(Request $datos)
+    {
+        $usuario=User::where('cod_face',$datos->codigo)->first();
+        if($usuario)
+        {
+        PreRegistro::create(
+            [
+                'nombre'=>$datos->nombre,
+                'apellido'=>$datos->apellido,
+                'email'=>$datos->email,
+                'celular'=>$datos->celular,
+                'usuario_id'=>$usuario->id,
+                'imagen'=>$datos->imagen,
+            ]);
+            Session::flash('title','El Pre Registro fue un Éxito');
+            Session::flash('body','Su pre registro fue un éxito, le mandamos un mensaje a su correo electrónico para mas información revíselo');
+            return view('inicio.mensaje');
+        }else{
+            Session::flash('title','El Pre Registro No Fue Realizado');
+            Session::flash('body','No se pudo realizar el pre registro ya que el codigo de usuario no fue encontrado, por favor vuelva a realizar el registro y verifique el el codigo.');
+            return view('inicio.mensaje');
+        }
+    }
+    
     public function registroUsuario($codigo)
     {
         $ciudades=Ciudad::orderBy('id','desc')->pluck('nombre','id');

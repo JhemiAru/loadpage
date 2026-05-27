@@ -1,4 +1,4 @@
-@extends('inicio.template')
+@extends('inicio.layout')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/empresa.css') }}">
@@ -66,14 +66,14 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="empresa-card-v2">
                             <div class="empresa-img-wrap">
-                                @if($empresa->imagen)
-                                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}"
+                                @if($empresa->imagen1)
+                                    <img src="{{ asset('imagen/empresasproductos/' . $empresa->imagen1) }}"
                                          alt="{{ $empresa->nombre }}"
                                          loading="lazy">
                                 @else
-                                    <div class="empresa-img-placeholder">
-                                        <i class="fas fa-store"></i>
-                                    </div>
+                                    <img src="{{ asset('imagen/empresas/' . $empresa->imagen) }}"
+                                         alt="{{ $empresa->nombre }}"
+                                         loading="lazy">
                                 @endif
 
                                 @if($empresa->descuento)

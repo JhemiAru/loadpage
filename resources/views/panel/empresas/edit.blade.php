@@ -162,14 +162,19 @@
 
             {{-- Imagen adicional (opcional) --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="imagen1">Imagen adicional (galería)</label>
+                <label class="form-label-panel" for="imagen1">Imagen adicional</label>
                 <input type="file" id="imagen1" name="imagen1" class="form-control-panel" accept="image/jpg,image/jpeg,image/png,image/webp" onchange="previewImagen(this, 'previewImg1')">
                 <div id="previewImg1Wrapper" style="margin-top:10px; {{ $empresa->imagen1 ? '' : 'display:none;' }}">
-                    <img id="previewImg1" src="{{ $empresa->imagen1 ? asset('imagen/empresasproductos/' . $empresa->imagen1) : '' }}" class="img-preview-large" style="max-width:180px;">
+                    <img id="previewImg1" src="{{ $empresa->imagen1 ? asset('imagen/empresasproductos/' . $empresa->imagen1) : '' }}" class="img-preview-large" style="max-width:180px;">                
+                    @if($empresa->imagen1)
+                        <div style="margin-top: 8px;">
+                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:0.82rem; color:#dc2626; font-weight:600;">
+                                <input type="checkbox" name="eliminar_imagen1" value="1" style="width:15px; height:15px; accent-color:#dc2626;" onchange="toggleEliminarImg1(this)">
+                                Eliminar imagen actual
+                            </label>
+                        </div>
+                    @endif
                 </div>
-                @error('imagen1')
-                    <p class="field-error"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</p>
-                @enderror
             </div>
 
             {{-- Coordenadas --}}
@@ -220,6 +225,18 @@
         let previewImg1 = document.getElementById('previewImg1');
         if (previewImg1 && previewImg1.src) previewImg1.setAttribute('data-current-src', previewImg1.src);
     });
+
+    function toggleEliminarImg1(checkbox) {
+        const wrapper = document.getElementById('previewImg1Wrapper');
+        const img     = document.getElementById('previewImg1');
+        if (checkbox.checked) {
+            img.style.opacity = '0.3';
+            img.style.filter  = 'grayscale(1)';
+        } else {
+            img.style.opacity = '1';
+            img.style.filter  = 'none';
+        }
+    }
 </script>
 @endpush
 @endsection

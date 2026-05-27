@@ -31,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
         View::share('ciudades', Ciudad::whereHas('m_empresas', function ($query) {
             $query->where('activo', 1);
         })->get());
-        View::share('institucion', Institucion::find(1));
-        View::share('institucion2', Institucion::find(2));
+        View::share('institucion', Institucion::find(1));        
     }
 }

@@ -26,7 +26,7 @@
                                 <h2 class="hero-title">Tarjeta de <span class="highlight">descuentos</span><br>y <span class="highlight">promociones</span></h2>
                                 <p class="hero-sub">{{$institucion->frase1}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">
-                                    <a href="https://api.whatsapp.com/send?phone=591{{ $institucion2->celular }}&text=Hola!%20Quiero%20más%20información%20sobre%20la%20tarjeta%20FaceBol."                      
+                                    <a href="https://api.whatsapp.com/send?phone=591{{ $institucion->celular2 }}&text=Hola!%20Quiero%20más%20información%20sobre%20la%20tarjeta%20FaceBol."                      
                                         class="btn btn-1" target="_blank">Detalles</a>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 @endif
                             </div>
                             <div class="col-lg-8 descripcion text-end">
-                                <h2 class="hero-title">Taller con <span class="highlight">certificado</span><br> y valor <span class="highlight">curricular</span></h2>
+                                <h2 class="hero-title">Talleres con <span class="highlight">certificado</span><br> y valor <span class="highlight">curricular</span></h2>
                                 <p class="hero-sub">{{$institucion->frase3}}</p>
                                 <div class="d-flex gap-3 flex-wrap mt-3">                                    
                                     <a href="{{ route('taller') }}" class="btn btn-1">Más información</a>

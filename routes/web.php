@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\controllerInicio;
-use App\Http\Controllers\Panel\controllerPanel;
+use App\Http\Controllers\Panel\controllerLogin;
 use App\Http\Controllers\Panel\controllerEmpresa;
 use App\Http\Controllers\Panel\controllerTaller;
 use App\Http\Controllers\Panel\controllerActividad;
@@ -48,14 +48,14 @@ Route::get('/login', function () {
     session()->flash('open_login_modal', true);
     return redirect()->route('inicio');
 })->name('login');
-Route::post('log', [controllerPanel::class, 'log'])->name('log');
-Route::post('logout', [controllerPanel::class, 'logout'])->name('logout');
+Route::post('log', [controllerLogin::class, 'log'])->name('log');
+Route::post('logout', [controllerLogin::class, 'logout'])->name('logout');
 Route::post('reset/password/save', [controllerInicio::class, 'passwordSave'])->name('passwordSave');
 Route::get('reset/password/{codigo}', [controllerInicio::class, 'passwordReset'])->name('passwordReset');
 Route::post('reset', [controllerInicio::class, 'emailReset'])->name('reset');
 
 Route::middleware(['auth'])->prefix('panel')->group(function () {
-    Route::get('inicio', [controllerPanel::class, 'startAdmin'])->name('start-a');
+    Route::get('inicio', [controllerLogin::class, 'startAdmin'])->name('inicioPanel');
     Route::get('/perfil', [controllerPerfil::class, 'show'])->name('perfil.show');
     Route::put('/perfil', [controllerPerfil::class, 'update'])->name('perfil.update');
     Route::get('/institucion/editar', [controllerInstitucion::class, 'edit'])->name('editarInstitucion');

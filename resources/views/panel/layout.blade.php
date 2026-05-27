@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel | @yield('titulo', 'FaceBol')</title>
-    <link rel="shortcut icon" href="imagen/institucion/favicon_facebol.png">
+    <link rel="shortcut icon" href="{{ asset('imagen/institucion/favicon_facebol.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/panel_layout.css') }}">    
     <link rel="stylesheet" href="{{ asset('css/panel_layout.css') }}">    
     @stack('styles')
 </head>
@@ -28,7 +29,7 @@
 
         <nav class="sidebar-nav">
             <div class="nav-section-label">General</div>
-            <a href="{{ route('start-a') }}" class="sidebar-link {{ request()->routeIs('start-a') ? 'active' : '' }}">
+            <a href="{{ route('inicioPanel') }}" class="sidebar-link {{ request()->routeIs('inicioPanel') ? 'active' : '' }}">
                 <i class="fas fa-home"></i> <span>Inicio</span>
             </a>
             <a href="{{ route('indexGaleria') }}" class="sidebar-link {{ request()->routeIs('indexGaleria') ? 'active' : '' }}">
@@ -122,90 +123,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-           document.addEventListener('DOMContentLoaded', function () {            
-            const alerts = document.querySelectorAll('.panel-alert');
-
-            alerts.forEach(function (alert) {
-                const closeBtn = alert.querySelector('.close-alert-btn');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', function () {
-                        alert.style.opacity = '0';
-                        setTimeout(() => alert.remove(), 500); 
-                    });
-                }
-
-                setTimeout(function () {
-                    if (alert) {
-                        alert.style.opacity = '0';
-                        setTimeout(() => alert.remove(), 500); 
-                    }
-                }, 5000); 
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('panelSidebar');
-            const mobileToggle = document.getElementById('mobileMenuToggle');
-            const sidebarClose = document.getElementById('sidebarCloseMobile');
-            const overlay = document.getElementById('sidebarOverlay');
-
-            function isMobile() {
-                return window.innerWidth < 768;
-            }
-
-            function openSidebar() {
-                if (isMobile()) {
-                    sidebar.classList.add('mobile-open');
-                    overlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-            
-            function closeSidebar() {
-                if (isMobile()) {
-                    sidebar.classList.remove('mobile-open');
-                    overlay.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-            
-            function toggleSidebar() {
-                if (sidebar.classList.contains('mobile-open')) {
-                    closeSidebar();
-                } else {
-                    openSidebar();
-                }
-            }
-            
-            if (mobileToggle) {
-                mobileToggle.addEventListener('click', toggleSidebar);
-            }
-            
-            if (sidebarClose) {
-                sidebarClose.addEventListener('click', closeSidebar);
-            }
-            
-            if (overlay) {
-                overlay.addEventListener('click', closeSidebar);
-            }
-            
-            window.addEventListener('resize', function() {
-                if (!isMobile() && sidebar.classList.contains('mobile-open')) {
-                    closeSidebar();
-                }
-            });
-            
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (isMobile()) {
-                        setTimeout(closeSidebar, 150);
-                    }
-                });
-            });
-        });
-    </script>
     
     @stack('scripts')
 </body>

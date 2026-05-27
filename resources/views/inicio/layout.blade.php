@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>FaceBol SRL</title>        
-    <link rel="shortcut icon" href="imagen/institucion/favicon_facebol.png">
+    <link rel="shortcut icon" href="{{ asset('imagen/institucion/favicon_facebol.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap&font-display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
     <link rel="preload" as="image" href="{{ asset('imagen/institucion/fondo.webp') }}" fetchpriority="high">
-    <link rel="stylesheet" href="{{ asset('css/template.css') }}">    
-    <script src="{{ asset('js/template.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">    
+    <script src="{{ asset('js/layout.js') }}" defer></script>
     @stack('styles')
 </head>
 <body>
@@ -50,7 +50,7 @@
                             </li>
                             <!-- Categorías -->
                             <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Categorías</a>
+                                <a class="dropdown-item dropdown-toggle">Categorías</a>
                                 <ul class="dropdown-menu">
                                     @foreach($categorias as $categoria)
                                     <li>
@@ -63,7 +63,7 @@
                             </li>
                             <!-- Ciudades -->
                             <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Ciudades</a>
+                                <a class="dropdown-item dropdown-toggle">Ciudades</a>
                                 <ul class="dropdown-menu">
                                     @foreach($ciudades as $ciudad)
                                     <li>
@@ -118,7 +118,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 @if(Auth::user()->tipo == 'Administrador' || Auth::user()->tipo == 'Sadministrador')
-                                    <li><a class="dropdown-item" href="{{ route('start-a') }}"><i class="fas fa-tachometer-alt me-2"></i> Panel de control</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('inicioPanel') }}"><i class="fas fa-tachometer-alt me-2"></i> Panel de control</a></li>
                                 @endif
                                 <li><a class="dropdown-item" href="{{ route('perfil.show') }}"><i class="fas fa-user-circle me-2"></i> Mi perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -129,7 +129,7 @@
                             @csrf
                         </form>
                     @else
-                        <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal">Iniciar Sesión</button>
+                        <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#ms-account-modal"><i class="fas fa-user"></i></button>
                     @endauth
                 </div>
             </div>
@@ -239,7 +239,6 @@
                 </ul>
                 <div class="login-tab-indicator"></div>
  
-                <!-- Mostrar errores de autenticación aquí -->
                 @if(session('error') || $errors->has('email'))
                     <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>

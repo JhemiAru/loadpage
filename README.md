@@ -264,3 +264,9 @@ END$$
 DELIMITER ;
 
 -- Opcionalmente se puede reemplazar STARTS CURRENT_TIMESTAMP por el siguioente para tener por un dia y hora concreto STARTS TIMESTAMP(DATE_ADD(CURDATE(), INTERVAL (5 - DAYOFWEEK(CURDATE()) + IF(DAYOFWEEK(CURDATE()) > 6, 7, 0)) DAY), '23:59:00')
+
+
+
+-- Cambiar columna google por celular2
+ALTER TABLE `institucions` CHANGE `google` `celular2` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL AFTER `celular`;
+UPDATE `institucions` SET `celular2` = '77793217' WHERE `institucions`.`id` = 1;

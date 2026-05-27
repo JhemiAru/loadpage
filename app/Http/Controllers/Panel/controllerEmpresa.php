@@ -161,6 +161,12 @@ class controllerEmpresa extends Controller
                 Storage::disk('empresasproductos')->delete($empresa->imagen1);
             }
             $empresa->setImagen1Attribute($request->file('imagen1'));
+        }                
+        if ($request->boolean('eliminar_imagen1')) {
+            if ($empresa->imagen1 && Storage::disk('empresasproductos')->exists($empresa->imagen1)) {
+                Storage::disk('empresasproductos')->delete($empresa->imagen1);
+            }
+            $empresa->imagen1 = null;
         }
         unset($data['imagen1']);
 

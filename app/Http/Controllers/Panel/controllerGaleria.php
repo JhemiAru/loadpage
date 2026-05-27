@@ -56,9 +56,10 @@ class controllerGaleria extends Controller
         $imagenes = collect();
         $imagenes = $imagenes->concat($collectImages(Actividad::class, 'Actividad', 'imagen', 'actividades', 'nombre'));
         $imagenes = $imagenes->concat($collectImages(Empresa::class, 'Empresa', 'imagen', 'empresas', 'nombre'));
+        $imagenes = $imagenes->concat($collectImages(Empresa::class, 'Empresa', 'imagen1', 'empresasproductos', 'nombre'));
         $imagenes = $imagenes->concat($collectImages(Equipo::class, 'Equipo', 'imagen', 'equipos', 'nombre'));
         $imagenes = $imagenes->concat($collectImages(Taller::class, 'Taller', 'imagen', 'talleres', 'titulo'));
-        $imagenes = $imagenes->concat($collectImages(User::class, 'Usuario', 'imagen', 'usuarios', 'nombre')); // nombre o name? Ajusta
+        $imagenes = $imagenes->concat($collectImages(User::class, 'Usuario', 'imagen', 'usuarios', 'nombre'));
         $imagenes = $imagenes->concat($collectImages(Categoria::class, 'Categoria', 'imagen', 'categorias', 'nombre'));
         
         $institucion = Institucion::first();
@@ -210,6 +211,9 @@ class controllerGaleria extends Controller
 
     private function getDisk($modeloKey, $campo)
     {
+        if ($modeloKey === 'empresa' && $campo === 'imagen1') {
+            return 'empresasproductos';
+        }
         $discos = [
             'actividad'   => 'actividades',
             'empresa'     => 'empresas',
@@ -225,13 +229,14 @@ class controllerGaleria extends Controller
     private function getUrl($disco, $filename)
     {
         $map = [
-            'actividades' => 'imagen/actividades/',
-            'empresas'    => 'imagen/empresas/',
-            'equipos'     => 'imagen/equipos/',
-            'talleres'    => 'imagen/talleres/',
-            'usuarios'    => 'imagen/usuarios/',
-            'categorias'  => 'imagen/categorias/',
-            'institucion' => 'imagen/institucion/',
+            'actividades'       => 'imagen/actividades/',
+            'empresas'          => 'imagen/empresas/',
+            'empresasproductos' => 'imagen/empresasproductos/',
+            'equipos'           => 'imagen/equipos/',
+            'talleres'          => 'imagen/talleres/',
+            'usuarios'          => 'imagen/usuarios/',
+            'categorias'        => 'imagen/categorias/',
+            'institucion'       => 'imagen/institucion/',
         ];
         $base = $map[$disco] ?? 'imagen/';
         return asset($base . $filename);

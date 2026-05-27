@@ -161,7 +161,7 @@
 
             {{-- Imagen adicional --}}
             <div class="col-12 form-group">
-                <label class="form-label-panel" for="imagen1">Imagen adicional (galería)</label>
+                <label class="form-label-panel" for="imagen1">Imagen adicional</label>
                 <input type="file" id="imagen1" name="imagen1" class="form-control-panel" accept="image/jpg,image/jpeg,image/png,image/webp" onchange="previewImagen(this, 'previewImg1')">
                 <div id="previewImg1Wrapper" style="margin-top:10px; display:none;">
                     <img id="previewImg1" src="" class="img-preview-large" style="max-width:180px;">

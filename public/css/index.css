@@ -568,6 +568,7 @@
     z-index: 2;
     transition: all 0.7s ease-in-out;
     padding: 0 10px;
+    cursor: pointer;
 }
 
 .allies-carousel {

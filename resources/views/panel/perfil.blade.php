@@ -148,7 +148,7 @@
 
                     <div class="d-flex gap-3 mt-4 pt-3 border-top">
                         <button type="submit" class="btn-primary-panel"><i class="fas fa-save"></i> Actualizar perfil</button>
-                        <a href="{{ route('start-a') }}" class="btn-accent-panel">Cancelar</a>
+                        <a href="{{ route('inicioPanel') }}" class="btn-accent-panel">Cancelar</a>
                     </div>
             </form>
         </div>

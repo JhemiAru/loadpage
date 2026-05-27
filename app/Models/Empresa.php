@@ -45,6 +45,8 @@ class Empresa extends Model
             Storage::disk('empresasproductos')->put($name, \File::get($value));
         } elseif (is_string($value)) {
             $this->attributes['imagen1'] = $value;
+        } else {            
+            $this->attributes['imagen1'] = $value;
         }
     }
 

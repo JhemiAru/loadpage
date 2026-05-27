@@ -78,28 +78,33 @@
                         </div>
 
                         <div class="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h6 class="card-title mb-1">{{ $img->titulo }}</h6>
-                                <p class="card-text small text-muted mb-3">
-                                    <strong>Modelo:</strong> {{ $img->modelo }}<br>
-                                    <strong>Archivo:</strong> {{ Str::limit($img->nombre_archivo, 25) }}<br>
-                                    <strong>Creado:</strong> {{ $img->created_at ? \Carbon\Carbon::parse($img->created_at)->format('d/m/Y') : 'N/A' }}
-                                </p>
-
-                                @if($fileExists)
-                                    <form method="POST" action="{{ route('editarGaleria') }}" class="mb-3" onsubmit="return confirm('¿Renombrar este archivo?')">
-                                        @csrf @method('PUT')
-                                        <input type="hidden" name="modelo" value="{{ strtolower($img->modelo) }}">
-                                        <input type="hidden" name="id" value="{{ $img->id }}">
-                                        <input type="hidden" name="campo" value="{{ $img->campo }}">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
-                                            <input type="text" name="nombre" class="form-control" value="{{ $img->nombre_archivo }}" required placeholder="Nombre del archivo">
-                                            <button class="btn btn-outline-primary bg-white font-weight-bold" type="submit" style="color:var(--primary)">OK</button>
-                                        </div>
-                                    </form>
+                            <h6 class="card-title mb-1">{{ $img->titulo }}</h6>
+                            <p style="font-size: 0.8rem; color: #555; margin-bottom: 12px; line-height: 1.7;">
+                                <span style="color: var(--primary); font-weight: 700;">Archivo:</span>
+                                {{ Str::limit($img->nombre_archivo, 25) }}<br>
+                                <span style="color: var(--primary); font-weight: 700;">Sección:</span>
+                                @if($img->campo !== 'imagen1')
+                                    {{ $img->modelo }}<br>
+                                @else
+                                    Empresa Adicional<br>
                                 @endif
-                            </div>
+                                <span style="color: var(--primary); font-weight: 700;">Fecha:</span>
+                                {{ $img->created_at ? \Carbon\Carbon::parse($img->created_at)->format('d/m/Y') : 'N/A' }}
+                            </p>
+
+                            @if($fileExists)
+                                <form method="POST" action="{{ route('editarGaleria') }}" class="mb-3" onsubmit="return confirm('¿Renombrar este archivo?')">
+                                    @csrf @method('PUT')
+                                    <input type="hidden" name="modelo" value="{{ strtolower($img->modelo) }}">
+                                    <input type="hidden" name="id" value="{{ $img->id }}">
+                                    <input type="hidden" name="campo" value="{{ $img->campo }}">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="nombre" class="form-control" value="{{ $img->nombre_archivo }}" required placeholder="Nombre del archivo">
+                                        <button class="btn btn-outline-primary bg-white font-weight-bold" type="submit" style="color:var(--primary)">OK</button>
+                                    </div>
+                                </form>
+                            @endif                            
 
                             <div>
                                 <form method="POST" action="{{ route('actualizarGaleria') }}" enctype="multipart/form-data" id="uploadForm-{{ $img->id }}">

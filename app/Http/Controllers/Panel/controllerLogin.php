@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class controllerPanel extends Controller
+class controllerLogin extends Controller
 {
     public function log(Request $request)
     {
