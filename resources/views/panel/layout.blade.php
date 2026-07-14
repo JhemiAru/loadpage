@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel | @yield('titulo', 'FaceBol')</title>
+    <link rel="shortcut icon" href="{{ asset('imagen/institucion/favicon_facebol.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/panel_layout.css') }}">    
+    <link rel="stylesheet" href="{{ asset('css/panel_layout.css') }}">    
+    @stack('styles')
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="panel-sidebar" id="panelSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('inicio') }}">
+                    <img src="{{ asset('imagen/institucion/' . ($institucion->imagen ?? 'facebol.png')) }}" alt="FaceBol" width="150px" height="auto">
+                </a>
+                <small>Panel de administración</small>
+            </div>
+            <button class="sidebar-close-mobile" id="sidebarCloseMobile">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">General</div>
+            <a href="{{ route('inicioPanel') }}" class="sidebar-link {{ request()->routeIs('inicioPanel') ? 'active' : '' }}">
+                <i class="fas fa-home"></i> <span>Inicio</span>
+            </a>
+            <a href="{{ route('indexGaleria') }}" class="sidebar-link {{ request()->routeIs('indexGaleria') ? 'active' : '' }}">
+                <i class="fas fa-images"></i> <span>Galeria</span>
+            </a>
+
+            <div class="nav-section-label">Contenido</div>
+            <a href="{{ route('indexUsuario') }}" class="sidebar-link {{ request()->routeIs('indexUsuario') ? 'active' : '' }}">
+                <i class="fas fa-user-group"></i> <span>Usuarios</span>
+            </a>
+            <a href="{{ route('indexTaller') }}" class="sidebar-link {{ request()->routeIs('indexTaller') ? 'active' : '' }}">
+                <i class="fas fa-chalkboard-teacher"></i> <span>Talleres</span>
+            </a>
+            <a href="{{ route('indexEmpresa') }}" class="sidebar-link {{ request()->routeIs('indexEmpresa') ? 'active' : '' }}">
+                <i class="fas fa-building"></i> <span>Empresas</span>
+            </a>
+            <a href="{{ route('indexActividad') }}" class="sidebar-link {{ request()->routeIs('indexActividad') ? 'active' : '' }}">
+                <i class="fas fa-calendar-day"></i> <span>Actividades</span>
+            </a>
+            <a href="{{ route('indexCategoria') }}" class="sidebar-link {{ request()->routeIs('indexCategoria') ? 'active' : '' }}">
+                <i class="fas fa-layer-group"></i> <span>Categorias</span>
+            </a>
+            <a href="{{ route('indexCiudad') }}" class="sidebar-link {{ request()->routeIs('indexCiudad') ? 'active' : '' }}">
+                <i class="fas fa-city"></i> <span>Ciudades</span>
+            </a>
+            <a href="{{ route('indexPais') }}" class="sidebar-link {{ request()->routeIs('indexPais') ? 'active' : '' }}">
+                <i class="fas fa-earth-americas"></i> <span>Paises</span>
+            </a>
+            <a href="{{ route('indexEquipo') }}" class="sidebar-link {{ request()->routeIs('indexEquipo') ? 'active' : '' }}">
+                <i class="fas fa-people-group"></i> <span>Equipo</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    {{-- ── Contenido ── --}}
+    <div class="panel-content">
+        <div class="panel-topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h6 class="panel-title" id="panelTitle">@yield('titulo', 'Dashboard')</h6>
+            </div>
+            <div class="topbar-right">
+                <a href="{{ route('perfil.show') }}" class="topbar-user" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                    @if(Auth::user()->imagen)
+                        <img src="{{ asset('imagen/usuarios/' . Auth::user()->imagen) }}" alt="Avatar" class="avatar-small" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                    @else
+                        <div class="avatar" style="width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #ccc;">
+                            {{ strtoupper(substr(Auth::user()->name ?? Auth::user()->nombre ?? 'U', 0, 1)) }}
+                        </div>
+                    @endif
+                    <span>{{ Auth::user()->nombre ?? Auth::user()->name ?? 'Usuario' }}</span>
+                </a>
+            </div>
+        </div>
+
+        <main class="panel-main">
+            @if(session('success'))
+                <div class="alert-success-panel panel-alert" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; transition: opacity 0.5s ease;">
+                    <div>
+                        <i class="fas fa-check-circle me-2"></i>
+                        {{ session('success') }}
+                    </div>
+                    <button type="button" class="close-alert-btn" style="background: none; border: none; color: inherit; cursor: pointer; font-size: 1rem; padding: 0 5px;">&times;</button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert-error-panel panel-alert" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; transition: opacity 0.5s ease;">
+                    <div>
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ session('error') }}
+                    </div>
+                    <button type="button" class="close-alert-btn" style="background: none; border: none; color: inherit; cursor: pointer; font-size: 1rem; padding: 0 5px;">&times;</button>
+                </div>
+            @endif
+
+            @yield('content')
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @stack('scripts')
+</body>
+</html>

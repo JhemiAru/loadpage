@@ -1,0 +1,290 @@
+.detalle-page {
+    background: var(--section-bg);
+}
+
+.hero-detalle {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--blue-light) 100%);
+    padding: 72px 0 60px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-detalle::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(245, 166, 35, 0.07);
+    filter: blur(90px);
+    border-radius: 50%;
+    top: -20%;
+    right: -10%;
+    pointer-events: none;
+}
+
+.hero-detalle::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: rgba(255, 255, 255, 0.04);
+    filter: blur(60px);
+    border-radius: 50%;
+    bottom: -15%;
+    left: -5%;
+    pointer-events: none;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(245, 166, 35, 0.2);
+    border: 1px solid rgba(245, 166, 35, 0.4);
+    color: var(--accent);
+    padding: 5px 16px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.business-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.business-name span {
+    color: var(--accent);
+}
+
+.hero-detalle .lead {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.btn-hero-primary {
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    padding: 13px 30px;
+    border-radius: 12px;
+    border: none;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.25s;
+    display: inline-block;
+}
+
+.btn-hero-primary:hover {
+    background: var(--accent2);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-hero-outline {
+    background: transparent;
+    color: white;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: border-color 0.25s, background 0.25s;
+    display: inline-block;
+}
+
+.btn-hero-outline:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+/* Imagen hero */
+.hero-img-wrapper img {
+    max-height: 380px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+}
+
+/* Logo flotante */
+.floating-logo-corner {
+    position: absolute;
+    bottom: 28px;
+    right: 36px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.floating-logo-corner img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.floating-logo-corner p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+/* ── SECCIONES ──────────────────────────────────────── */
+.detalle-section {
+    padding: 56px 0;
+}
+
+.detalle-section + .detalle-section {
+    padding-top: 0;
+}
+
+/* ── CARDS GLASS ────────────────────────────────────── */
+.card-glass {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(26, 58, 107, 0.12);
+    box-shadow: 0 8px 28px rgba(26, 58, 107, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.card-glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(26, 58, 107, 0.12);
+}
+
+/* Divisor de acento */
+.accent-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    margin: 12px 0 20px;
+}
+
+.section-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+}
+
+/* Info chips */
+.info-chip {
+    background: rgba(26, 58, 107, 0.07);
+    border-radius: 50px;
+    padding: 7px 16px;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--primary);
+    border: 1px solid rgba(26, 58, 107, 0.1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.info-chip i {
+    color: var(--blue-light);
+}
+
+/* Stat number */
+.stat-number {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Botón Facebook/Redes */
+.btn-outline-primary-custom {
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    border-radius: 10px;
+    padding: 9px 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.25s, color 0.25s;
+}
+
+.btn-outline-primary-custom:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ── MULTIMEDIA ─────────────────────────────────────── */
+.media-frame {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    border: 1px solid rgba(26, 58, 107, 0.12);
+    overflow: hidden;
+    height: 100%;
+}
+
+.media-frame .inner {
+    padding: 20px;
+}
+
+/* ── MAPA ───────────────────────────────────────────── */
+.mapa-card {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 32px rgba(26, 58, 107, 0.1);
+}
+
+.mapa-info {
+    background: white;
+    padding: 32px;
+}
+
+.mapa-info i {
+    color: var(--blue-light);
+}
+
+/* ── REDES SOCIALES ─────────────────────────────────── */
+.social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1rem;
+    border: 1.5px solid;
+    transition: background 0.25s, color 0.25s;
+}
+
+.social-btn.fb  { border-color: #1877f2; color: #1877f2; }
+.social-btn.fb:hover  { background: #1877f2; color: white; }
+.social-btn.wa  { border-color: #25d366; color: #25d366; }
+.social-btn.wa:hover  { background: #25d366; color: white; }
+.social-btn.ml { border-color: #ea4335; color: #ea4335; }
+.social-btn.ml:hover { background: #ea4335; color: white; }
+.social-btn.web { border-color: #007bff; color: #007bff; }
+.social-btn.web:hover { background: #007bff; color: white; }
+
+@media (max-width: 768px) {
+    .business-name { font-size: 2rem; }
+    .floating-logo-corner { display: none !important; }
+    .hero-img-wrapper { margin-top: 32px; }
+} 

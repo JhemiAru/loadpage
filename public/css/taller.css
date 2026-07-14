@@ -1,0 +1,360 @@
+.talleres-header {
+    padding: 50px 0 30px;
+    background: var(--section-bg);
+    text-align: center;
+}
+
+.talleres-header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.talleres-header .subtitle {
+    max-width: 600px;
+    margin: 0 auto 0;
+}
+
+.taller-destacado-section {
+    padding: 20px 0 0;
+    background: var(--section-bg);
+}
+
+.taller-destacado-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(26,58,107,0.13);
+    display: flex;
+    flex-direction: row;
+    min-height: 360px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.taller-destacado-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(26,58,107,0.18);
+}
+
+.taller-destacado-img {
+    width: 42%;
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+}
+
+.taller-destacado-img-placeholder {
+    width: 42%;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary), var(--blue-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: rgba(255,255,255,0.25);
+}
+
+.taller-destacado-body {
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.badge-nuevo {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 30px;
+    margin-bottom: 14px;
+}
+
+.taller-destacado-body h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.taller-destacado-body .descripcion-text {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    margin-bottom: 22px;
+}
+
+.taller-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-bottom: 24px;
+}
+
+.taller-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+}
+
+.taller-meta-item i {
+    color: var(--blue-light);
+    font-size: 0.95rem;
+    width: 16px;
+    text-align: center;
+}
+
+.taller-costo-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 6px 20px;
+    border-radius: 30px;
+}
+
+.taller-costo-badge.gratuito {
+    background: linear-gradient(135deg, #1a8a5a, #27ae60);
+}
+
+.btn-taller-detalle {
+    background: var(--blue-light);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 10px 28px;
+    border: none;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.btn-taller-detalle:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.taller-detalles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.detalle-chip {
+    background: var(--section-bg);
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+}
+
+.detalle-chip span.label {
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.detalle-chip span.valor {
+    color: var(--text-dark);
+}
+
+.talleres-anteriores-section {
+    padding: 40px 0 60px;
+    background: #fff;
+}
+
+.talleres-anteriores-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--primary);
+    margin-bottom: 28px;
+}
+
+.taller-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(26,58,107,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.taller-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(26,58,107,0.14);
+    border-color: rgba(46,107,196,0.2);
+}
+
+.taller-card-img-wrap {
+    height: 180px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.taller-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.taller-card:hover .taller-card-img-wrap img {
+    transform: scale(1.05);
+}
+
+.taller-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--blue-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.25);
+}
+
+.taller-fecha-ribbon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--primary);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.taller-card-body {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.taller-card-body h5 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.taller-card-body .desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    flex: 1;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.taller-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.taller-precio {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--blue-light);
+}
+
+.taller-precio.gratuito {
+    color: #1a8a5a;
+}
+
+.badge-estado {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.badge-proximo {
+    background: #e8f5e9;
+    color: #1a8a5a;
+}
+
+.badge-pasado {
+    background: #f0f0f0;
+    color: #888;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    color: #ccc;
+    margin-bottom: 16px;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .taller-destacado-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .taller-destacado-img,
+    .taller-destacado-img-placeholder {
+        width: 100%;
+        height: 220px;
+    }
+
+    .taller-destacado-body {
+        padding: 24px 20px;
+    }
+
+    .taller-destacado-body h2 {
+        font-size: 1.3rem;
+    }
+
+    .talleres-header h1 {
+        font-size: 1.8rem;
+    }
+}
