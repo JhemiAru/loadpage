@@ -2,48 +2,89 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    protected $table = 'users';
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'ciudad_id', 'nombre', 'apellido', 'ci', 'direccion', 'celular', 'email', 
+        'password', 'imagen', 'codigo', 'tipo', 'activo', 'cod_face', 'rango_id', 
+        'dinero', 'user_id'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'activo' => 'boolean',
+        'dinero' => 'decimal:2',
+    ];
+
+    public function setImagenAttribute($value)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $name = Carbon::now()->second . $value->getClientOriginalName();
+            $this->attributes['imagen'] = $name;
+            Storage::disk('usuarios')->put($name, \File::get($value));
+        } elseif (is_string($value)) {
+            $this->attributes['imagen'] = $value;
+        }
+    }
+
+    public function setPasswordAttribute($valor)
+    {
+        if(!empty($valor)){
+            $this->attributes['password'] = Hash::make($valor);
+        }
+    }
+
+    public function ciudad()
+    {
+        return $this->belongsTo(Ciudad::class);
+    }
+
+    public function empresas()
+    {
+        return $this->hasMany(Empresa::class, 'usuario_id');
+    }
+
+    public function referidoPor()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
+
+    public function referidos()
+    {
+        return $this->hasMany(User::class, 'usuario_id');
+    }
+
+    public function publicaciones()
+    {
+        return $this->hasMany(Publicacion::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function rango()
+    {
+        return $this->belongsTo(Rango::class, 'rango_id');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim($this->nombre . ' ' . $this->apellido);
     }
 }
